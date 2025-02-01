@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SignalStatusLamp_t" Id="{952ee463-0eb2-4c2e-95ed-6f6ed06bb9c3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SignalStatusLamp_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// internal store for current status value
+	_status : SignalStatusLampStatus_t;
+	
+	// signal almps
+	_signalLampGreen : SignalStatusLampComponent_t;
+	_signalLampYellow : SignalStatusLampComponent_t;
+	_signalLampRed : SignalStatusLampComponent_t;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="setStatus" Id="{59599625-eb5a-4b76-a858-06054a1adc1f}">
+      <Declaration><![CDATA[METHOD setStatus : BOOL
+VAR_INPUT
+	status : SignalStatusLampStatus_t;
+	blinking : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_status := status;
+
+updateStatusLamp();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{a70736b7-e257-4f8b-b2c1-52d064f9e549}">
+      <Declaration><![CDATA[METHOD PUBLIC update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_signalLampGreen.update();
+_signalLampYellow.update();
+_signalLampRed.update();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="updateStatusLamp" Id="{b1423a2b-95b1-4cfe-bdb5-b108463b23c7}">
+      <Declaration><![CDATA[METHOD PRIVATE updateStatusLamp : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+
+CASE _status OF
+	SignalStatusLampStatus_t.NONE:
+		_signalLampGreen.setStatus(active := FALSE);
+ 		_signalLampYellow.setStatus(active := FALSE);
+		_signalLampRed.setStatus(active := FALSE);
+		
+	SignalStatusLampStatus_t.OPERATIONAL:
+		_signalLampGreen.setStatus(active := TRUE);
+ 		_signalLampYellow.setStatus(active := FALSE);
+		_signalLampRed.setStatus(active := FALSE);
+		
+	SignalStatusLampStatus_t.WARNING:
+		_signalLampGreen.setStatus(active := FALSE);
+ 		_signalLampYellow.setStatus(active := TRUE);
+		_signalLampRed.setStatus(active := FALSE);
+		
+	SignalStatusLampStatus_t.ERROR:
+		_signalLampGreen.setStatus(active := FALSE);
+ 		_signalLampYellow.setStatus(active := FALSE);
+		_signalLampRed.setStatus(active := TRUE, blinking := TRUE);
+		
+	SignalStatusLampStatus_t.STARTING:
+		_signalLampGreen.setStatus(active := TRUE, blinking := TRUE);
+ 		_signalLampYellow.setStatus(active := FALSE);
+		_signalLampRed.setStatus(active := FALSE);
+	
+ELSE
+	// TODO: add exeption for this case (it's impossible)
+	_signalLampGreen.setStatus(active := FALSE);
+	_signalLampYellow.setStatus(active := TRUE, blinking := TRUE, timeOnMS := 50);
+	_signalLampRed.setStatus(active := TRUE, blinking := TRUE, timeOnMS := 50, timeOffMS := 50);
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

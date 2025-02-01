@@ -3,12 +3,59 @@
   <POU Name="MAIN" Id="{3247d232-9c57-40b4-8ebc-0fdeaa0dda4d}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+signalStatusLamp : SignalStatusLamp_t;
+
+systemStatus : systemStatus_t := systemStatus_t.STOPPED;
 
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[InputOutput.SignalStatusGreen := TRUE;
-]]></ST>
+      <ST><![CDATA[
+
+IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
+	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
+END_IF
+	
+IF NOT InputOutput.StopButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN
+	systemStatus := systemStatus_t.STOPPED;
+END_IF
+
+IF NOT InputOutput.EmStop THEN
+	// overwrite systemstatus to force to error state
+	systemStatus := systemStatus_t.ERROR; 
+END_IF
+
+// reset errors 
+IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR THEN
+	systemStatus := systemStatus_t.STOPPED;
+	InputOutput.QuittierenLamp := FALSE;
+END_IF
+
+// set lamp of quittierung
+IF InputOutput.EmStop AND systemStatus = systemStatus_t.ERROR THEN 
+	InputOutput.QuittierenLamp := TRUE;
+END_IF
+
+// set maschine running lamp 
+InputOutput.OnOffStatusLamp := (systemStatus = systemStatus_t.RUNNING);
+
+
+CASE systemStatus OF
+	systemStatus_t.STOPPED:
+		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.NONE);
+		
+	systemStatus_t.STARTING:
+		signalStatusLamp.setStatus(status := SignalStatusLampStatus_t.STARTING);
+		
+	systemStatus_t.RUNNING:
+		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.OPERATIONAL);
+		
+	systemStatus_t.ERROR:
+		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.ERROR);
+		
+END_CASE
+
+signalStatusLamp.update();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

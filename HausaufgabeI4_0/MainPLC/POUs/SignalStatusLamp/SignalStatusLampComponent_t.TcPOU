@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SignalStatusLampComponent_t" Id="{2a0ba243-e24e-47c8-80ba-755d4e515aa5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK SignalStatusLampComponent_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_SignalStatusLamp AT %Q* : BOOL;
+	_active : BOOL := FALSE;
+	_signalStatusBlink : FB_BA_Blink;
+	_blinkerActive : BOOL := FALSE;
+	
+	_timeOnMS : UDINT;
+	_timeOffMS : UDINT;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="setStatus" Id="{5e996e2b-7b52-4034-a2af-a9c2690ef38e}">
+      <Declaration><![CDATA[METHOD setStatus : BOOL
+VAR_INPUT
+	active : BOOL;
+	blinking : BOOL := FALSE;
+	timeOnMS : UDINT := 100;
+	timeOffMS : UDINT := 100;
+	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[	_active := active;
+	_blinkerActive := blinking;
+	
+	_timeOnMS := timeOnMS;
+	_timeOffMS := timeOffMS;
+	
+	_signalStatusBlink.udiTiOff := timeOffMS;
+	_signalStatusBlink.udiTiOn := timeOnMS;
+	_signalStatusBlink.bEn := blinking;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{1d22d2ea-caad-4ff3-be49-48b5b1fbe736}">
+      <Declaration><![CDATA[METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_signalStatusBlink();
+IF _blinkerActive AND _active THEN 
+	_signalStatusBlink.bEn := TRUE;
+	_SignalStatusLamp := _signalStatusBlink.bQ;
+ELSE 		
+	_SignalStatusLamp := _active;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

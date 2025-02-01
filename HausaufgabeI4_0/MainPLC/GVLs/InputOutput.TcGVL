@@ -3,9 +3,8 @@
   <GVL Name="InputOutput" Id="{3bfff44a-42d8-4e67-8a72-cea7f144b7e9}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	SignalStatusRed AT %Q* : BOOL;
-	SignalStatusYellow AT %Q* : BOOL;
-	SignalStatusGreen AT %Q* : BOOL;
+	
+	// outputs
 	TurnTableMotorTurn AT %Q* : BOOL;
 	TurnTableMotorReverse AT %Q* : BOOL;
 	ConvaorbeltMotorRun AT %Q* : BOOL;
@@ -13,6 +12,11 @@ VAR_GLOBAL
 	QuittierenLamp AT %Q* : BOOL;
 	OnOffStatusLamp AT %Q* : BOOL;
 
+	// inputs
+	StartButton AT %I* : BOOL;
+	StopButton AT %I* : BOOL;
+	EmStop AT %I* : BOOL;
+	ResetButton AT %I* : BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
