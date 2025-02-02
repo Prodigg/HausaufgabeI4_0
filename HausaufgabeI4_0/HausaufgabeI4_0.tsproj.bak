@@ -46,7 +46,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{E6FAC9B9-15E6-A3DE-AD56-ABE13E5386B0}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{112DA0AD-5303-A912-01B0-1D153B336CD8}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -58,6 +58,18 @@
 						</Var>
 						<Var>
 							<Name>InputOutput.TurnTableMotorReverse</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.signalStatusLamp._signalLampGreen._SignalStatusLamp</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.signalStatusLamp._signalLampYellow._SignalStatusLamp</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.signalStatusLamp._signalLampRed._SignalStatusLamp</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -76,21 +88,17 @@
 							<Name>InputOutput.OnOffStatusLamp</Name>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>MAIN.signalStatusLamp._signalLampGreen._SignalStatusLamp</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.signalStatusLamp._signalLampYellow._SignalStatusLamp</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.signalStatusLamp._signalLampRed._SignalStatusLamp</Name>
-							<Type>BOOL</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>InputOutput.StopButton</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.EmStop</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>InputOutput.ResetButton</Name>
 							<Type>BOOL</Type>
@@ -98,14 +106,6 @@
 						<Var>
 							<Name>InputOutput.StartButton</Name>
 							<Comment><![CDATA[ inputs]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.StopButton</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.EmStop</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>

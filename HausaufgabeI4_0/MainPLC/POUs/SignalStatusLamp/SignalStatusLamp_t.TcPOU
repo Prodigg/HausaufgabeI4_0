@@ -72,10 +72,10 @@ CASE _status OF
 	SignalStatusLampStatus_t.ERROR:
 		_signalLampGreen.setStatus(active := FALSE);
  		_signalLampYellow.setStatus(active := FALSE);
-		_signalLampRed.setStatus(active := TRUE, blinking := TRUE);
+		_signalLampRed.setStatus(active := TRUE, blinking := TRUE, timeOnMS := 200, timeOffMS := 200);
 		
 	SignalStatusLampStatus_t.STARTING:
-		_signalLampGreen.setStatus(active := TRUE, blinking := TRUE);
+		_signalLampGreen.setStatus(active := TRUE, blinking := TRUE, timeOnMS := 200, timeOffMS := 200);
  		_signalLampYellow.setStatus(active := FALSE);
 		_signalLampRed.setStatus(active := FALSE);
 	
