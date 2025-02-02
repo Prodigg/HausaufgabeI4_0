@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARCommunicationWSExtention_t" Id="{b160b582-710e-48ca-a2e1-674bfaf42c51}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC ARCommunicationWSExtention_t EXTENDS FB_IotWebSocketClient
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="OnWebSocketClose" Id="{83b963f1-cb68-4c4f-839b-6fe0c3279a4b}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD OnWebSocketClose : Global.HRESULT
+VAR_INPUT
+	statusCode	: UINT;
+	content	: Global.PVOID;
+	contentLength	: UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnWebSocketMessage" Id="{aafc85e2-e4b6-4b40-a50f-be62207a97c2}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD OnWebSocketMessage : Global.HRESULT
+VAR_INPUT
+	content	: Global.PVOID;
+	contentLength	: UDINT;
+	contentType	: Global.ETcIotWebSocketContentType;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnWebSocketOpen" Id="{84b70aa8-e731-4dfb-b3ce-e492968de315}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{attribute 'TcRpcEnable'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD OnWebSocketOpen : Global.HRESULT
+VAR_IN_OUT CONSTANT
+	webSocketProtocol	: STRING;
+	origin	: STRING;
+END_VAR
+VAR_INPUT
+	bPerMessageDeflate	: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcAddRef" Id="{19906943-71ba-4126-b01d-557cf40c9802}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD TcAddRef : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{591f8a9a-c7f8-4ed7-bd50-06fbe5fedc76}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD TcQueryInterface : Global.HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO Global.IID;
+	pipItf	: POINTER TO Global.PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcRelease" Id="{02dc99e1-26a5-4db4-a14e-8ac27bc5978f}">
+      <Declaration><![CDATA[{attribute 'TcTypeSystem'}
+{attribute 'c++_compatible'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'pack_mode' := '4'}
+{warning 'Methodenimplementierung hinzufügen'}
+METHOD TcRelease : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

@@ -31,6 +31,12 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\ARCommunication\ARCommunication_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\ARCommunicationWSExtention_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +52,7 @@
     <Folder Include="DUTs\systemOperationalTypes" />
     <Folder Include="DUTs\SignalStatusLampTypes" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\ARCommunication" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
@@ -62,6 +69,10 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_IotBase">
+      <DefaultResolution>Tc3_IotBase, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_IotBase</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
