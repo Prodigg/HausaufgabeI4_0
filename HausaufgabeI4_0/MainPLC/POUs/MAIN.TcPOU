@@ -6,14 +6,15 @@ VAR
 signalStatusLamp : SignalStatusLamp_t;
 
 systemStatus : systemStatus_t := systemStatus_t.STOPPED;
-
+ARCommunication : ARCommunication_t;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[ARCommunication.startConnection();
 
 IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
+	ARCommunication.sendNewMessage('PLC start');
 END_IF
 	
 IF NOT InputOutput.StopButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN
@@ -55,7 +56,9 @@ CASE systemStatus OF
 		
 END_CASE
 
-signalStatusLamp.update();]]></ST>
+signalStatusLamp.update();
+
+ARCommunication.update();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

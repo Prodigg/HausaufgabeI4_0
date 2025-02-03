@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ARCommunicationWSExtention_t" Id="{b160b582-710e-48ca-a2e1-674bfaf42c51}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK PUBLIC ARCommunicationWSExtention_t EXTENDS FB_IotWebSocketClient
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK PUBLIC ARCommunicationWSExtention_t EXTENDS FB_IotWebSocketClient
 VAR_INPUT
 END_VAR
 VAR_OUTPUT

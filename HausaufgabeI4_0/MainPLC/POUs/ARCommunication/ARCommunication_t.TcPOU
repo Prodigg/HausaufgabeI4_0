@@ -8,6 +8,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_ARDevice : ARCommunicationWSExtention_t;
+	_TLSSettings : ST_IotSocketTls;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -43,10 +44,44 @@ END_VAR
     <Method Name="sendNewMessage" Id="{7ab18af5-7bc5-4c96-b223-14eb6cce1ab3}">
       <Declaration><![CDATA[METHOD sendNewMessage : BOOL
 VAR_INPUT
+	str : STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// sends a new message to the client]]></ST>
+        <ST><![CDATA[// sends a new message to the client
+_ARDevice.SendMessage(pContent := ADR(str), nContentSize := SIZEOF(str), bTextContent := true, bCompress := false);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="startConnection" Id="{89d039a8-3323-4f6e-9842-93aae51be57a}">
+      <Declaration><![CDATA[METHOD startConnection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _ARDevice.bConnected THEN
+	RETURN;
+END_IF
+_TLSSettings.bNoServerCertCheck := FALSE;
+_ARDevice.stTLS := _TLSSettings;
+
+_ARDevice.nHostPort := 1880;
+_ARDevice.sHostName := '192.168.3.223';
+_ARDevice.sUri := '/ws/PLC';
+_ARDevice.sOrigin := '/ws/PLC';
+_ARDevice.Connect(TRUE);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="stopConnection" Id="{95fcb138-8ce0-4fcb-8c62-1a615f795ab1}">
+      <Declaration><![CDATA[METHOD stopConnection : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT _ARDevice.bConnected THEN
+	RETURN;
+END_IF
+
+_ARDevice.Disconnect();]]></ST>
       </Implementation>
     </Method>
     <Method Name="update" Id="{25efbe41-3ef8-45cc-91e3-4ad477496cc8}">
@@ -55,7 +90,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// is called every cycle, used to upholed communication and check if a new message has been recived]]></ST>
+        <ST><![CDATA[// is called every cycle, used to upholed communication and check if a new message has been recived
+_ARDevice.Execute();]]></ST>
       </Implementation>
     </Method>
   </POU>
