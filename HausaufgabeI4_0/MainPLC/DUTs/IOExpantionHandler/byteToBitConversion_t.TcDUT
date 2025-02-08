@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="byteToBitConversion_t" Id="{c205e1cf-8713-47ed-b7b4-7c08b338ff68}">
+    <Declaration><![CDATA[// this must be exactly 8 bits to work 
+TYPE byteToBitConversion_t :
+UNION
+	bit0 : BOOL;
+	bit1 : BOOL;
+	bit2 : BOOL;
+	bit3 : BOOL;
+	bit4 : BOOL;
+	bit5 : BOOL;
+	bit6 : BOOL;
+	bit7 : BOOL;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

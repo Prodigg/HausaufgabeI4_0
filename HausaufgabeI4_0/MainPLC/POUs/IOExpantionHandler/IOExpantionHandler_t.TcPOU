@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="IOExpantionHandler_t" Id="{a0bf6b42-7e02-4eb9-b45b-673d96ed76da}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK IOExpantionHandler_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_IOExpantionExpantionInByte_0 AT %I* : BYTE;
+	_IOExpantionExpantionInByte_1 AT %I* : BYTE;
+	_IOExpantionExpantionInByte_2 AT %I* : BYTE;
+	_IOExpantionExpantionInByte_3 AT %I* : BYTE;
+	
+	_FestoPneumaticOutByte_0 AT %Q* : BYTE;
+	_FestoPneumaticOutByte_1 AT %Q* : BYTE;
+	_FestoPneumaticOutByte_2 AT %Q* : BYTE;
+	_FestoPneumaticOutByte_3 AT %Q* : BYTE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// this is for ahndeling the IO link master from murr. This is a highly specialised class that needs to be changed acording to the inputs on the expantion of IO link master from murr.
+
+]]></ST>
+    </Implementation>
+    <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}">
+      <Declaration><![CDATA[METHOD PRIVATE convertByteBit : BOOL
+VAR_INPUT
+	byteVal : BYTE;
+	offset : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF offset > 7 THEN 
+	convertByteBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
+END_IF
+
+
+CASE offset OF
+	{info 'TODO: implement conversion, array may be metter due to math and not using switch statements'} 
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}">
+      <Declaration><![CDATA[METHOD getSensorStatus : BOOL
+VAR_INPUT
+	sensorID : sensorID_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+CASE sensorID OF
+	sensorID_t.testSensor:
+		getSensorStatus := FALSE; // test value
+	{info 'TODO: implement all sensors'}
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

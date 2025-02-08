@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="517292bf-b420-4e7e-a602-01f067d181bc">THROWPROGRAMERRORSEVARITY</Type>
+      <From>throwProgramErrorSevarity</From>
+      <To>throwProgramErrorSevarity_t</To>
+    </RenamedType>
+  </Renames>
+</Refactors>
