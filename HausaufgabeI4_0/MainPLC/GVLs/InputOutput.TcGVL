@@ -17,6 +17,13 @@ VAR_GLOBAL
 	StopButton AT %I* : BOOL;
 	EmStop AT %I* : BOOL;
 	ResetButton AT %I* : BOOL;
+	
+	// test Murr
+	testIn AT %I* : bool;
+	SensorsMurr AT %I* : ARRAY[0..7]  OF BOOL;
+	
+	X4Pin4:BOOL;
+	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

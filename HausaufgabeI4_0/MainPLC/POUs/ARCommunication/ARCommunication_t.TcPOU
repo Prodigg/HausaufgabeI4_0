@@ -9,6 +9,8 @@ END_VAR
 VAR
 	_ARDevice : ARCommunicationWSExtention_t;
 	_TLSSettings : ST_IotSocketTls;
+	
+	_isConnected : BOOL := false;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -20,7 +22,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// gets the communication status of the connection]]></ST>
+        <ST><![CDATA[// gets the communication status of the connection
+getConnectionStatus := _ARDevice.bConnected;
+return;]]></ST>
       </Implementation>
     </Method>
     <Method Name="getLastMessage" Id="{08a227d9-9e52-499f-99b3-521fa34ba409}">
@@ -61,13 +65,17 @@ END_VAR
         <ST><![CDATA[IF _ARDevice.bConnected THEN
 	RETURN;
 END_IF
-_TLSSettings.bNoServerCertCheck := FALSE;
-_ARDevice.stTLS := _TLSSettings;
+
 
 _ARDevice.nHostPort := 1880;
 _ARDevice.sHostName := '192.168.3.223';
-_ARDevice.sUri := '/ws/PLC';
-_ARDevice.sOrigin := '/ws/PLC';
+_ARDevice.sUri := 'ws/PLC';
+_ARDevice.bKeepAlive := FALSE;
+_ARDevice.nConnectResponseTimeout := 60;
+_ARDevice.nKeepAliveCloseTimeout := 60;
+//_ARDevice.stTLS.bNoServerCertCheck := TRUE;
+_ARDevice.bPerMessageDeflate := FALSE;
+//_ARDevice.sOrigin := 'ws/PLC';
 _ARDevice.Connect(TRUE);]]></ST>
       </Implementation>
     </Method>
@@ -91,7 +99,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// is called every cycle, used to upholed communication and check if a new message has been recived
-_ARDevice.Execute();]]></ST>
+_ARDevice.Execute();
+]]></ST>
       </Implementation>
     </Method>
   </POU>

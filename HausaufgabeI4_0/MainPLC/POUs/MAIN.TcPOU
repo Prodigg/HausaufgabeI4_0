@@ -7,10 +7,20 @@ signalStatusLamp : SignalStatusLamp_t;
 
 systemStatus : systemStatus_t := systemStatus_t.STOPPED;
 ARCommunication : ARCommunication_t;
+
+//murr test
+	ReadDiag: FB_EcCoESdoRead;
+	
+BuffDiagMess :Array[0..236] of byte;
+	xStart: BOOL;
+	ReadLength: UDINT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ARCommunication.startConnection();
+      <ST><![CDATA[IF ARCommunication.getConnectionStatus() = FALSE THEN 
+	ARCommunication.stopConnection();
+	ARCommunication.startConnection();
+END_IF;
 
 IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
@@ -58,7 +68,23 @@ END_CASE
 
 signalStatusLamp.update();
 
-ARCommunication.update();]]></ST>
+ARCommunication.update();
+
+// murr test
+ReadDiag(
+	sNetId:= '5.85.199.196.4.1', 
+	nSlaveAddr:=1001 , 
+	nSubIndex:= 9, 
+	nIndex:= 16#10F3, 
+	pDstBuf:= ADR(BuffDiagMess), 
+	cbBufLen:= 237, 
+	bExecute:=xStart , 
+	tTimeout:= T#5S, 
+	bBusy=> , 
+	bError=> , 
+	nErrId=> , 
+	cbRead=>ReadLength);
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

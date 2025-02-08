@@ -19,7 +19,6 @@ END_VAR
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
 {attribute 'TcRpcEnable'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD OnWebSocketClose : Global.HRESULT
 VAR_INPUT
 	statusCode	: UINT;
@@ -37,7 +36,6 @@ END_VAR
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
 {attribute 'TcRpcEnable'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD OnWebSocketMessage : Global.HRESULT
 VAR_INPUT
 	content	: Global.PVOID;
@@ -46,7 +44,8 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[
+InputOutput.QuittierenLamp := true; // Debug]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnWebSocketOpen" Id="{84b70aa8-e731-4dfb-b3ce-e492968de315}">
@@ -55,7 +54,6 @@ END_VAR
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
 {attribute 'TcRpcEnable'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD OnWebSocketOpen : Global.HRESULT
 VAR_IN_OUT CONSTANT
 	webSocketProtocol	: STRING;
@@ -74,7 +72,6 @@ END_VAR
 {attribute 'c++_compatible'}
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD TcAddRef : UDINT
 ]]></Declaration>
       <Implementation>
@@ -86,7 +83,6 @@ METHOD TcAddRef : UDINT
 {attribute 'c++_compatible'}
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD TcQueryInterface : Global.HRESULT
 VAR_INPUT
 	iid	: REFERENCE TO Global.IID;
@@ -102,7 +98,6 @@ END_VAR
 {attribute 'c++_compatible'}
 {attribute 'minimal_input_size' := '4'}
 {attribute 'pack_mode' := '4'}
-{warning 'Methodenimplementierung hinzufügen'}
 METHOD TcRelease : UDINT
 ]]></Declaration>
       <Implementation>
