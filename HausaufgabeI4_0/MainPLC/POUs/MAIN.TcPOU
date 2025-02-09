@@ -8,6 +8,8 @@ signalStatusLamp : SignalStatusLamp_t;
 systemStatus : systemStatus_t := systemStatus_t.STOPPED;
 ARCommunication : ARCommunication_t;
 
+IOExpantionHandler : IOExpantionHandler_t;
+
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	

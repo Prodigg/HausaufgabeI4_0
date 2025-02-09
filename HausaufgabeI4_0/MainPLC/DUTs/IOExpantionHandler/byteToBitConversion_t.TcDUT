@@ -4,14 +4,8 @@
     <Declaration><![CDATA[// this must be exactly 8 bits to work 
 TYPE byteToBitConversion_t :
 UNION
-	bit0 : BOOL;
-	bit1 : BOOL;
-	bit2 : BOOL;
-	bit3 : BOOL;
-	bit4 : BOOL;
-	bit5 : BOOL;
-	bit6 : BOOL;
-	bit7 : BOOL;
+	bytes : BYTE;
+	bits : ARRAY [0..7] OF BOOL;
 END_UNION
 END_TYPE
 ]]></Declaration>

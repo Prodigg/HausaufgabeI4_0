@@ -7,19 +7,33 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_IOExpantionExpantionInByte_0 AT %I* : BYTE;
-	_IOExpantionExpantionInByte_1 AT %I* : BYTE;
-	_IOExpantionExpantionInByte_2 AT %I* : BYTE;
-	_IOExpantionExpantionInByte_3 AT %I* : BYTE;
+ 
+	_IOExpantionExpantionInByte_0 AT %I* : BYTE; // in byte 0
+	_IOExpantionExpantionInByte_1 AT %I* : BYTE; // in byte 1
+	_IOExpantionExpantionInByte_2 AT %I* : BYTE; // diagnostic byte 2
+	_IOExpantionExpantionInByte_3 AT %I* : BYTE; // user specifyed content 3
 	
+	_IOExpantionExpantionInBytes : ARRAY [0..3] OF POINTER TO BYTE := [ADR(_IOExpantionExpantionInByte_0), ADR(_IOExpantionExpantionInByte_1), ADR(_IOExpantionExpantionInByte_2), ADR(_IOExpantionExpantionInByte_3)];
+	 
 	_FestoPneumaticOutByte_0 AT %Q* : BYTE;
 	_FestoPneumaticOutByte_1 AT %Q* : BYTE;
 	_FestoPneumaticOutByte_2 AT %Q* : BYTE;
 	_FestoPneumaticOutByte_3 AT %Q* : BYTE;
+	
+	_FestoPneumaticOutBytes : ARRAY [0..3] OF POINTER TO BYTE := [ADR(_FestoPneumaticOutByte_0), ADR(_FestoPneumaticOutByte_1), ADR(_FestoPneumaticOutByte_2), ADR(_FestoPneumaticOutByte_3)];
+	
+	_IOExpantionIn_0 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_1 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_2 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_3 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_4 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_5 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	
+	_IOExpantionInBytes : ARRAY [0..5] OF POINTER TO BYTE := [ADR(_IOExpantionIn_0), ADR(_IOExpantionIn_1), ADR(_IOExpantionIn_2), ADR(_IOExpantionIn_3), ADR(_IOExpantionIn_4), ADR(_IOExpantionIn_5)];
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// this is for ahndeling the IO link master from murr. This is a highly specialised class that needs to be changed acording to the inputs on the expantion of IO link master from murr.
+      <ST><![CDATA[// this is for handeling the IO link master from murr. This is a highly specialised class that needs to be changed acording to the inputs on the expantion of IO link master from murr.
 
 ]]></ST>
     </Implementation>
@@ -29,16 +43,49 @@ VAR_INPUT
 	byteVal : BYTE;
 	offset : UINT;
 END_VAR
-]]></Declaration>
+VAR
+	_bitByteConverstion : byteToBitConversion_t;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF offset > 7 THEN 
 	convertByteBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
+	RETURN;
 END_IF
 
+_bitByteConverstion.bytes := byteVal;
 
-CASE offset OF
-	{info 'TODO: implement conversion, array may be metter due to math and not using switch statements'} 
-END_CASE]]></ST>
+convertByteBit := _bitByteConverstion.bits[offset];
+RETURN;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="extractSensorBit" Id="{1ab0209d-d9ba-432f-bbe3-5c9a3d418c30}">
+      <Declaration><![CDATA[METHOD PRIVATE extractSensorBit : BOOL
+VAR_INPUT
+	sensorByte : UINT; // byte where the sensor is in 
+	sensorBit : UINT;  // bit from the sensor
+	sensorLocation : IOExpantionLocation_t; // location of the sensor
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE sensorLocation OF
+	IOExpantionLocation_t.ROOT:
+		IF sensorByte > 5 THEN
+			extractSensorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of byte (out of range)" '}
+			RETURN;
+		END_IF
+		extractSensorBit := convertByteBit(byteVal := _IOExpantionInBytes[sensorByte]^, offset := sensorBit);
+		
+	IOExpantionLocation_t.EXPANTION:
+		IF sensorByte > 1 THEN 
+			extractSensorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of byte (out of range)" '}
+			RETURN;
+		END_IF
+	
+		extractSensorBit := convertByteBit(byteVal := _IOExpantionExpantionInBytes[sensorByte]^, offset := sensorBit);
+END_CASE
+
+RETURN;]]></ST>
       </Implementation>
     </Method>
     <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}">
@@ -48,13 +95,56 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
+        <ST><![CDATA[{info 'TODO: rename all sensors and test if the imput works'}
+	
 CASE sensorID OF
-	sensorID_t.testSensor:
-		getSensorStatus := FALSE; // test value
-	{info 'TODO: implement all sensors'}
+	sensorID_t.EXPANTION_SENSOR_X0_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 0); 
+	sensorID_t.EXPANTION_SENSOR_X0_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 1); 
+		
+	sensorID_t.EXPANTION_SENSOR_X1_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 2); 
+	sensorID_t.EXPANTION_SENSOR_X1_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 3); 
+		
+	sensorID_t.EXPANTION_SENSOR_X2_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 4); 
+	sensorID_t.EXPANTION_SENSOR_X2_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 5); 
+		
+	sensorID_t.EXPANTION_SENSOR_X3_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 6); 
+	sensorID_t.EXPANTION_SENSOR_X3_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 7); 
+		
+	sensorID_t.EXPANTION_SENSOR_X4_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 0); 
+	sensorID_t.EXPANTION_SENSOR_X4_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 1); 
+		
+	sensorID_t.EXPANTION_SENSOR_X5_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 2); 
+	sensorID_t.EXPANTION_SENSOR_X5_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 3); 
+		
+	sensorID_t.EXPANTION_SENSOR_X6_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 4); 
+	sensorID_t.EXPANTION_SENSOR_X6_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 5); 	
+		
+	sensorID_t.EXPANTION_SENSOR_X7_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 6); 
+	sensorID_t.EXPANTION_SENSOR_X7_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 7); 
+		
+	sensorID_t.SENSOR_X6_0:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 0); 
+	sensorID_t.SENSOR_X6_1:
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 1); 
 END_CASE
-]]></ST>
+
+RETURN;]]></ST>
       </Implementation>
     </Method>
   </POU>

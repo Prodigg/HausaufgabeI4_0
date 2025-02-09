@@ -58,7 +58,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{34F69A56-ABB8-641E-0682-F2ED1E7BB5CB}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{13A2DB75-50A0-B488-6DB3-67B4FFA0C763}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -100,6 +100,22 @@
 							<Name>InputOutput.OnOffStatusLamp</Name>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_0</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_1</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_2</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_3</Name>
+							<Type>BYTE</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
@@ -128,6 +144,52 @@
 						<Var>
 							<Name>InputOutput.SensorsMurr</Name>
 							<Type GUID="{481A0C15-D2DB-59F6-F498-C30AA9C1998C}">ARRAY [0..7] OF BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_0</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_1</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_2</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_3</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_0</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_1</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_2</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_3</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_4</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._IOExpantionIn_5</Name>
+							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
+							<Type>BYTE</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2025-01-18T16:01:09">
@@ -1178,6 +1240,7 @@ Bit1: Value smaller than Limit2]]></Comment>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 9 (54632)">
 				<Link VarA="PlcTask Inputs^InputOutput.testIn" VarB="Module 7 (Digital_IN)^TxPDO^PD (C/Q Pin4)" Size="1"/>
+				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionExpantionInByte_0" VarB="Module 8 (IOL_4/4_I/O-Bytes)^TxPDO^input byte 0"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

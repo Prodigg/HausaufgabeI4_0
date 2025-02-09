@@ -21,6 +21,9 @@
     <Compile Include="DUTs\IOExpantionHandler\byteToBitConversion_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\IOExpantionHandler\IOExpantionLocation_t.TcTLEO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\IOExpantionHandler\sensorID_t.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
