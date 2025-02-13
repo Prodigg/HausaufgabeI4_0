@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ARCommunicationSendPacket_t" Id="{1496e6dd-61d0-4dc4-9fe0-fce58ff7662a}">
+    <Declaration><![CDATA[// struct for sending data to 
+TYPE ARCommunicationSendPacket_t :
+STRUCT
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

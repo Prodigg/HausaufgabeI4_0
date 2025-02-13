@@ -18,6 +18,18 @@
     <LibraryReferences>{4e841347-6003-4bf9-ad9b-ba721d58b9e5}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ARCommunication\ARCommunicationSendPacketValue.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ARCommunication\ARCommunicationSendPacketValueStore_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ARCommunication\ARCommunicationSendPacket_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ARCommunication\ARCommunicationValueType_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\IOExpantionHandler\byteToBitConversion_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +58,9 @@
     <Compile Include="POUs\ARCommunication\ARCommunicationWSExtention_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\ARCommunication\Helper\WSJSONStringBuilder_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\IOExpantionHandler\IOExpantionHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -62,10 +77,12 @@
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="DUTs\IOExpantionHandler" />
+    <Folder Include="DUTs\ARCommunication" />
     <Folder Include="DUTs\systemOperationalTypes" />
     <Folder Include="DUTs\SignalStatusLampTypes" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\ARCommunication" />
+    <Folder Include="POUs\ARCommunication\Helper" />
     <Folder Include="POUs\IOExpantionHandler" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />

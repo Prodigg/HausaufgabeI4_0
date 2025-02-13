@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="d98c2455-b240-4706-869a-ec781ba7607c">WSSENDSTRINGBUILDER_T</Type>
+      <From>WSSendStringBuilder_t</From>
+      <To>WSJSONStringBuilder_t</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="cb1d9388-322d-4a94-9d4d-c8c7b30cdbb6">VALUETYPE</Type>
+      <From>valueType</From>
+      <To>ARCommunicationValueType_t</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="1496e6dd-61d0-4dc4-9fe0-fce58ff7662a">ARCOMMUNICATIONSENDPACKET</Type>
+      <From>ARCommunicationSendPacket</From>
+      <To>ARCommunicationSendPacket_t</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

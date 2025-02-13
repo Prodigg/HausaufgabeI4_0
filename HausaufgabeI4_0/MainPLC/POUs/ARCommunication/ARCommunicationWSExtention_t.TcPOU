@@ -2,17 +2,39 @@
 <TcPlcObject Version="1.1.0.1">
   <POU Name="ARCommunicationWSExtention_t" Id="{b160b582-710e-48ca-a2e1-674bfaf42c51}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'c++_compatible'}
-FUNCTION_BLOCK PUBLIC ARCommunicationWSExtention_t EXTENDS FB_IotWebSocketClient
+// class for implementing IotWebSocetClient functions without exposing them may only be used for ARCommunication_t
+FUNCTION_BLOCK ARCommunicationWSExtention_t EXTENDS FB_IotWebSocketClient
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
+	lastMessage : STRING(255) := ''; // last recived message
 END_VAR
-VAR
+VAR	
+	_newMessageAvalable : BOOL := FALSE; // is set true whenever a new message arrives
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Property Name="newMessageAvalable" Id="{60cc030d-e252-40bf-962d-546e21880d27}">
+      <Declaration><![CDATA[PROPERTY newMessageAvalable : bool]]></Declaration>
+      <Get Name="Get" Id="{89613a16-3d29-4b2d-8a2e-e805c75c660f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[newMessageAvalable :=  _newMessageAvalable;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{d84cd38f-e2d7-45a5-a66d-f3b744e69d9f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_newMessageAvalable := newMessageAvalable;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
     <Method Name="OnWebSocketClose" Id="{83b963f1-cb68-4c4f-839b-6fe0c3279a4b}">
       <Declaration><![CDATA[{attribute 'TcTypeSystem'}
 {attribute 'c++_compatible'}
@@ -42,10 +64,22 @@ VAR_INPUT
 	contentLength	: UDINT;
 	contentType	: Global.ETcIotWebSocketContentType;
 END_VAR
-]]></Declaration>
+VAR
+	ptr : POINTER TO STRING;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-InputOutput.QuittierenLamp := true; // Debug]]></ST>
+InputOutput.QuittierenLamp := TRUE; // Debug
+
+// if it isn't text, drop packet
+IF  contentType = Global.ETcIotWebSocketContentType.WS_CONTENT_TEXT THEN
+		ptr := content;
+		THIS^.lastMessage := ptr^;
+		THIS^._newMessageAvalable := TRUE;	
+END_IF
+
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="OnWebSocketOpen" Id="{84b70aa8-e731-4dfb-b3ce-e492968de315}">

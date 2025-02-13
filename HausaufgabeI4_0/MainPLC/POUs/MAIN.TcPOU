@@ -10,6 +10,10 @@ ARCommunication : ARCommunication_t;
 
 IOExpantionHandler : IOExpantionHandler_t;
 
+firstWSConnect : BOOL := True;
+
+testStr : STRING := 'PLC start';
+
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	
@@ -19,14 +23,14 @@ BuffDiagMess :Array[0..236] of byte;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF ARCommunication.getConnectionStatus() = FALSE THEN 
-	ARCommunication.stopConnection();
-	ARCommunication.startConnection();
+      <ST><![CDATA[IF ARCommunication.getConnectionStatus() = FALSE AND firstWSConnect = TRUE THEN
+	firstWSConnect := FALSE;
+	//ARCommunication.startConnection(); 
 END_IF;
 
 IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
-	ARCommunication.sendNewMessage('PLC start');
+	//ARCommunication.sendNewMessage(ADR(testStr)); // test for websocet connection
 END_IF
 	
 IF NOT InputOutput.StopButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN

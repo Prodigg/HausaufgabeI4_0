@@ -2,9 +2,29 @@
 <TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
 	<LicenseInfo>
 		<SystemId>{D9BD6746-F34A-3B29-9710-96E3AC2A60AA}</SystemId>
-		<IssueTime>2025-02-03T19:51:00</IssueTime>
-		<ExpireTime>2025-02-11T00:00:00</ExpireTime>
-		<LicenseKey>b5a32099c389a49ac4945ebabd376d2736ee9768b38fde69cefcec5b67ad3b8fb9871fe64ecd5abe05c1cacd4983eba662d7806f9067be55bc5e74fbf3374fb64351267e89558e324147a496a81dd96a4f9b18ba315d987629c615402418458bbcc90cc3e96ba6da589c070827f4c3bc760e32955c1962da848d373dede2d8ad93c6a5fa993afda1bd4d599cc10b579ba59d068622e9cce78027129bb0a070f14ef4c5440666215bc02c676c5f83ecb1933aa39773c9fe44953b79a9961f08385296c04e808c05d8f47a4a402a1c24a7b33bdb3f105f44b916993d3e48e74520566867359393dab53d9636306c75e9480f496b42b4303403387b1c39ea314318</LicenseKey>
+		<IssueTime>2025-02-12T16:19:00</IssueTime>
+		<ExpireTime>2025-02-20T00:00:00</ExpireTime>
+		<LicenseKey>c48acea1e0ab32c1ebffba01631cf783f5e537528acded018fc19790ad5c02507c1347dfd7bfdfc99f73aa11a76483996ae0d03fd21c9a7c13d60f73798bbe94cafafcdd1e033aeb0682f11906106428b5e07ffb417248cdf61f42600411f215172c7214d040bb3e2bab8768596289824c5018eb04a509b72797eb24bd94c1a9d340723d9fba93942b969e96cfd5a652eb98a6be6b28de84c8159a201ce5fe1b0e0c9946053a5b4ed1e45e47ed0d844f9f51f5287f8bf6efa207cb9c517daf12eb498af7e0efb25641a53eae1311d7df43071c2873715214701a69f192e90a611a5fefd23bfd01d33af6bbddea0c0f43fc5d3d9fdcc70603ec6e9b64b1e6f51b</LicenseKey>
+		<License>
+			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
+			<Name>TC3 ADS</Name>
+			<OrderNo>TC1000</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
+			<Name>TC3 IO</Name>
+			<OrderNo>TC1100</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
+			<Name>TC3 PLC</Name>
+			<OrderNo>TC1200</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{14DB2856-1BFD-49EE-AEAB-78906DBFBEE2}</LicenseId>
+			<Name>TC3 Building Automation</Name>
+			<OrderNo>TF8040</OrderNo>
+		</License>
 		<License>
 			<LicenseId>{E35CFB72-8FE2-4EBC-BA7E-99F0B6B3A781}</LicenseId>
 			<Name>TC3 IoT Websocket Protocol</Name>
@@ -13,26 +33,6 @@
 			<LicenseId>{675EAD89-D993-447C-8F72-B406FE2EFDC9}</LicenseId>
 			<Name>TC3 IoT Websocket</Name>
 			<OrderNo>TF6770</OrderNo>
-		</License>
-		<License>
-			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
-			<Name>TC3 ADS</Name>
-			<OrderNo>TC1000</OrderNo>
-		</License>
-		<License>
-			<LicenseId>{14DB2856-1BFD-49EE-AEAB-78906DBFBEE2}</LicenseId>
-			<Name>TC3 Building Automation</Name>
-			<OrderNo>TF8040</OrderNo>
-		</License>
-		<License>
-			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
-			<Name>TC3 PLC</Name>
-			<OrderNo>TC1200</OrderNo>
-		</License>
-		<License>
-			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
-			<Name>TC3 IO</Name>
-			<OrderNo>TC1100</OrderNo>
 		</License>
 	</LicenseInfo>
 </TcLicenseInfo>

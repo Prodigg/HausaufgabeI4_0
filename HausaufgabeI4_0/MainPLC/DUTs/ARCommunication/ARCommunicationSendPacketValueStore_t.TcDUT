@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ARCommunicationSendPacketValueStore_t" Id="{855ca8e3-8182-4faa-a52f-f2825afa343f}">
+    <Declaration><![CDATA[TYPE ARCommunicationSendPacketValueStore_t :
+UNION
+	valueString : STRING(255);
+	valueInt : INT;
+	valuebool : BOOL;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="WSJSONStringBuilder_t" Id="{d98c2455-b240-4706-869a-ec781ba7607c}" SpecialFunc="None">
+    <Declaration><![CDATA[// this class is following the OOP Desgn Pattern of a builder (max str length 255)
+FUNCTION_BLOCK WSJSONStringBuilder_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_str : STRING(255) := '';
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="addAttribute" Id="{c7fed67b-ada5-4e34-9fc1-b0c345e3d063}">
+      <Declaration><![CDATA[// adds an attribute (if it returns true: succsess, if false: failed)
+METHOD addAttribute : BOOL
+VAR_INPUT
+	key : STRING(255);
+	value : STRING(255);
+END_VAR
+VAR
+	_keyValuePair : STRING := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_keyValuePair := formateAttribute(key, value);
+
+IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 255 THEN // length of existing string + new keyValuePar + '{' + '}'
+	addAttribute := FALSE; 
+	RETURN;
+END_IF
+
+_str := concat(_str, concat(_keyValuePair, ',')); // apped key value pair to string with ',' at the end
+
+addAttribute := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="build" Id="{94f97329-dfda-4a70-8dfb-7a8101409cc9}">
+      <Declaration><![CDATA[// builds the JSON string (if it fails output = 'ERROR')
+METHOD build : string(255)
+VAR_INPUT
+END_VAR
+VAR
+	_lastCharOfStr : STRING(1) := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF len(_str) + 1 > 255 OR _str = '' THEN // validate data
+	build := 'ERROR';
+	RETURN;
+END_IF
+
+_lastCharOfStr := right(_str, 1);
+
+IF _lastCharOfStr = ',' THEN // check if last character is a ','
+	delete(_str, 1, len(_str) - 1);
+END_IF
+
+// wrap key value pair list
+build := concat('{', concat(_str, '}'));
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="formateAttribute" Id="{3d3b34e3-3e57-42ba-9ccb-2b9217efffe2}">
+      <Declaration><![CDATA[// takes a key and attribute and formats it to a valid key value pair (if string is too long ouput will be 'ERROR')
+METHOD PRIVATE formateAttribute : string(255)
+VAR_INPUT
+	key : STRING(255);
+	value : STRING(255);
+END_VAR
+VAR
+	_tmpStr : STRING(255) := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF LEN(key) + len(value) + 5 > 255  THEN // return error if string is too long
+	formateAttribute := 'ERROR';
+	RETURN;
+END_IF
+
+// formate key value pair
+_tmpStr := concat('"', key);
+_tmpStr := concat(_tmpStr, '":"');
+_tmpStr := concat(_tmpStr, value);
+formateAttribute := concat(_tmpStr, '"');
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
