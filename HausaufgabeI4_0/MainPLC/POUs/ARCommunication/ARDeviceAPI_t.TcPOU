@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARDeviceAPI_t" Id="{36b82b15-fd83-4ec3-a09e-a04b923dee45}" SpecialFunc="None">
+    <Declaration><![CDATA[// supplies the active key/value for the ARDevice. This is the function that implements ARCommunication_t
+FUNCTION_BLOCK ARDeviceAPI_t
+VAR_INPUT
+	// input va<rables for ARDevice
+	testIn : BOOL := FALSE;
+END_VAR
+VAR_OUTPUT
+	// output variables from ARDevice	
+	testOut : BOOL := FALSE;
+END_VAR
+VAR
+	// sent input (to notice changes in state)	(Inifficiant as hell with more parametewrs but who cares)
+	_testIn : BOOL := FALSE;
+
+
+	_ARCommunication : ARCommunication_t;
+	_WSRequestBiuilder : WSJSONStringBuilder_t;
+	_reSendSignal : pulseSignalGenerator_t;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// for adding a new in value:
+// 		add variable in VAR_INPUT
+//		add variable in VAR
+// 		add in sendData an attribute
+// 		add in sendData an update from the VAR_INPUT variable to the VAR variable
+//
+// for adding a new out value
+// 		add variable in VAR_OUTPUT
+// 		add if statement in checkKeyValue and update VAR_OUT value ]]></ST>
+    </Implementation>
+    <Method Name="checkKeyValue" Id="{83f1bc5a-eece-4d90-a7c6-5ae41ebea99a}">
+      <Declaration><![CDATA[// this is for intreperting the values from the ARDevice
+METHOD PRIVATE checkKeyValue : BOOL
+VAR_INPUT
+	keyValuePair : keyValuePair_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF keyValuePair.key = 'testOut'THEN
+	testOut := STRING_TO_BOOL(keyValuePair.value);
+ELSE
+	; // no other outputs
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="deconstructMessage" Id="{c8917766-ffdb-4650-be16-995b44ce7078}">
+      <Declaration><![CDATA[// this class is for deconstructiong a message form ARDevice (if the ARDeviuce sends more than 50 key/value paris, this function cannot handle that)
+METHOD PRIVATE deconstructMessage : BOOL
+VAR_INPUT
+	message : STRING(255);
+END_VAR
+VAR
+	_buffer : ARRAY [0..50] OF keyValuePair_t;
+	
+	i : UINT := 0;
+	_activeKeyValuePair : keyValuePair_t;
+	_activeValueTokenPair : STRING(255) := '';
+	_ValTokenPairDelimitorIndex : INT := 0; // ','
+	_ValTokenDelimitorIndex : INT := 0; // ':'
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF message := 'ERROR' THEN
+	{info 'TODO: Implement error handeling for this case (throw a warning or something)'}
+	deconstructMessage := FALSE;
+	RETURN;
+END_IF
+
+IF len(message) < 2 THEN 
+	{info 'TODO: Implement error handeling for this case (throw a warning or something)'}
+	deconstructMessage := FALSE;
+	RETURN;
+END_IF
+
+// remove '{' and '}' (no, i'm not processing the JSON String prperly, but who cares) 
+delete(message, 1, 1);
+delete(message, 1, len(message));
+
+WHILE len(message) <> 0 DO
+	// extract token
+	_ValTokenPairDelimitorIndex := find(message, ',');
+	IF _ValTokenPairDelimitorIndex = 0 THEN // last token
+		_activeValueTokenPair := message;
+		message := ''; 
+	ELSE // not last token
+		_activeValueTokenPair := left(message, _ValTokenPairDelimitorIndex - 1); 
+		delete(message, _ValTokenPairDelimitorIndex, 1);
+	END_IF
+	
+	// extract key and value out of key value pair
+	_ValTokenDelimitorIndex := find(_activeKeyValuePair, ':');
+	
+	IF(_ValTokenDelimitorIndex = 0) THEN // wut?
+		{info: 'trow a warning and drop packet, something is wrong'}
+		deconstructMessage := FALSE;
+		RETURN;
+	END_IF
+	
+	_activeKeyValuePair.key := left(_activeKeyValuePair, _valTokenDelimitorIndex - 1);
+	delete(_activeKeyValuePair, _valTokenDelimitorIndex, 1);
+	_activeKeyValuePair.value := _activeKeyValuePair;
+	
+	delete(_activeKeyValuePair.key, 1, 1);
+	delete(_activeKeyValuePair.key, 1, len(_activeKeyValuePair.value));
+	
+	_buffer[i] := _activeKeyValuePair;
+	
+	i := i + 1;
+END_WHILE
+
+// interprete every value
+FOR i := 0 TO 50 DO
+	IF _buffer[i].key := '' THEN // end of buffer reached
+		deconstructMessage := TRUE;
+		RETURN;
+	END_IF
+	checkKeyValue(_buffer[i]);	// parse and set out variable
+END_FOR
+
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="detectNewState" Id="{ae4b040d-1715-4c0e-98a4-8093556ce1b6}">
+      <Declaration><![CDATA[METHOD PRIVATE detectNewState : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// list all in parameters here
+detectNewState := detectNewState OR (_testIn XOR testIn);
+
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="sendData" Id="{250b82f1-e194-4fa0-903c-ea22dfb3ddda}">
+      <Declaration><![CDATA[// sends whole state to ARDevice
+METHOD PRIVATE sendData : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// build syntax
+_WSRequestBiuilder.clear();
+
+// add  attributes
+_WSRequestBiuilder.addAttributeBool('testIn', testIn);
+
+
+// update states 
+_testIn := testIn;
+
+//build and send
+_ARCommunication.sendNewMessage(_WSRequestBiuilder.build());
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{73e2ecf3-386a-4e75-bf99-0fe01a832b7d}">
+      <Declaration><![CDATA[// must be called as oftern as possible if it returns false, something is wrong with the sending or reciving attribute
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_ARCommunication.update();
+_reSendSignal.update();
+
+// check for changes to send
+IF detectNewState() OR _reSendSignal.signal THEN
+	sendData();
+END_IF
+
+// check for new messages
+IF _ARCommunication.newMessageRecived() THEN
+	deconstructMessage(_ARCommunication.getLastMessage());
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

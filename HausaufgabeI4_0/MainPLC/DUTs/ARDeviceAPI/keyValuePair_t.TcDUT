@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="keyValuePair_t" Id="{d0a45f95-5802-464a-a0be-827492e9acdf}">
+    <Declaration><![CDATA[TYPE keyValuePair_t :
+STRUCT
+	key : STRING(255);
+	value : string(255);
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

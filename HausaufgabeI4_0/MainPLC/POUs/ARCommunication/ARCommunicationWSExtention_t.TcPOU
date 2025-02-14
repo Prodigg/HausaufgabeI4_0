@@ -68,10 +68,7 @@ VAR
 	ptr : POINTER TO STRING;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[
-InputOutput.QuittierenLamp := TRUE; // Debug
-
-// if it isn't text, drop packet
+        <ST><![CDATA[// if it isn't text, drop packet
 IF  contentType = Global.ETcIotWebSocketContentType.WS_CONTENT_TEXT THEN
 		ptr := content;
 		THIS^.lastMessage := ptr^;

@@ -14,9 +14,44 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
-    <Method Name="addAttribute" Id="{c7fed67b-ada5-4e34-9fc1-b0c345e3d063}">
+    <Method Name="addAttributeBool" Id="{1cae107d-e885-4445-98b1-3989eb7af2ae}">
+      <Declaration><![CDATA[METHOD addAttributeBool : BOOL
+VAR_INPUT
+	key : STRING(255);
+	value : BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[addAttributeBool := addAttributeString(key, BOOL_TO_STRING(value));
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="addAttributeINT" Id="{87243de8-59af-422c-b4fc-4c8733f2c3c1}">
+      <Declaration><![CDATA[METHOD addAttributeINT : BOOL
+VAR_INPUT
+	key: STRING(255);
+	value: INT;
+END_VAR
+VAR
+	_keyValuePair: STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_keyValuePair := formateAttributeINT(key, value);
+
+IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 255 THEN // length of existing string + new keyValuePar + '{' + '}'
+	addAttributeString := FALSE; 
+	RETURN;
+END_IF
+
+_str := concat(_str, concat(_keyValuePair, ',')); // apped key value pair to string with ',' at the end
+
+addAttributeString := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="addAttributeString" Id="{c7fed67b-ada5-4e34-9fc1-b0c345e3d063}">
       <Declaration><![CDATA[// adds an attribute (if it returns true: succsess, if false: failed)
-METHOD addAttribute : BOOL
+METHOD addAttributeString : BOOL
 VAR_INPUT
 	key : STRING(255);
 	value : STRING(255);
@@ -28,13 +63,13 @@ END_VAR]]></Declaration>
         <ST><![CDATA[_keyValuePair := formateAttribute(key, value);
 
 IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 255 THEN // length of existing string + new keyValuePar + '{' + '}'
-	addAttribute := FALSE; 
+	addAttributeString := FALSE; 
 	RETURN;
 END_IF
 
 _str := concat(_str, concat(_keyValuePair, ',')); // apped key value pair to string with ',' at the end
 
-addAttribute := TRUE;
+addAttributeString := TRUE;
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -63,6 +98,16 @@ build := concat('{', concat(_str, '}'));
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="clear" Id="{8260fd64-4ef9-4618-b489-3c2279a8acf5}">
+      <Declaration><![CDATA[// clears whole attribute buffer
+METHOD clear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_str := '';]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="formateAttribute" Id="{3d3b34e3-3e57-42ba-9ccb-2b9217efffe2}">
       <Declaration><![CDATA[// takes a key and attribute and formats it to a valid key value pair (if string is too long ouput will be 'ERROR')
 METHOD PRIVATE formateAttribute : string(255)
@@ -84,6 +129,29 @@ _tmpStr := concat('"', key);
 _tmpStr := concat(_tmpStr, '":"');
 _tmpStr := concat(_tmpStr, value);
 formateAttribute := concat(_tmpStr, '"');
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="formateAttributeINT" Id="{724a82b9-7e58-420a-8d4e-582703e6e720}">
+      <Declaration><![CDATA[METHOD PRIVATE formateAttributeINT : string(255)
+VAR_INPUT
+	key: STRING(255);
+	value: INT;
+END_VAR
+
+VAR
+	_tmpStr: STRING(255);
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF LEN(key) + len(INT_TO_STRING(value)) + 3 > 255  THEN // return error if string is too long
+	formateAttribute := 'ERROR';
+	RETURN;
+END_IF
+
+// formate key value pair
+_tmpStr := concat('"', key);
+_tmpStr := concat(_tmpStr, '":');
+formateAttribute := concat(_tmpStr, INT_TO_STRING(value));
 RETURN;]]></ST>
       </Implementation>
     </Method>

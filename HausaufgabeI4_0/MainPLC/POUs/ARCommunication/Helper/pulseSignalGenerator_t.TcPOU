@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="pulseSignalGenerator_t" Id="{01888eb9-4423-4900-b8f5-3a0d817cb23e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK pulseSignalGenerator_t
+VAR_INPUT
+	durrationBetweenSignals_ms : UDINT := 10000; 
+END_VAR
+VAR_OUTPUT
+	signal : BOOL;
+END_VAR
+VAR
+	_timer : FB_BA_Blink;
+	_state : BOOL := FALSE; 
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="update" Id="{5d691220-7676-4747-adfa-0c0bb996d1c9}">
+      <Declaration><![CDATA[METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_timer.bEn := TRUE;
+_timer.udiTiOff := durrationBetweenSignals_ms;
+_timer.udiTiOn := 1; 
+
+_timer();
+signal := FALSE;
+IF _timer.bQ = TRUE AND _state := FALSE THEN
+	_state := TRUE;
+	signal := TRUE;
+END_IF
+
+IF _timer.bQ = FALSE AND _state := TRUE THEN
+	_state := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

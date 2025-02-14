@@ -16,5 +16,30 @@
       <From>ARCommunicationSendPacket</From>
       <To>ARCommunicationSendPacket_t</To>
     </RenamedType>
+    <RenamedType>
+      <Type guid="1cae107d-e885-4445-98b1-3989eb7af2ae">ADDATRIBUTE</Type>
+      <From>addAtribute</From>
+      <To>addAttributeBool</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="c7fed67b-ada5-4e34-9fc1-b0c345e3d063">ADDATTRIBUTE</Type>
+      <From>addAttribute</From>
+      <To>addAttributeString</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="01888eb9-4423-4900-b8f5-3a0d817cb23e">PULSSIGNALGENERATOR_T</Type>
+      <From>pulsSignalGenerator_t</From>
+      <To>pulseSignalGenerator_t</To>
+    </RenamedType>
+    <RenamedSymbol>
+      <Type guid="01888eb9-4423-4900-b8f5-3a0d817cb23e">pulseSignalGenerator_t</Type>
+      <From>durrationBetween_ms</From>
+      <To>durrationBetweenSignals_ms</To>
+    </RenamedSymbol>
+    <RenamedType>
+      <Type guid="d0a45f95-5802-464a-a0be-827492e9acdf">VALUETOKENPAIR_T</Type>
+      <From>valueTokenPair_t</From>
+      <To>keyValuePair_t</To>
+    </RenamedType>
   </Renames>
 </Refactors>
