@@ -74,12 +74,12 @@ END_IF
 _ARDevice.nHostPort := 1880;
 _ARDevice.sHostName := '192.168.3.223';
 _ARDevice.sUri := 'ws/PLC';
-_ARDevice.bKeepAlive := TRUE;
+_ARDevice.bKeepAlive := FALSE;
 _ARDevice.nConnectResponseTimeout := 60;
 _ARDevice.nKeepAliveCloseTimeout := 60;
 //_ARDevice.stTLS.bNoServerCertCheck := TRUE;
 _ARDevice.bPerMessageDeflate := FALSE;
-_ARDevice.sOrigin := 'ws/PLC';
+//_ARDevice.sOrigin := 'ws/PLC';
 _ARDevice.Execute();
 _ARDevice.Connect(TRUE);]]></ST>
       </Implementation>
@@ -103,7 +103,7 @@ END_VAR
         <ST><![CDATA[_reconectSignal.durrationBetweenSignals_ms := 10000; // 10s
 _reconectSignal.update();
 
-IF _initialConnect = FALSE THEN // initial connection
+IF _initialConnect = FALSE AND _reconectSignal.signal = TRUE THEN // initial connection
 	_initialConnect := true;
 	THIS^.startConnection();
 	_ARDevice.Execute();
