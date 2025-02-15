@@ -6,7 +6,7 @@ VAR
 signalStatusLamp : SignalStatusLamp_t;
 
 systemStatus : systemStatus_t := systemStatus_t.STOPPED;
-ARDevice : ARDeviceAPI_t;
+ARDevice : ARCommunication_t;
 
 IOExpantionHandler : IOExpantionHandler_t;
 
@@ -23,7 +23,12 @@ BuffDiagMess :Array[0..236] of byte;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
+      <ST><![CDATA[//IF ARDevice.getConnectionStatus() = FALSE AND firstWSConnect = TRUE THEN
+//	firstWSConnect := FALSE;
+	//ARCommunication.startConnection(); 
+//END_IF;
+
+IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
 	//ARCommunication.sendNewMessage(ADR(testStr)); // test for websocet connection
 END_IF
