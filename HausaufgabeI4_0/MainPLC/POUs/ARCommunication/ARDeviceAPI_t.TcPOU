@@ -65,7 +65,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF message := 'ERROR' THEN
+        <ST><![CDATA[IF message = 'ERROR' THEN
 	{info 'TODO: Implement error handeling for this case (throw a warning or something)'}
 	deconstructMessage := FALSE;
 	RETURN;
@@ -93,7 +93,7 @@ WHILE len(message) <> 0 DO
 	END_IF
 	
 	// extract key and value out of key value pair
-	_ValTokenDelimitorIndex := find(_activeKeyValuePair, ':');
+	_ValTokenDelimitorIndex := find(_activeValueTokenPair, ':');
 	
 	IF(_ValTokenDelimitorIndex = 0) THEN // wut?
 		{info: 'trow a warning and drop packet, something is wrong'}
@@ -101,9 +101,9 @@ WHILE len(message) <> 0 DO
 		RETURN;
 	END_IF
 	
-	_activeKeyValuePair.key := left(_activeKeyValuePair, _valTokenDelimitorIndex - 1);
-	delete(_activeKeyValuePair, _valTokenDelimitorIndex, 1);
-	_activeKeyValuePair.value := _activeKeyValuePair;
+	_activeKeyValuePair.key := left(_activeValueTokenPair, _valTokenDelimitorIndex - 1);
+	delete(_activeValueTokenPair, _valTokenDelimitorIndex, 1);
+	_activeKeyValuePair.value := _activeValueTokenPair;
 	
 	delete(_activeKeyValuePair.key, 1, 1);
 	delete(_activeKeyValuePair.key, 1, len(_activeKeyValuePair.value));
@@ -115,7 +115,7 @@ END_WHILE
 
 // interprete every value
 FOR i := 0 TO 50 DO
-	IF _buffer[i].key := '' THEN // end of buffer reached
+	IF _buffer[i].key = '' THEN // end of buffer reached
 		deconstructMessage := TRUE;
 		RETURN;
 	END_IF

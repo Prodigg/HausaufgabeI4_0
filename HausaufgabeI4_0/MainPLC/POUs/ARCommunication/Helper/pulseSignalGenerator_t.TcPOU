@@ -28,12 +28,12 @@ _timer.udiTiOn := 1;
 
 _timer();
 signal := FALSE;
-IF _timer.bQ = TRUE AND _state := FALSE THEN
+IF _timer.bQ = TRUE AND _state = FALSE THEN
 	_state := TRUE;
 	signal := TRUE;
 END_IF
 
-IF _timer.bQ = FALSE AND _state := TRUE THEN
+IF _timer.bQ = FALSE AND _state = TRUE THEN
 	_state := FALSE;
 END_IF]]></ST>
       </Implementation>

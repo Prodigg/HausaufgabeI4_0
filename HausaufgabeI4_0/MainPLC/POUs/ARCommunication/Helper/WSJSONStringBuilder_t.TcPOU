@@ -39,13 +39,13 @@ END_VAR]]></Declaration>
         <ST><![CDATA[_keyValuePair := formateAttributeINT(key, value);
 
 IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 255 THEN // length of existing string + new keyValuePar + '{' + '}'
-	addAttributeString := FALSE; 
+	addAttributeINT := FALSE; 
 	RETURN;
 END_IF
 
 _str := concat(_str, concat(_keyValuePair, ',')); // apped key value pair to string with ',' at the end
 
-addAttributeString := TRUE;
+addAttributeINT := TRUE;
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -144,14 +144,14 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF LEN(key) + len(INT_TO_STRING(value)) + 3 > 255  THEN // return error if string is too long
-	formateAttribute := 'ERROR';
+	formateAttributeINT := 'ERROR';
 	RETURN;
 END_IF
 
 // formate key value pair
 _tmpStr := concat('"', key);
 _tmpStr := concat(_tmpStr, '":');
-formateAttribute := concat(_tmpStr, INT_TO_STRING(value));
+formateAttributeINT := concat(_tmpStr, INT_TO_STRING(value));
 RETURN;]]></ST>
       </Implementation>
     </Method>

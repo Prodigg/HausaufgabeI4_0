@@ -10,6 +10,7 @@ END_VAR
 VAR
 	_ARDevice : ARCommunicationWSExtention_t;
 	_initialConnect : BOOL := FALSE;
+	_reconectSignal : pulseSignalGenerator_t;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -71,14 +72,15 @@ END_IF
 
 
 _ARDevice.nHostPort := 1880;
-_ARDevice.sHostName := 'localhost';
+_ARDevice.sHostName := '192.168.3.223';
 _ARDevice.sUri := 'ws/PLC';
-_ARDevice.bKeepAlive := FALSE;
+_ARDevice.bKeepAlive := TRUE;
 _ARDevice.nConnectResponseTimeout := 60;
 _ARDevice.nKeepAliveCloseTimeout := 60;
 //_ARDevice.stTLS.bNoServerCertCheck := TRUE;
 _ARDevice.bPerMessageDeflate := FALSE;
 _ARDevice.sOrigin := 'ws/PLC';
+_ARDevice.Execute();
 _ARDevice.Connect(TRUE);]]></ST>
       </Implementation>
     </Method>
@@ -88,11 +90,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF NOT _ARDevice.bConnected THEN
-	RETURN;
-END_IF
-
-_ARDevice.Disconnect();]]></ST>
+        <ST><![CDATA[_ARDevice.Disconnect();]]></ST>
       </Implementation>
     </Method>
     <Method Name="update" Id="{25efbe41-3ef8-45cc-91e3-4ad477496cc8}">
@@ -102,13 +100,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _initialConnect = FALSE THEN // initial connection
+        <ST><![CDATA[_reconectSignal.durrationBetweenSignals_ms := 10000; // 10s
+_reconectSignal.update();
+
+IF _initialConnect = FALSE THEN // initial connection
 	_initialConnect := true;
 	THIS^.startConnection();
+	_ARDevice.Execute();
 END_IF
 
-IF _ARDevice.eConnectionState = ETcIotWebSocketStatus.WS_STATUS_SOCK_NO_CONN THEN 
-	THIS^.stopConnection();
+IF _ARDevice.eConnectionState = ETcIotWebSocketStatus.WS_STATUS_SOCK_NO_CONN AND _reconectSignal.signal = TRUE THEN 
+	//THIS^.stopConnection();
+	//_ARDevice.Execute();
+	//THIS^.startConnection();
 END_IF
 
 IF _ARDevice.bConnected = FALSE AND _ARDevice.eConnectionState <> ETcIotWebSocketStatus.WS_STATUS_BUSY THEN // retry if connection is lost
