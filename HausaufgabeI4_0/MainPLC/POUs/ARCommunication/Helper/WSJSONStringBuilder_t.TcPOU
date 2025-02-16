@@ -90,7 +90,7 @@ END_IF
 _lastCharOfStr := right(_str, 1);
 
 IF _lastCharOfStr = ',' THEN // check if last character is a ','
-	delete(_str, 1, len(_str) - 1);
+	_str := delete(_str, 1, len(_str));
 END_IF
 
 // wrap key value pair list

@@ -6,7 +6,7 @@ VAR
 signalStatusLamp : SignalStatusLamp_t;
 
 systemStatus : systemStatus_t := systemStatus_t.STOPPED;
-ARDevice : ARCommunication_t;
+ARDevice : ARDeviceAPI_t;
 
 IOExpantionHandler : IOExpantionHandler_t;
 

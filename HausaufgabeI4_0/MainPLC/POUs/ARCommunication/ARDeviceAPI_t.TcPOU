@@ -164,13 +164,19 @@ _ARCommunication.sendNewMessage(_WSRequestBiuilder.build());
 METHOD update : BOOL
 VAR_INPUT
 END_VAR
-]]></Declaration>
+VAR
+	test : bool := false;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[_ARCommunication.update();
 _reSendSignal.update();
 
+IF _ARCommunication.getConnectionStatus() = FALSE THEN
+	return;
+END_IF
+
 // check for changes to send
-IF detectNewState() OR _reSendSignal.signal THEN
+IF detectNewState() OR _reSendSignal.signal  THEN
 	sendData();
 END_IF
 

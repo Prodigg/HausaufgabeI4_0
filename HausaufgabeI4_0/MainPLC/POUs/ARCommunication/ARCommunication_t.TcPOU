@@ -108,7 +108,7 @@ END_VAR
 END_IF
 
 IF _ARDevice.eConnectionState = ETcIotWebSocketStatus.WS_STATUS_SOCK_NO_CONN THEN 
-	THIS^.stopConnection();
+	//THIS^.stopConnection();
 END_IF
 
 IF _ARDevice.bConnected = FALSE AND _ARDevice.eConnectionState <> ETcIotWebSocketStatus.WS_STATUS_BUSY THEN // retry if connection is lost
