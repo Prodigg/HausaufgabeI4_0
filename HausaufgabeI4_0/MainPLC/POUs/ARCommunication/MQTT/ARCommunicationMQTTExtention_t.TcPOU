@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARCommunicationMQTTExtention_t" Id="{d1cc8469-cf02-4488-a7f1-6242361a8b0e}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'} 
+FUNCTION_BLOCK ARCommunicationMQTTExtention_t EXTENDS FB_IotMqttClient
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+
+VAR
+	_newMessageAvalable : BOOL := FALSE;	
+
+	(* received message *)
+	{attribute 'TcEncoding':='UTF-8'}
+	sTopicRcv : STRING(255);
+	{attribute 'TcEncoding':='UTF-8'}
+	sPayloadRcv : STRING(255);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="getPayload" Id="{9cef113e-ae9f-49da-99d6-fc09f56d6a95}">
+      <Declaration><![CDATA[METHOD getPayload : string(255)
+{attribute 'c++_compatible'}
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getPayload := sPayloadRcv;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="newMessageAvalable" Id="{6af65c4c-f13b-41dc-83c5-2406fa96aebf}">
+      <Declaration><![CDATA[PROPERTY newMessageAvalable : BOOL
+{attribute 'c++_compatible'}]]></Declaration>
+      <Get Name="Get" Id="{768c67cf-5b35-4de3-a6b6-be989d2fd79a}">
+        <Declaration><![CDATA[{attribute 'c++_compatible'}
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[newMessageAvalable := _newMessageAvalable;
+return;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{525f935b-939b-4874-a503-237144bd1de8}">
+        <Declaration><![CDATA[{attribute 'c++_compatible'}
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[_newMessageAvalable := newMessageAvalable;
+return;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="OnMqttMessage" Id="{b39d5461-55e4-4d65-9fb4-9ee8938d6d05}">
+      <Declaration><![CDATA[{attribute 'c++_compatible'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+METHOD OnMqttMessage : Tc3_IotBase.HRESULT
+VAR_IN_OUT CONSTANT
+	topic	: STRING;
+END_VAR
+VAR_INPUT
+	(* pointer to payload*)
+	payload	: Tc3_IotBase.PVOID;
+	(* payload size in bytes*)
+	length	: UDINT;
+	qos	: Tc3_IotBase.TcIotMqttQos;
+	repeated	: BOOL;
+END_VAR
+
+VAR
+	nPayloadRcvLen : UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.nMessagesRcv := SUPER^.nMessagesRcv + 1;
+
+STRNCPY( ADR(sTopicRcv), ADR(topic), SIZEOF(sTopicRcv) );
+nPayloadRcvLen := MIN(length, DINT_TO_UDINT(SIZEOF(sPayloadRcv))-1);
+MEMCPY( ADR(sPayloadRcv), payload, nPayloadRcvLen );
+sPayloadRcv[nPayloadRcvLen] := 0;  // ensure a null termination of received string
+
+OnMqttMessage := S_OK;
+
+_newMessageAvalable := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

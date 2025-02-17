@@ -43,12 +43,6 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\ARCommunication\ARCommunication_t.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\ARCommunication\ARCommunicationWSExtention_t.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\ARCommunication\ARDeviceAPI_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -56,6 +50,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ARCommunication\Helper\WSJSONStringBuilder_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\MQTT\ARCommunicationMQTTExtention_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\MQTT\ARCommunicationMQTT_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\Websocket\ARCommunicationWSExtentionWS_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\Websocket\ARCommunicationWS_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\IOExpantionHandler\IOExpantionHandler_t.TcPOU">
@@ -80,6 +86,8 @@
     <Folder Include="GVLs" />
     <Folder Include="POUs\ARCommunication" />
     <Folder Include="POUs\ARCommunication\Helper" />
+    <Folder Include="POUs\ARCommunication\MQTT" />
+    <Folder Include="POUs\ARCommunication\Websocket" />
     <Folder Include="POUs\IOExpantionHandler" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />
@@ -101,6 +109,10 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_IotBase">
       <DefaultResolution>Tc3_IotBase, * (Beckhoff Automation GmbH)</DefaultResolution>

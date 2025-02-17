@@ -16,7 +16,7 @@ VAR
 	_testIn : BOOL := FALSE;
 
 
-	_ARCommunication : ARCommunication_t;
+	_ARCommunication : ARCommunicationMQTT_t;
 	_WSRequestBiuilder : WSJSONStringBuilder_t;
 	_reSendSignal : pulseSignalGenerator_t;
 END_VAR
@@ -42,10 +42,23 @@ END_VAR
       <Implementation>
         <ST><![CDATA[
 IF keyValuePair.key = 'testOut'THEN
-	testOut := STRING_TO_BOOL(keyValuePair.value);
+	testOut := ConvertToBool(keyValuePair.value);
 ELSE
 	; // no other outputs
 END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ConvertToBool" Id="{5a4bd3c7-9c70-49c9-8b97-8a513a85db11}">
+      <Declaration><![CDATA[METHOD PRIVATE ConvertToBool : BOOL
+VAR_INPUT
+	str : string(255);
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[str := delete(str, 1, 1);
+str := delete(str, 1, len(str));
+ConvertToBool := STRING_TO_BOOL(str);
+return;]]></ST>
       </Implementation>
     </Method>
     <Method Name="deconstructMessage" Id="{c8917766-ffdb-4650-be16-995b44ce7078}">
@@ -78,8 +91,8 @@ IF len(message) < 2 THEN
 END_IF
 
 // remove '{' and '}' (no, i'm not processing the JSON String prperly, but who cares) 
-delete(message, 1, 1);
-delete(message, 1, len(message));
+message := delete(message, 1, 1);
+message := delete(message, 1, len(message));
 
 WHILE len(message) <> 0 DO
 	// extract token
@@ -89,7 +102,7 @@ WHILE len(message) <> 0 DO
 		message := ''; 
 	ELSE // not last token
 		_activeValueTokenPair := left(message, _ValTokenPairDelimitorIndex - 1); 
-		delete(message, _ValTokenPairDelimitorIndex, 1);
+		message := delete(message, _ValTokenPairDelimitorIndex, 1);
 	END_IF
 	
 	// extract key and value out of key value pair
@@ -102,11 +115,11 @@ WHILE len(message) <> 0 DO
 	END_IF
 	
 	_activeKeyValuePair.key := left(_activeValueTokenPair, _valTokenDelimitorIndex - 1);
-	delete(_activeValueTokenPair, _valTokenDelimitorIndex, 1);
+	_activeValueTokenPair := delete(_activeValueTokenPair, _valTokenDelimitorIndex, 1);
 	_activeKeyValuePair.value := _activeValueTokenPair;
 	
-	delete(_activeKeyValuePair.key, 1, 1);
-	delete(_activeKeyValuePair.key, 1, len(_activeKeyValuePair.value));
+	_activeKeyValuePair.key := delete(_activeKeyValuePair.key, 1, 1);
+	_activeKeyValuePair.key := delete(_activeKeyValuePair.key, 1, len(_activeKeyValuePair.key));
 	
 	_buffer[i] := _activeKeyValuePair;
 	

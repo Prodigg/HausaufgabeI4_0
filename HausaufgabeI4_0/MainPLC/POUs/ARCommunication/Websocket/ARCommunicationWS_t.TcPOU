@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="ARCommunication_t" Id="{3697f1d2-5144-45fb-a78b-bb7912cd4429}" SpecialFunc="None">
+  <POU Name="ARCommunicationWS_t" Id="{3697f1d2-5144-45fb-a78b-bb7912cd4429}" SpecialFunc="None">
     <Declaration><![CDATA[// abstracts the ARCommunicationWSExtention
-FUNCTION_BLOCK ARCommunication_t 
+FUNCTION_BLOCK ARCommunicationWS_t 
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_ARDevice : ARCommunicationWSExtention_t;
+	_ARDevice : ARCommunicationWSExtentionWS_t;
 	_initialConnect : BOOL := FALSE;
 END_VAR
 ]]></Declaration>

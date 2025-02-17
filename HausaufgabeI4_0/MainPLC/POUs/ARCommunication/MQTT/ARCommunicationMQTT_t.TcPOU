@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARCommunicationMQTT_t" Id="{a7eca228-367a-4982-aac5-e7872331d073}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ARCommunicationMQTT_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_CommunicationImplementation : ARCommunicationMQTTExtention_t;
+	_publishTopic : STRING(255) := 'PLC'; 
+	_subscribeTopic : STRING(255) := 'ARDevice';
+	
+	
+	_SetParameter : BOOL := TRUE;
+	_Connect : BOOL := TRUE;
+	_errorOccured : HRESULT;
+	_Subscribed : bool := false;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="getConnectionStatus" Id="{0ce8d425-ddab-440e-8a82-1867bdf5ce48}">
+      <Declaration><![CDATA[METHOD getConnectionStatus : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getConnectionStatus := _CommunicationImplementation.bConnected;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getLastMessage" Id="{90ff7c59-e8fd-4c1a-9479-18df55ca5b5a}">
+      <Declaration><![CDATA[METHOD getLastMessage : STRING(255)
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getLastMessage := _CommunicationImplementation.getPayload();
+_CommunicationImplementation.newMessageAvalable := false;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="newMessageRecived" Id="{829f2bc1-4efe-465e-8768-798990821016}">
+      <Declaration><![CDATA[METHOD newMessageRecived : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[newMessageRecived := _CommunicationImplementation.newMessageAvalable;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="sendNewMessage" Id="{0dda6ec9-b484-4775-8868-895af550035a}">
+      <Declaration><![CDATA[METHOD sendNewMessage : BOOL
+VAR_INPUT
+	str : STRING(255); // (max str length 255)
+END_VAR
+
+VAR
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_CommunicationImplementation.Publish(sTopic := _publishTopic, pPayload := ADR(str), nPayloadSize := Len2(ADR(str))+1);
+
+IF _CommunicationImplementation.bError THEN
+	sendNewMessage := FALSE;
+	RETURN;
+END_IF
+
+sendNewMessage := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{a4119c8c-0e17-48c1-910b-de556a85bf5f}">
+      <Declaration><![CDATA[METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _SetParameter THEN
+	_SetParameter := FALSE;
+	_CommunicationImplementation.sHostName:= 'localhost';
+	_CommunicationImplementation.nHostPort:= 1883;
+//	_CommunicationImplementation.sClientId:= 'MyTcMqttClient'; 
+	_CommunicationImplementation.sTopicPrefix:= ''; 
+//	_CommunicationImplementation.nKeepAlive:= 60; 
+//	_CommunicationImplementation.sUserName:= ;
+//	_CommunicationImplementation.sUserPassword:= ; 
+//	_CommunicationImplementation.stWill:= ; 
+//	_CommunicationImplementation.stTLS:= ;
+END_IF
+
+_CommunicationImplementation.Execute(_Connect);
+IF _CommunicationImplementation.bError THEN
+	// add your error logging here
+	_errorOccured := _CommunicationImplementation.hrErrorCode;
+END_IF
+
+IF _CommunicationImplementation.bConnected THEN
+	IF NOT _Subscribed THEN
+		_Subscribed := _CommunicationImplementation.Subscribe(sTopic:=_subscribeTopic, eQoS:=TcIotMqttQos.AtMostOnceDelivery);
+		IF _CommunicationImplementation.bError THEN
+			// add your error logging here
+			_errorOccured := _CommunicationImplementation.hrErrorCode;
+		END_IF
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
