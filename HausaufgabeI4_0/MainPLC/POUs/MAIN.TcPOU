@@ -12,8 +12,6 @@ IOExpantionHandler : IOExpantionHandler_t;
 
 firstWSConnect : BOOL := True;
 
-testStr : STRING := 'PLC start';
-
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	
@@ -56,7 +54,6 @@ END_IF
 // set maschine running lamp 
 InputOutput.OnOffStatusLamp := (systemStatus = systemStatus_t.RUNNING);
 
-
 CASE systemStatus OF
 	systemStatus_t.STOPPED:
 		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.NONE);
@@ -71,6 +68,9 @@ CASE systemStatus OF
 		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.ERROR);
 		
 END_CASE
+
+
+
 
 signalStatusLamp.update();
 

@@ -43,18 +43,17 @@ VAR_INPUT
 	byteVal : BYTE;
 	offset : UINT;
 END_VAR
-VAR
-	_bitByteConverstion : byteToBitConversion_t;
-END_VAR]]></Declaration>
+]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF offset > 7 THEN 
 	convertByteBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
 	RETURN;
 END_IF
 
-_bitByteConverstion.bytes := byteVal;
+IF  TO_BOOL(( byteVal AND (SHL(1, ( offset ))))) = TRUE THEN
+	convertByteBit := TRUE;
+END_IF
 
-convertByteBit := _bitByteConverstion.bits[offset];
 RETURN;
 ]]></ST>
       </Implementation>
@@ -98,49 +97,49 @@ END_VAR
         <ST><![CDATA[{info 'TODO: rename all sensors and test if the imput works'}
 	
 CASE sensorID OF
-	sensorID_t.EXPANTION_SENSOR_X0_0:
+	sensorID_t.SENSOR_B8_CONVAYORBELT_METTAL_PRESENT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 0); 
-	sensorID_t.EXPANTION_SENSOR_X0_1:
+	sensorID_t.SENSOR_B5_STORAGE_ENTRANCE:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 1); 
 		
-	sensorID_t.EXPANTION_SENSOR_X1_0:
+	sensorID_t.SENSOR_B17_GRIPPER_RIGHT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 2); 
-	sensorID_t.EXPANTION_SENSOR_X1_1:
+	sensorID_t.SENSOR_B16_GRIPPER_LEFT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 3); 
 		
-	sensorID_t.EXPANTION_SENSOR_X2_0:
+	sensorID_t.SENSOR_B3_Y3_DOWN:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 4); 
-	sensorID_t.EXPANTION_SENSOR_X2_1:
+	sensorID_t.SENSOR_B4_Y3_UP:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 5); 
 		
-	sensorID_t.EXPANTION_SENSOR_X3_0:
+	sensorID_t.EXPANTION_SENSOR_Y4_UP:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 6); 
-	sensorID_t.EXPANTION_SENSOR_X3_1:
+	sensorID_t.EXPANTION_SENSOR_B11_Y5_INSIDE:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 7); 
 		
-	sensorID_t.EXPANTION_SENSOR_X4_0:
+	sensorID_t.EXPANTION_SENSOR_B7_ENTRANCE_CONVAYORBELT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 0); 
-	sensorID_t.EXPANTION_SENSOR_X4_1:
+	sensorID_t.EXPANTION_SENSOR_B6_PART_SENSOR_METTAL_PRESENT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 1); 
 		
-	sensorID_t.EXPANTION_SENSOR_X5_0:
+	sensorID_t.EXPANTION_SENSOR_B12_PART_TURNTABLE_PRESENT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 2); 
-	sensorID_t.EXPANTION_SENSOR_X5_1:
+	sensorID_t.EXPANTION_SENSOR_Y4_DOWN:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 3); 
 		
-	sensorID_t.EXPANTION_SENSOR_X6_0:
+	sensorID_t.EXPANTION_SENSOR_B10_Y5_OUT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 4); 
-	sensorID_t.EXPANTION_SENSOR_X6_1:
+	sensorID_t.EXPANTION_SENSOR_B18_SENSOR_Y4:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 5); 	
 		
-	sensorID_t.EXPANTION_SENSOR_X7_0:
+	sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 6); 
-	sensorID_t.EXPANTION_SENSOR_X7_1:
+	sensorID_t.EXPANTION_SENSOR_B2_Y2_UP:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 7); 
 		
-	sensorID_t.SENSOR_X6_0:
+	sensorID_t.SENSOR_PNEUMATIC_PRESHURE_OK:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 0); 
-	sensorID_t.SENSOR_X6_1:
+	sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 1); 
 END_CASE
 
