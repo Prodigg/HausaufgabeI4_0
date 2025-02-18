@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="actorID_t" Id="{38fea462-d6ae-4693-9b1a-7a0599fda445}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+{attribute 'to_string'}
+TYPE actorID_t :
+(
+	ACTOR_0 := 0,
+	ACTOR_1,
+	ACTOR_2,
+	ACTOR_3,
+	ACTOR_4,
+	ACTOR_5,
+	ACTOR_6,
+	ACTOR_7,
+	ACTOR_8,
+	ACTOR_9
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

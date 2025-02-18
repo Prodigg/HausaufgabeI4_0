@@ -37,7 +37,9 @@ END_VAR
 
 ]]></ST>
     </Implementation>
-    <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}">
+    <Folder Name="Actors" Id="{331d78da-e993-4575-858d-04a25f792716}" />
+    <Folder Name="Sensors" Id="{d947e11d-c087-42e2-8931-1b1a26035641}" />
+    <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}" FolderPath="Sensors\">
       <Declaration><![CDATA[METHOD PRIVATE convertByteBit : BOOL
 VAR_INPUT
 	byteVal : BYTE;
@@ -50,15 +52,13 @@ END_VAR
 	RETURN;
 END_IF
 
-IF  TO_BOOL(( byteVal AND (SHL(1, ( offset ))))) = TRUE THEN
-	convertByteBit := TRUE;
-END_IF
+convertByteBit := TO_BOOL(( byteVal AND (SHL(1, offset ))));
 
 RETURN;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="extractSensorBit" Id="{1ab0209d-d9ba-432f-bbe3-5c9a3d418c30}">
+    <Method Name="extractSensorBit" Id="{1ab0209d-d9ba-432f-bbe3-5c9a3d418c30}" FolderPath="Sensors\">
       <Declaration><![CDATA[METHOD PRIVATE extractSensorBit : BOOL
 VAR_INPUT
 	sensorByte : UINT; // byte where the sensor is in 
@@ -87,7 +87,7 @@ END_CASE
 RETURN;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}">
+    <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}" FolderPath="Sensors\">
       <Declaration><![CDATA[METHOD getSensorStatus : BOOL
 VAR_INPUT
 	sensorID : sensorID_t;
@@ -144,6 +144,73 @@ CASE sensorID OF
 END_CASE
 
 RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setActor" Id="{ee0a521a-6c67-4dc3-88dd-d9da5401c02a}" FolderPath="Actors\">
+      <Declaration><![CDATA[METHOD setActor : BOOL
+VAR_INPUT
+	actorID : actorID_t;
+	value : BOOL;
+
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+CASE actorID OF
+	actorID_t.ACTOR_0:
+		setActorBit(_FestoPneumaticOutBytes[0], 0, value);
+		
+	actorID_t.ACTOR_1:
+		setActorBit(_FestoPneumaticOutBytes[0], 2, value);
+		
+	actorID_t.ACTOR_2:
+		setActorBit(_FestoPneumaticOutBytes[0], 4, value);
+		
+	actorID_t.ACTOR_3:
+		setActorBit(_FestoPneumaticOutBytes[0], 6, value);
+		
+	actorID_t.ACTOR_4:
+		setActorBit(_FestoPneumaticOutBytes[1], 0, value);	
+		
+	actorID_t.ACTOR_5:
+		setActorBit(_FestoPneumaticOutBytes[1], 2, value);
+		
+	actorID_t.ACTOR_6:
+		setActorBit(_FestoPneumaticOutBytes[1], 4, value);
+		
+	actorID_t.ACTOR_7:
+		setActorBit(_FestoPneumaticOutBytes[1], 6, value);
+		
+	actorID_t.ACTOR_8:
+		setActorBit(_FestoPneumaticOutBytes[2], 0, value);
+		
+	actorID_t.ACTOR_9:
+		setActorBit(_FestoPneumaticOutBytes[2], 2, value);
+	
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setActorBit" Id="{d49d41fc-d7bc-481a-89da-655d607b50bb}" FolderPath="Actors\">
+      <Declaration><![CDATA[METHOD PRIVATE setActorBit : BOOL
+VAR_INPUT
+	byteVal : POINTER TO BYTE;
+	offset : UINT;
+	value : BOOL;
+END_VAR
+VAR
+	tmpByte : BYTE; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF offset > 7 THEN 
+	setActorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
+	RETURN;
+END_IF
+
+tmpByte := (NOT SHL(1, offset)) AND byteVal^;
+
+byteVal^ := TO_BYTE(SHL(TO_INT(value), offset)) OR tmpByte;]]></ST>
       </Implementation>
     </Method>
   </POU>

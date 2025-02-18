@@ -21,6 +21,9 @@
     <Compile Include="DUTs\ARDeviceAPI\keyValuePair_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\IOExpantionHandler\actorID_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\IOExpantionHandler\IOExpantionLocation_t.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
