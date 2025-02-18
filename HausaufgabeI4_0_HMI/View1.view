@@ -1,0 +1,31 @@
+<div id="View1_1"
+     data-tchmi-type="TcHmi.Controls.System.TcHmiView"
+     data-tchmi-top="0" data-tchmi-left="0"
+     data-tchmi-width-mode="Content"
+     data-tchmi-min-width="100" data-tchmi-min-width-unit="%"
+     data-tchmi-height-mode="Content"
+     data-tchmi-min-height="100" data-tchmi-min-height-unit="%"
+     data-tchmi-background-image-height="100" data-tchmi-background-image-width="100"
+     data-tchmi-background-image-height-unit="%" data-tchmi-background-image-width-unit="%">
+
+<div id="TcHmiButton_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="63" data-tchmi-left-unit="px" data-tchmi-text="OUT1" data-tchmi-top="242" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.0%/s%">
+</div>
+<div id="TcHmiButton_2" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="182" data-tchmi-left-unit="px" data-tchmi-text="OUT2" data-tchmi-top="242" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.1%/s%">
+</div>
+<div id="TcHmiButton_3" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="292" data-tchmi-left-unit="px" data-tchmi-text="OUT3" data-tchmi-top="242" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.2%/s%">
+</div>
+<div id="TcHmiButton_4" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="402" data-tchmi-left-unit="px" data-tchmi-text="OUT4" data-tchmi-top="242" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.3%/s%">
+</div>
+<div id="TcHmiButton_5" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="63" data-tchmi-left-unit="px" data-tchmi-text="OUT6" data-tchmi-top="308" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.5%/s%">
+</div>
+<div id="TcHmiButton_6" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="182" data-tchmi-left-unit="px" data-tchmi-text="OUT7" data-tchmi-top="308" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.6%/s%">
+</div>
+<div id="TcHmiButton_7" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="292" data-tchmi-left-unit="px" data-tchmi-text="OUT8" data-tchmi-top="307" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.7%/s%">
+</div>
+<div id="TcHmiButton_8" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="402" data-tchmi-left-unit="px" data-tchmi-text="OUT9" data-tchmi-top="307" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.8%/s%">
+</div>
+<div id="TcHmiButton_9" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="512" data-tchmi-left-unit="px" data-tchmi-text="OUT5" data-tchmi-top="242" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.4%/s%">
+</div>
+<div id="TcHmiButton_10" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="512" data-tchmi-left-unit="px" data-tchmi-text="OUT10" data-tchmi-top="302" data-tchmi-top-unit="px" data-tchmi-width="100" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-state-symbol="%s%ADS.PLC1.MAIN.test.9%/s%">
+</div>
+</div>
