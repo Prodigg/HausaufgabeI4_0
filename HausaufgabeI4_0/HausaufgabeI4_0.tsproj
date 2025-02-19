@@ -44,9 +44,9 @@
 			<Licenses>
 				<Target>
 					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
+					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
 					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
-					<ManualSelect>{2752D285-16AD-4E89-AE6C-80E72784D264}</ManualSelect>
-					<ManualSelect>{F1CFF3CF-B042-45EE-A380-4FB3270F0BA5}</ManualSelect>
+					<ManualSelect>{5002C16A-02B3-4A8C-8C5C-A65EDD0AE398}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -57,7 +57,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{5785D334-330F-CDE1-AFE0-8F4913F24D02}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{CB56C754-0D6E-F1F6-1D6C-304205445FAB}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

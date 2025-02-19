@@ -41,6 +41,14 @@
 	</ImageDatas>
 	<Project ProjectGUID="{141D3244-2A77-47F8-B58E-12F19CE2BD21}" TargetNetId="5.85.199.196.1.1" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
+			<Licenses>
+				<Target>
+					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
+					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
+					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
+					<ManualSelect>{5002C16A-02B3-4A8C-8C5C-A65EDD0AE398}</ManualSelect>
+				</Target>
+			</Licenses>
 			<Tasks>
 				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
