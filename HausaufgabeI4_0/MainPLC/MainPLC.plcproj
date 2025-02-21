@@ -30,6 +30,9 @@
     <Compile Include="DUTs\IOExpantionHandler\sensorID_t.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\MainStateMachine\mainStateMachineStatus_t.TcTLEO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\SignalStatusLampTypes\SignalStatusLampStatus_t.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +73,9 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\MainStateMachine\mainStateMachine_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\SignalStatusLamp\SignalStatusLampComponent_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +87,7 @@
     <Folder Include="DUTs" />
     <Folder Include="DUTs\IOExpantionHandler" />
     <Folder Include="DUTs\ARDeviceAPI" />
+    <Folder Include="DUTs\MainStateMachine" />
     <Folder Include="DUTs\systemOperationalTypes" />
     <Folder Include="DUTs\SignalStatusLampTypes" />
     <Folder Include="GVLs" />
@@ -89,6 +96,7 @@
     <Folder Include="POUs\ARCommunication\MQTT" />
     <Folder Include="POUs\ARCommunication\Websocket" />
     <Folder Include="POUs\IOExpantionHandler" />
+    <Folder Include="POUs\MainStateMachine" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

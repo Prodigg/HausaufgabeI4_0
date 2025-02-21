@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="mainStateMachine_t" Id="{9f3db7fd-339e-404e-ae57-09d5672e0b01}" SpecialFunc="None">
+    <Declaration><![CDATA[// this class implements the main state machine, witch controls the olperations in automatic mode
+FUNCTION_BLOCK mainStateMachine_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	isStateMachineOn : BOOL := FALSE; // is stae machine running or not
+	stateMachineState : mainStateMachineStatus_t := mainStateMachineStatus_t.IDLE;
+	
+	startSceduled : BOOL := FALSE; // if true, the "api" has requested the start of the state machine
+	stopSceduled : BOOL := FALSE; // if true, the "api" has requzested a stop of the state machine
+	
+	isStateMachinePaused : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="states" Id="{121d0710-c7e8-4949-938e-0c69e1e0e6f1}" />
+    <Method Name="convayorbeltStop" Id="{952e6efa-e283-4b75-a1a3-2993de983754}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE convayorbeltStop : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="conveyorbeltStart" Id="{dcc844ae-1f3c-48ab-b197-53a56ec7c7a9}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE conveyorbeltStart : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getIsStateMachineON" Id="{868a684b-d905-4c22-91f8-86c67a1e8e96}">
+      <Declaration><![CDATA[METHOD getIsStateMachineON : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getIsStateMachineON := THIS^.isStateMachineOn;
+
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getStateMachineStatus" Id="{89b636f0-02c6-4d2b-9ac2-d23452efec17}">
+      <Declaration><![CDATA[METHOD getStateMachineStatus : string
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getStateMachineStatus := THIS^.stateMachineState;
+
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperClose" Id="{6c138603-b7ee-4abd-8f05-617a6ccd0484}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperClose : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperDown" Id="{f3564a66-97ee-4ea0-b8c8-2761afa2eabb}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperDown : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperDownLeft" Id="{9440af7c-4ed4-4bc9-99a0-56badac37ecc}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperDownLeft : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperLeft" Id="{becb8350-5ebc-4baa-9215-20cba75396a9}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperLeft : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperOpen" Id="{ade4ac57-e3d4-4cde-879f-38c68d9544ed}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperOpen : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperRight" Id="{13e9e333-1ae9-4386-a023-6be3ef4fb90e}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperRight : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperUp" Id="{ecf9ab35-c926-46b4-9823-3292d16de784}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperUp : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GripperUpLeft" Id="{764b5797-fcfa-46a1-9cde-c148855433ab}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE GripperUpLeft : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="pause" Id="{14c976e5-e4f6-45e4-8ef4-74d75fad6f1d}">
+      <Declaration><![CDATA[// if this function is called, the statemachine pauses its execution and stores its state, all movement will be paused or will wait until all movment is paused. A mutch "safer" alternative to reset()
+METHOD pause : BOOL
+VAR_INPUT
+	isPaused : BOOL := TRUE;	
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^.isStateMachineOn = FALSE THEN
+	pause := FALSE;
+	RETURN;
+END_IF
+
+THIS^.isStateMachinePaused := TRUE; 
+pause := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="reset" Id="{441ca809-6f82-49c0-a489-63e1450c884c}">
+      <Declaration><![CDATA[// WARNING: this function is dangerous, if called the state machine imediatly stopps its execution and all values are reset. No safety is garantied, the stateMachine forces itself ot its original state.
+METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[{warning: 'implement reset of mainStateMachine'}
+
+reset := false;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RotateTable" Id="{1017548a-7cd9-45f6-9342-40ca2603f319}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE RotateTable : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="startStateMachine" Id="{f5dba8c6-86d2-43f3-8c64-6af067308cd4}">
+      <Declaration><![CDATA[// scedules the staret of the state machine
+METHOD startStateMachine : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^.isStateMachineOn = TRUE THEN
+	startStateMachine := FALSE;
+	RETURN;
+END_IF
+
+startSceduled := TRUE;
+
+startStateMachine := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="stopStateMachine" Id="{cbb12bc7-6564-4603-a4b8-86a31d363a31}">
+      <Declaration><![CDATA[METHOD stopStateMachine : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^.isStateMachineOn = FALSE THEN
+	stopStateMachine := FALSE;
+	RETURN;
+END_IF
+
+stopSceduled := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{0f214224-041b-41e6-a893-5b89c83777bd}">
+      <Declaration><![CDATA[// main update function call this every cycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[{warning: implement update FUNCTION}
+
+CASE THIS^.stateMachineState OF
+	mainStateMachineStatus_t.IDLE: 
+		; {warning: 'implement IDLE'}
+		
+	mainStateMachineStatus_t.CONVAYORBELT_START: 
+		THIS^.conveyorbeltStart();
+		
+	mainStateMachineStatus_t.CONVEYORBELT_STOP: 
+		THIS^.convayorbeltStop();
+		
+	mainStateMachineStatus_t.GRIPPER_CLOSE: 
+		THIS^.GripperClose();
+		
+	mainStateMachineStatus_t.GRIPPER_DOWN: 
+		THIS^.GripperDown();
+	
+	mainStateMachineStatus_t.GRIPPER_DOWN_LEFT: 
+		THIS^.GripperDownLeft();
+	
+	mainStateMachineStatus_t.GRIPPER_LEFT: 
+		THIS^.GripperLeft();
+	
+	mainStateMachineStatus_t.GRIPPER_OPEN: 
+		THIS^.GripperOpen();
+	
+	mainStateMachineStatus_t.GRIPPER_RIGHT: 
+		THIS^.GripperRight();
+	
+	mainStateMachineStatus_t.GRIPPER_UP: 
+		THIS^.GripperUp();
+	
+	mainStateMachineStatus_t.GRIPPER_UP_LEFT: 
+		THIS^.GripperUpLeft();
+	
+	mainStateMachineStatus_t.ROTATE_TABLE: 
+		THIS^.RotateTable();
+	
+	mainStateMachineStatus_t.Y10_BACK: 
+		THIS^.Y10Back();
+	
+	mainStateMachineStatus_t.Y10_OUT: 
+		THIS^.Y10Out();
+	
+	mainStateMachineStatus_t.Y2_OUT: 
+		THIS^.Y2Out();
+	
+	mainStateMachineStatus_t.Y3_OUT: 
+		THIS^.Y3Out();
+	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Y10Back" Id="{f57a43fe-ba88-46b2-96ef-5da78a4a72f1}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD Y10Back : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Y10Out" Id="{21c9c945-0e23-4a25-b9ae-e11f21b9b1d2}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE Y10Out : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Y2Out" Id="{8979c68d-14fc-4763-bd99-d3f8db413660}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE Y2Out : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Y3Out" Id="{7a0c2250-9d22-483e-bfbb-688081aa42ea}" FolderPath="states\">
+      <Declaration><![CDATA[METHOD PRIVATE Y3Out : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
