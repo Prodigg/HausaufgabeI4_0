@@ -10,6 +10,8 @@ ARDevice : ARDeviceAPI_t;
 
 IOExpantionHandler : IOExpantionHandler_t;
 
+mainStateMachine : mainStateMachine_t;
+
 firstWSConnect : BOOL := True;
 
 test : ARRAY [0..9] OF BOOL;
@@ -28,13 +30,21 @@ END_VAR
 	//ARCommunication.startConnection(); 
 //END_IF;
 
+// always update mainStateMachine IOExpantionahndler refferance
+mainStateMachine.IOExpantionHandler := ADR(IOExpantionHandler);
+
+
 IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
 	//ARCommunication.sendNewMessage(ADR(testStr)); // test for websocet connection
+	mainStateMachine.startStateMachine(); // start state machine
+	
 END_IF
 	
 IF NOT InputOutput.StopButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN
-	systemStatus := systemStatus_t.STOPPED;
+	systemStatus := systemStatus_t.STOPPED; 
+	mainStateMachine.reset(); {warning: 'for test puroses only'}
+	
 END_IF
 
 IF NOT InputOutput.EmStop THEN
@@ -87,6 +97,8 @@ IOExpantionHandler.setActor(actorID_t.ACTOR_9, test[9]);
 signalStatusLamp.update();
 
 ARDevice.update();
+
+mainStateMachine.update();
 
 // murr test
 ReadDiag(

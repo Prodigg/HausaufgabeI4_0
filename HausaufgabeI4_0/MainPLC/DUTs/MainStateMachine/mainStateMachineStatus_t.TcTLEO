@@ -21,7 +21,7 @@ TYPE mainStateMachineStatus_t :
 	Y10_BACK,
 	Y2_OUT,
 	Y3_OUT,
-	CONVEYORBELT_STOP,
+	CONVEYORBELT_STOP
 );
 END_TYPE
 ]]></Declaration>

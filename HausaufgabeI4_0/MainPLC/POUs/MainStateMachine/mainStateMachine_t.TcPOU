@@ -4,6 +4,7 @@
     <Declaration><![CDATA[// this class implements the main state machine, witch controls the olperations in automatic mode
 FUNCTION_BLOCK mainStateMachine_t
 VAR_INPUT
+	IOExpantionHandler : POINTER TO IOExpantionHandler_t := NULL;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -56,7 +57,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[getStateMachineStatus := THIS^.stateMachineState;
+        <ST><![CDATA[getStateMachineStatus := to_string(THIS^.stateMachineState);
 
 return;]]></ST>
       </Implementation>
@@ -160,6 +161,10 @@ END_VAR
       <Implementation>
         <ST><![CDATA[{warning: 'implement reset of mainStateMachine'}
 
+stateMachineState := mainStateMachineStatus_t.IDLE;
+
+InputOutput.TurnTableMotorTurn := false;
+
 reset := false;
 RETURN;]]></ST>
       </Implementation>
@@ -170,7 +175,19 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// rotate motor
+InputOutput.TurnTableMotorTurn := TRUE;
+
+// check for position of motor
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED) = TRUE THEN
+	// position reached (check if a part is at position)
+	IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B12_PART_TURNTABLE_PRESENT) = TRUE THEN
+		InputOutput.TurnTableMotorTurn := FALSE;
+		//this^.stateMachineState := mainStateMachineStatus_t.GRIPPER_DOWN; // move on to next step
+	END_IF
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="startStateMachine" Id="{f5dba8c6-86d2-43f3-8c64-6af067308cd4}">
@@ -215,9 +232,17 @@ END_VAR
       <Implementation>
         <ST><![CDATA[{warning: implement update FUNCTION}
 
+IF THIS^.IOExpantionHandler = NULL THEN
+	update := FALSE;
+	RETURN;
+END_IF
+
 CASE THIS^.stateMachineState OF
 	mainStateMachineStatus_t.IDLE: 
-		; {warning: 'implement IDLE'}
+		IF startSceduled = TRUE THEN // start state machine
+			startSceduled := FALSE;
+			stateMachineState := mainStateMachineStatus_t.ROTATE_TABLE; 
+		END_IF
 		
 	mainStateMachineStatus_t.CONVAYORBELT_START: 
 		THIS^.conveyorbeltStart();
