@@ -4,8 +4,11 @@
     <Declaration><![CDATA[// supplies the active key/value for the ARDevice. This is the function that implements ARCommunication_t
 FUNCTION_BLOCK ARDeviceAPI_t
 VAR_INPUT
-	// input va<rables for ARDevice
-	testIn : BOOL := FALSE;
+	// input varables for ARDevice
+	lmpRunning : BOOL := FALSE; // true when mashine is running
+	lmpStopped : BOOL := TRUE; // true when machine is stopped
+	lmpError : BOOL := FALSE; // true when machine has an error
+	
 END_VAR
 VAR_OUTPUT
 	// output variables from ARDevice	
@@ -13,8 +16,9 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// sent input (to notice changes in state)	(Inifficiant as hell with more parametewrs but who cares)
-	_testIn : BOOL := FALSE;
-
+	_lmpRunning : BOOL := FALSE; // true when mashine is running
+	_lmpStopped : BOOL := TRUE; // true when machine is stopped
+	_lmpError : BOOL := FALSE; // true when machine has an error
 
 	_ARCommunication : ARCommunicationMQTT_t;
 	_WSRequestBiuilder : WSJSONStringBuilder_t;
@@ -27,6 +31,7 @@ END_VAR
 //		add variable in VAR
 // 		add in sendData an attribute
 // 		add in sendData an update from the VAR_INPUT variable to the VAR variable
+//		add detect new state in detectNewState
 //
 // for adding a new out value
 // 		add variable in VAR_OUTPUT
@@ -145,7 +150,9 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// list all in parameters here
-detectNewState := detectNewState OR (_testIn XOR testIn);
+detectNewState := detectNewState OR (_lmpRunning XOR lmpRunning);
+detectNewState := detectNewState OR (_lmpStopped XOR lmpStopped);
+detectNewState := detectNewState OR (_lmpError XOR lmpError);
 
 return;]]></ST>
       </Implementation>
@@ -161,11 +168,14 @@ END_VAR
 _WSRequestBiuilder.clear();
 
 // add  attributes
-_WSRequestBiuilder.addAttributeBool('testIn', testIn);
-
+_WSRequestBiuilder.addAttributeBool('lmpRunning', lmpRunning);
+_WSRequestBiuilder.addAttributeBool('lmpStopped', lmpStopped);
+_WSRequestBiuilder.addAttributeBool('lmpError', lmpError);
 
 // update states 
-_testIn := testIn;
+_lmpRunning := lmpRunning;
+_lmpStopped := lmpStopped;
+_lmpError := lmpError;
 
 //build and send
 _ARCommunication.sendNewMessage(_WSRequestBiuilder.build());

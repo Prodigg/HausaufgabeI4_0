@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARUIHandler_t" Id="{5e29fe96-56d9-4902-98bd-95d3fa4b77c0}" SpecialFunc="None">
+    <Declaration><![CDATA[// this class implements variaus UI elements for the ARDevice
+FUNCTION_BLOCK ARUIHandler_t
+VAR_INPUT
+	ARDevice : POINTER TO ARDeviceAPI_t := NULL;	
+	systemStatus : POINTER TO systemStatus_t;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_PLCStatusDisplayErrorBlinker : FB_BA_Blink;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="PLCStatusDisplay" Id="{b669cae6-156f-42b2-b4fd-c127ed5ff3a2}">
+      <Declaration><![CDATA[// displays in a status witch 
+METHOD PRIVATE PLCStatusDisplay : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_PLCStatusDisplayErrorBlinker.bEn := TRUE;
+_PLCStatusDisplayErrorBlinker.udiTiOff := 500; // 500 ms
+_PLCStatusDisplayErrorBlinker.udiTiOn := 500;  // 500 ms
+_PLCStatusDisplayErrorBlinker();
+
+
+CASE systemStatus^ OF
+	systemStatus_t.RUNNING:
+		THIS^.ARDevice^.lmpRunning := TRUE;
+		THIS^.ARDevice^.lmpStopped := FALSE;
+		THIS^.ARDevice^.lmpError := FALSE;
+		
+	systemStatus_t.STOPPED:
+		THIS^.ARDevice^.lmpRunning := FALSE;
+		THIS^.ARDevice^.lmpStopped := TRUE;
+		THIS^.ARDevice^.lmpError := FALSE;
+
+	systemStatus_t.ERROR:	
+		THIS^.ARDevice^.lmpRunning := FALSE;
+		THIS^.ARDevice^.lmpStopped := FALSE;
+		THIS^.ARDevice^.lmpError := _PLCStatusDisplayErrorBlinker.bQ;
+
+END_CASE
+
+ ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{34e7badc-3f2c-43ff-8eb1-c1fa5dc964c2}">
+      <Declaration><![CDATA[// update function, call this every cycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF THIS^.ARDevice = NULL THEN
+	update := FALSE;
+	RETURN;
+END_IF
+
+THIS^.PLCStatusDisplay();
+
+update := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
