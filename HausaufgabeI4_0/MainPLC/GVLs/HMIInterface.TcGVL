@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="HMIInterface" Id="{4d023906-a51a-4956-9ce5-a29a374d340f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	HMIStartStatusLamp : UDINT := 16#FF000000; {info: 'not working'}
+	HMIStartMachine : BOOL := FALSE;
+	HMIStopMachine : BOOL := FALSE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

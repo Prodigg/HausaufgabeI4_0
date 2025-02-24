@@ -39,6 +39,10 @@
     <Compile Include="DUTs\systemOperationalTypes\systemStatus_t.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\HMIInterface.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="GVLs\InputOutput.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
