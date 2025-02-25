@@ -16,6 +16,30 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="ControlpannelMessages" Id="{73f6d823-0049-40ae-8073-d519d4158743}">
+      <Declaration><![CDATA[METHOD PRIVATE ControlpannelMessages : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// set controlpannel message relese EM-Stop
+IF NOT inputOutput.EmStop THEN
+	THIS^.ARDevice^.displayEMStop := TRUE;
+ELSE
+	THIS^.ARDevice^.displayEMStop := FALSE;
+END_IF
+
+
+// set controlpannel message press Quitierung
+IF InputOutput.QuittierenLamp = TRUE THEN
+	THIS^.ARDevice^.displayQuittierung := TRUE;
+ELSE
+	THIS^.ARDevice^.displayQuittierung := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="PLCStatusDisplay" Id="{b669cae6-156f-42b2-b4fd-c127ed5ff3a2}">
       <Declaration><![CDATA[// displays in a status witch 
 METHOD PRIVATE PLCStatusDisplay : BOOL
@@ -63,6 +87,7 @@ END_VAR
 END_IF
 
 THIS^.PLCStatusDisplay();
+THIS^.ControlpannelMessages();
 
 update := TRUE;
 RETURN;]]></ST>

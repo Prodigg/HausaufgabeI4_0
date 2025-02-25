@@ -9,6 +9,11 @@ VAR_INPUT
 	lmpStopped : BOOL := TRUE; // true when machine is stopped
 	lmpError : BOOL := FALSE; // true when machine has an error
 	
+	displayEMStop : BOOL := FALSE; // true when EM-Stopp (please relese) message is displayed on the controlpannel
+	displayQuittierung : BOOL := FALSE; // true when Please Press me (Quittierung) is displayed on the controlpannel
+	
+	
+	
 END_VAR
 VAR_OUTPUT
 	// output variables from ARDevice	
@@ -19,6 +24,9 @@ VAR
 	_lmpRunning : BOOL := FALSE; // true when mashine is running
 	_lmpStopped : BOOL := TRUE; // true when machine is stopped
 	_lmpError : BOOL := FALSE; // true when machine has an error
+
+	_displayEMStop : BOOL := FALSE; // true when EM-Stopp (please relese) message is displayed on the controlpannel
+	_displayQuittierung : BOOL := FALSE; // true when Please Press me (Quittierung) is displayed on the controlpannel
 
 	_ARCommunication : ARCommunicationMQTT_t;
 	_WSRequestBiuilder : WSJSONStringBuilder_t;
@@ -154,6 +162,9 @@ detectNewState := detectNewState OR (_lmpRunning XOR lmpRunning);
 detectNewState := detectNewState OR (_lmpStopped XOR lmpStopped);
 detectNewState := detectNewState OR (_lmpError XOR lmpError);
 
+detectNewState := detectNewState OR (_displayEMStop XOR displayEMStop);
+detectNewState := detectNewState OR (_displayQuittierung XOR displayQuittierung);
+
 return;]]></ST>
       </Implementation>
     </Method>
@@ -172,10 +183,16 @@ _WSRequestBiuilder.addAttributeBool('lmpRunning', lmpRunning);
 _WSRequestBiuilder.addAttributeBool('lmpStopped', lmpStopped);
 _WSRequestBiuilder.addAttributeBool('lmpError', lmpError);
 
+_WSRequestBiuilder.addAttributeBool('displayEMStop', displayEMStop);
+_WSRequestBiuilder.addAttributeBool('displayQuittierung', displayQuittierung);
+
 // update states 
 _lmpRunning := lmpRunning;
 _lmpStopped := lmpStopped;
 _lmpError := lmpError;
+
+_displayEMStop := displayEMStop;
+_displayQuittierung := displayQuittierung;
 
 //build and send
 _ARCommunication.sendNewMessage(_WSRequestBiuilder.build());

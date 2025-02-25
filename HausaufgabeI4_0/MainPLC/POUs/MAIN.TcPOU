@@ -35,14 +35,14 @@ ARUIHandler.ARDevice := ADR(ARDevice);
 ARUIHandler.systemStatus := ADR(systemStatus);
 
 
-IF InputOutput.StartButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
+IF (InputOutput.StartButton OR HMIInterface.HMIStartMachine) AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
 	//ARCommunication.sendNewMessage(ADR(testStr)); // test for websocet connection
 	mainStateMachine.startStateMachine(); // start state machine
 	
 END_IF
 	
-IF NOT InputOutput.StopButton AND NOT (systemStatus = systemStatus_t.ERROR) THEN
+IF (NOT InputOutput.StopButton or HMIInterface.HMIStopMachine) AND NOT (systemStatus = systemStatus_t.ERROR) THEN
 	systemStatus := systemStatus_t.STOPPED; 
 	mainStateMachine.reset(); {warning: 'for test puroses only'}
 	
