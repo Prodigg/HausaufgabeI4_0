@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="HMIHandler_t" Id="{ceb94381-ed90-43c9-925f-fa3cce5edc0c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK HMIHandler_t
+VAR_INPUT
+	systemStatus : POINTER TO systemStatus_t;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_PLCStatusDisplayErrorBlinker : FB_BA_Blink;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="statusDisplayMachine" Id="{a22eb489-d856-41a0-81b8-cf1c1e28babf}">
+      <Declaration><![CDATA[METHOD PRIVATE statusDisplayMachine : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_PLCStatusDisplayErrorBlinker.bEn := TRUE;
+_PLCStatusDisplayErrorBlinker.udiTiOff := 500; // 500 ms
+_PLCStatusDisplayErrorBlinker.udiTiOn := 500;  // 500 ms
+_PLCStatusDisplayErrorBlinker();
+
+
+CASE systemStatus^ OF
+	systemStatus_t.RUNNING:
+		HMIInterface.HMIStartStatusLamp := TRUE;
+		HMIInterface.HMIStopStatusLamp := FALSE;
+		HMIInterface.HMIErrorStatusLamp := FALSE;
+		
+	systemStatus_t.STOPPED:
+		HMIInterface.HMIStartStatusLamp := FALSE;
+		HMIInterface.HMIStopStatusLamp := TRUE;
+		HMIInterface.HMIErrorStatusLamp := FALSE;
+
+	systemStatus_t.ERROR:	
+		HMIInterface.HMIStartStatusLamp := FALSE;
+		HMIInterface.HMIStopStatusLamp := FALSE;
+		HMIInterface.HMIErrorStatusLamp := _PLCStatusDisplayErrorBlinker.bQ;
+
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{c2ec0e7d-b831-4ce3-bede-a7d7d46ea402}">
+      <Declaration><![CDATA[// call this methode every cycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[this^.statusDisplayMachine();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

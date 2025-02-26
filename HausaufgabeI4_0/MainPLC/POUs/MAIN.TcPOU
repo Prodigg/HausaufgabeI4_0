@@ -14,6 +14,8 @@ mainStateMachine : mainStateMachine_t;
 
 ARUIHandler : ARUIHandler_t;
 
+HMIHandler : HMIHandler_t;
+
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	
@@ -23,16 +25,15 @@ BuffDiagMess :Array[0..236] of byte;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//IF ARDevice.getConnectionStatus() = FALSE AND firstWSConnect = TRUE THEN
-//	firstWSConnect := FALSE;
-	//ARCommunication.startConnection(); 
-//END_IF;
-
+      <ST><![CDATA[
 // always update mainStateMachine IOExpantionahndler refferance
 mainStateMachine.IOExpantionHandler := ADR(IOExpantionHandler);
 
 ARUIHandler.ARDevice := ADR(ARDevice);
 ARUIHandler.systemStatus := ADR(systemStatus);
+
+
+HMIHandler.systemStatus := ADR(systemStatus);
 
 
 IF (InputOutput.StartButton OR HMIInterface.HMIStartMachine) AND NOT (systemStatus = systemStatus_t.ERROR) THEN 
@@ -88,6 +89,8 @@ ARDevice.update();
 ARUIHandler.update();
 
 mainStateMachine.update();
+
+HMIHandler.update();
 
 // murr test
 ReadDiag(
