@@ -71,7 +71,7 @@ END_VAR
 
 		(*
 		The function convertByteBit(...) only accepts an BYTE not a UINT. A BYTE has 8 bits and a UINT has 16. We need to convert the UINT to a BYTE, 
-		this is non trivial, beacuse if the sensorBit > 7 then we must accsess the other 8 bits. 
+		this is non trivial, beacuse if the sensorBit > 7 then we must accsess the other 8 bits.   
 		
 		 1111  1111   1111  1111 
  		|		   | |			|
