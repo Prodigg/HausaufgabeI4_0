@@ -28,6 +28,19 @@
 				<Elements>7</Elements>
 			</ArrayInfo>
 		</DataType>
+		<DataType>
+			<Name GUID="{3F4C961F-49AB-459A-9710-D1BAC492040C}" PersistentType="true">Events</Name>
+			<DisplayName TxtId=""><![CDATA[NewEventClass_DisplayText]]></DisplayName>
+			<EventId>
+				<Name Id="1">TestEvent</Name>
+				<DisplayName TxtId=""><![CDATA[TestEvent]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{91D85C01-B794-4A9A-936D-9AD8E778E2DC}"/>
+				<Hide GUID="{9245E595-13A8-47A5-BF94-C16453A1EFAA}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<ImageDatas>
 		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ff808080808080808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
@@ -44,8 +57,8 @@
 			<Licenses>
 				<Target>
 					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
-					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
 					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
+					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
 					<ManualSelect>{5002C16A-02B3-4A8C-8C5C-A65EDD0AE398}</ManualSelect>
 				</Target>
 			</Licenses>
@@ -57,7 +70,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{37D77F57-A569-172E-548E-7E5918070CF6}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9ADE7067-DCE9-9AB6-20FD-7559935FA931}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -141,32 +154,7 @@
 						<Var>
 							<Name>MAIN.IOExpantionHandler._IOExpantionIn_0</Name>
 							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._IOExpantionIn_1</Name>
-							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._IOExpantionIn_2</Name>
-							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._IOExpantionIn_3</Name>
-							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._IOExpantionIn_4</Name>
-							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._IOExpantionIn_5</Name>
-							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
-							<Type>BYTE</Type>
+							<Type>UINT</Type>
 						</Var>
 						<Var>
 							<Name>InputOutput.StartButton</Name>
@@ -215,6 +203,18 @@
 						<OwnerA Name="InputDst" Prefix="TIPC^MainPLC^MainPLC Instance" Type="1">
 							<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 9 (54632)">
 								<Link VarA="InputOutput.testIn" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Module 7 (Digital_IN)^TxPDO^PD (C/Q Pin4)" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2025-02-28T15:06:32">
+						<OwnerA Name="InputDst" Prefix="TIPC^MainPLC^MainPLC Instance" Type="1">
+							<OwnerB Name="TIID^Device 3 (EtherCAT)^Box 9 (54632)">
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_0" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 1 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="TypeMismatch" OldTypeA="BYTE" OldGuidA="{18071995-0000-0000-0000-000000000001}" NewTypeA="UINT" NewGuidA="{18071995-0000-0000-0000-000000000005}"/>
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_1" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 2 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_2" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 3 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_3" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 4 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_4" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 5 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="ANotFound"/>
+								<Link VarA="MAIN.IOExpantionHandler._IOExpantionIn_5" TypeA="BYTE" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000001}" VarB="Module 7 (Digital_IN)^TxPDO^PD (C/Q Pin4)" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -1244,12 +1244,7 @@ Bit1: Value smaller than Limit2]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionExpantionInByte_1" VarB="Module 8 (IOL_4/4_I/O-Bytes)^TxPDO^input byte 1"/>
 				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionExpantionInByte_2" VarB="Module 8 (IOL_4/4_I/O-Bytes)^TxPDO^input byte 2"/>
 				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionExpantionInByte_3" VarB="Module 8 (IOL_4/4_I/O-Bytes)^TxPDO^input byte 3"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_0" VarB="Module 1 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_1" VarB="Module 2 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_2" VarB="Module 3 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_3" VarB="Module 4 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_4" VarB="Module 5 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
-				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_5" VarB="Module 7 (Digital_IN)^TxPDO^PD (C/Q Pin4)"/>
+				<Link VarA="PlcTask Inputs^MAIN.IOExpantionHandler._IOExpantionIn_0" VarB="TxPDO Mapping of Digital Inputs^PD (I/Q Pin2 + C/Q Pin4)"/>
 				<Link VarA="PlcTask Outputs^MAIN.IOExpantionHandler._FestoPneumaticOutByte_0" VarB="Module 6 (IOL_0/4_I/O-Bytes)^RxPDO^output byte 0"/>
 				<Link VarA="PlcTask Outputs^MAIN.IOExpantionHandler._FestoPneumaticOutByte_1" VarB="Module 6 (IOL_0/4_I/O-Bytes)^RxPDO^output byte 1"/>
 				<Link VarA="PlcTask Outputs^MAIN.IOExpantionHandler._FestoPneumaticOutByte_2" VarB="Module 6 (IOL_0/4_I/O-Bytes)^RxPDO^output byte 2"/>

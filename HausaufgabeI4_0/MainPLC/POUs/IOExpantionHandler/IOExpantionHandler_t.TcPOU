@@ -22,14 +22,9 @@ VAR
 	
 	_FestoPneumaticOutBytes : ARRAY [0..3] OF POINTER TO BYTE := [ADR(_FestoPneumaticOutByte_0), ADR(_FestoPneumaticOutByte_1), ADR(_FestoPneumaticOutByte_2), ADR(_FestoPneumaticOutByte_3)];
 	
-	_IOExpantionIn_0 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
-	_IOExpantionIn_1 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
-	_IOExpantionIn_2 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
-	_IOExpantionIn_3 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
-	_IOExpantionIn_4 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
-	_IOExpantionIn_5 AT %I* : BYTE; // this input does only have two active bits (bit 0 and bit 1)
+	_IOExpantionIn_0 AT %I* : UINT; // this input does only have two active bits (bit 0 and bit 1)
 	
-	_IOExpantionInBytes : ARRAY [0..5] OF POINTER TO BYTE := [ADR(_IOExpantionIn_0), ADR(_IOExpantionIn_1), ADR(_IOExpantionIn_2), ADR(_IOExpantionIn_3), ADR(_IOExpantionIn_4), ADR(_IOExpantionIn_5)];
+	_IOExpantionInBytes : ARRAY [0..0] OF POINTER TO UINT := [ADR(_IOExpantionIn_0)];
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -69,11 +64,29 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE sensorLocation OF
 	IOExpantionLocation_t.ROOT:
-		IF sensorByte > 5 THEN
+		IF sensorByte > 0 THEN
 			extractSensorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of byte (out of range)" '}
 			RETURN;
 		END_IF
-		extractSensorBit := convertByteBit(byteVal := _IOExpantionInBytes[sensorByte]^, offset := sensorBit);
+
+		(*
+		The function convertByteBit(...) only accepts an BYTE not a UINT. A BYTE has 8 bits and a UINT has 16. We need to convert the UINT to a BYTE, 
+		this is non trivial, beacuse if the sensorBit > 7 then we must accsess the other 8 bits. 
+		
+		 1111  1111   1111  1111 
+ 		|		   | |			|
+		------------ ------------
+		   8 - 15    	0 - 7
+		   
+		For that we must shift the value 8 bits to the right if sensorBit > 7. 
+		For this we use this thing of a math expression: FLOOR(sensorBit / 8) * 8
+		
+		To ajust the offset for the function we use this math expression: sensorBit - FLOOR(sensorBit / 8) * 8 
+		The rest is convertion of data types.
+		
+ 		*)
+		extractSensorBit := convertByteBit(	byteVal := TO_BYTE(SHR(_IOExpantionInBytes[sensorByte]^, TO_UINT(FLOOR(sensorBit / 8) * 8))), 
+											offset := TO_UINT(sensorBit - FLOOR(sensorBit / 8) * 8 ));
 		
 	IOExpantionLocation_t.EXPANTION:
 		IF sensorByte > 1 THEN 
@@ -138,9 +151,9 @@ CASE sensorID OF
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 1, sensorBit := 7); 
 		
 	sensorID_t.SENSOR_PNEUMATIC_PRESHURE_OK:
-		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 0); 
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 0, sensorBit := 12); 
 	sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED:
-		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 5, sensorBit := 1); 
+		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.ROOT, sensorByte := 0, sensorBit := 13); 
 END_CASE
 
 RETURN;]]></ST>

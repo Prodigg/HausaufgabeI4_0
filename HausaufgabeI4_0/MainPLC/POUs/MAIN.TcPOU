@@ -16,6 +16,11 @@ ARUIHandler : ARUIHandler_t;
 
 HMIHandler : HMIHandler_t;
 
+// alarm test
+
+EventTest : ErrorTest;
+
+
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	
@@ -48,6 +53,12 @@ IF (NOT InputOutput.StopButton or HMIInterface.HMIStopMachine) AND NOT (systemSt
 	mainStateMachine.reset(); {warning: 'for test puroses only'}
 	
 END_IF
+
+// push error test
+IF NOT InputOutput.EmStop AND systemStatus <> systemStatus_t.ERROR THEN
+	EventTest();
+END_IF
+
 
 IF NOT InputOutput.EmStop THEN
 	// overwrite systemstatus to force to error state

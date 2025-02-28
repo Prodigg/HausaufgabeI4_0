@@ -74,6 +74,9 @@
     <Compile Include="POUs\ARUIHandler\ARUIHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\ErrorSystem\ErrorTest.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\HMIHandler\HMIHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +112,7 @@
     <Folder Include="POUs\MainStateMachine" />
     <Folder Include="POUs\ARUIHandler" />
     <Folder Include="POUs\HMIHandler" />
+    <Folder Include="POUs\ErrorSystem" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
@@ -122,6 +126,10 @@
       <DefaultResolution>Tc2_EtherCAT, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_EtherCAT</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Math">
+      <DefaultResolution>Tc2_Math, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Math</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -133,6 +141,10 @@
     <PlaceholderReference Include="Tc2_Utilities">
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_EventLogger">
+      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_EventLogger</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_IotBase">
       <DefaultResolution>Tc3_IotBase, * (Beckhoff Automation GmbH)</DefaultResolution>

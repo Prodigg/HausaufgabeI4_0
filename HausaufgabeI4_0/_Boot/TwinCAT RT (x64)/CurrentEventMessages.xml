@@ -249,6 +249,7 @@
 			<Text LcId="1031">Kommende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Info"/>
+		<Text TxtId="NewEventClass_DisplayText"/>
 		<Text TxtId="No malfunction, port X{0}">
 			<Text LcId="1031">Keine Fehlfunktionen, Port X{0}</Text>
 		</Text>
@@ -492,6 +493,7 @@
 		<Text TxtId="See manual of plugged IO-Link Device or IO-Link Specification.">
 			<Text LcId="1031">Siehe Anleitung des gesteckten IO-Link Gerätes oder IO-Link Spezifikation</Text>
 		</Text>
+		<Text TxtId="TestEvent"/>
 	</Translations>
 	<Source>
 		<GUID>{28111931-004F-0000-68D5-000001000000}</GUID>
@@ -1164,5 +1166,13 @@
 			<Name>DisplayTxtId</Name>
 			<Value>true</Value>
 		</Property>
+	</Source>
+	<Source>
+		<GUID>{3F4C961F-49AB-459A-9710-D1BAC492040C}</GUID>
+		<Name>NewEventClass_DisplayText</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>TestEvent</Message>
+		</Event>
 	</Source>
 </TcEventSources>
