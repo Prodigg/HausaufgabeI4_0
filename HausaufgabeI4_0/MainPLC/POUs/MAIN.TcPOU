@@ -63,6 +63,7 @@ END_IF
 IF NOT InputOutput.EmStop THEN
 	// overwrite systemstatus to force to error state
 	systemStatus := systemStatus_t.ERROR; 
+	mainStateMachine.reset(); // reset StateMachine
 END_IF
 
 // reset errors 
