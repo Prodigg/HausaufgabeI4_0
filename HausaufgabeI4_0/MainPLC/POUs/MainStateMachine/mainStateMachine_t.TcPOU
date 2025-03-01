@@ -9,6 +9,8 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	(* main envorment variables *)	
+
 	isStateMachineOn : BOOL := FALSE; // is stae machine running or not
 	stateMachineState : mainStateMachineStatus_t := mainStateMachineStatus_t.IDLE;
 	
@@ -16,6 +18,36 @@ VAR
 	stopSceduled : BOOL := FALSE; // if true, the "api" has requzested a stop of the state machine
 	
 	isStateMachinePaused : BOOL := FALSE;
+	
+	
+	(* RotateTable variables *)	
+	
+	RotateTable_firstRun : BOOL := TRUE; 		// true when RotateTable is run the first time
+	RotateTable_initialState : BOOL := FALSE;	// is the initial state of the TurnTable pos reached sensor
+	RotateTable_waitOnRechingPos : TON;
+	
+	
+	(* GripperDown variables *)
+
+	GripperDown_waitUntilNextStep : TON;	
+	
+	
+	(* GripperClose variables *)
+
+	GripperClose_waitUntilNextStep : TON;	
+	
+	
+	(* GripperUp variables *)
+
+	GripperUp_waitUntilNextStep : TON;	
+	
+	(* GripperDownLeft variables *)
+
+	GripperDownLeft_waitUntilNextStep : TON;	
+	
+	(* GripperOpen variables *)
+
+	GripperOpen_waitUntilNextStep : TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -68,7 +100,27 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[GripperClose_waitUntilNextStep.PT := T#500MS;
+
+// reset TON
+IF GripperClose_waitUntilNextStep.IN = TRUE AND GripperClose_waitUntilNextStep.Q = TRUE THEN
+	GripperClose_waitUntilNextStep.IN := FALSE;
+	GripperClose_waitUntilNextStep();
+END_IF
+
+GripperClose_waitUntilNextStep.IN := TRUE;
+GripperClose_waitUntilNextStep();
+
+IF GripperClose_waitUntilNextStep.Q = TRUE THEN
+	GripperClose_waitUntilNextStep.IN := FALSE;
+	GripperClose_waitUntilNextStep();
+	
+	IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, TRUE);
+	
+	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_UP; // move on to next step
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperDown" Id="{f3564a66-97ee-4ea0-b8c8-2761afa2eabb}" FolderPath="states\">
@@ -77,7 +129,37 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IF GripperDown_waitUntilNextStep.IN = TRUE AND GripperDown_waitUntilNextStep.Q = TRUE THEN
+	GripperDown_waitUntilNextStep.IN := FALSE;
+	GripperDown_waitUntilNextStep();
+END_IF
+
+THIS^.IOExpantionHandler^.setActor(actorID_t.ACTOR_4, FALSE);
+
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT) = FALSE THEN
+	// wait (gripper is not on the right)
+	RETURN;
+END_IF
+
+// configure GripperDown_waitUntilNextStep
+GripperDown_waitUntilNextStep.PT := T#500ms;
+
+GripperDown_waitUntilNextStep.IN := TRUE;
+GripperDown_waitUntilNextStep();
+
+
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, TRUE);
+
+IF GripperDown_waitUntilNextStep.Q = FALSE THEN
+	RETURN;
+END_IF
+
+GripperDown_waitUntilNextStep.IN := FALSE;
+GripperDown_waitUntilNextStep();
+
+THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_CLOSE; // move on to next step
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperDownLeft" Id="{9440af7c-4ed4-4bc9-99a0-56badac37ecc}" FolderPath="states\">
@@ -86,7 +168,26 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[GripperDownLeft_waitUntilNextStep.PT := T#1S;
+
+IF GripperDownLeft_waitUntilNextStep.IN = TRUE AND GripperDownLeft_waitUntilNextStep.Q = TRUE THEN
+	GripperDownLeft_waitUntilNextStep.IN := FALSE;
+	GripperDownLeft_waitUntilNextStep();
+END_IF
+
+GripperDownLeft_waitUntilNextStep.IN := TRUE;
+GripperDownLeft_waitUntilNextStep();
+
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, TRUE);
+
+IF GripperDownLeft_waitUntilNextStep.Q = TRUE THEN
+	GripperDownLeft_waitUntilNextStep.IN := FALSE;
+	GripperDownLeft_waitUntilNextStep();	
+	
+	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_OPEN; // move on to next step
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperLeft" Id="{becb8350-5ebc-4baa-9215-20cba75396a9}" FolderPath="states\">
@@ -95,7 +196,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_4, FALSE);
+
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT) = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_DOWN_LEFT; // move on to next step
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperOpen" Id="{ade4ac57-e3d4-4cde-879f-38c68d9544ed}" FolderPath="states\">
@@ -104,7 +210,24 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[GripperOpen_waitUntilNextStep.PT := T#200MS;
+
+IF GripperOpen_waitUntilNextStep.IN = TRUE AND GripperOpen_waitUntilNextStep.Q = TRUE THEN
+	GripperOpen_waitUntilNextStep.IN := FALSE;
+	GripperOpen_waitUntilNextStep();
+END_IF
+
+GripperOpen_waitUntilNextStep.IN := TRUE;
+GripperOpen_waitUntilNextStep();
+
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, FALSE);
+
+IF GripperOpen_waitUntilNextStep.Q = TRUE THEN
+	GripperOpen_waitUntilNextStep.IN := FALSE;
+	GripperOpen_waitUntilNextStep();
+
+	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_UP_LEFT; // move on to next step
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperRight" Id="{13e9e333-1ae9-4386-a023-6be3ef4fb90e}" FolderPath="states\">
@@ -120,9 +243,29 @@ END_VAR
       <Declaration><![CDATA[METHOD PRIVATE GripperUp : BOOL
 VAR_INPUT
 END_VAR
+VAR 
+	
+END_VAR
+
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[GripperUp_waitUntilNextStep.PT := T#500MS;
+
+IF GripperUp_waitUntilNextStep.IN = TRUE AND GripperUp_waitUntilNextStep.Q = TRUE THEN
+	GripperUp_waitUntilNextStep.IN := FALSE;
+	GripperUp_waitUntilNextStep();
+END_IF
+
+GripperUp_waitUntilNextStep.IN := TRUE;
+GripperUp_waitUntilNextStep();
+
+
+IF GripperUp_waitUntilNextStep.Q = TRUE THEN
+	IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
+	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_LEFT; // move on to next step
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="GripperUpLeft" Id="{764b5797-fcfa-46a1-9cde-c148855433ab}" FolderPath="states\">
@@ -163,7 +306,10 @@ END_VAR
 
 stateMachineState := mainStateMachineStatus_t.IDLE;
 
-InputOutput.TurnTableMotorTurn := false;
+InputOutput.TurnTableMotorTurn := FALSE;
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_4, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, FALSE);
 
 reset := false;
 RETURN;]]></ST>
@@ -175,19 +321,65 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// rotate motor
-InputOutput.TurnTableMotorTurn := TRUE;
+        <ST><![CDATA[// configure RotateTable_waitOnRechingPos
+RotateTable_waitOnRechingPos.PT := T#500MS;
+
+
+RotateTable_waitOnRechingPos();
+
+// move the gripper away, because he is too low (the sensor for detecting workpices will detect the gripper :( )
+IOExpantionHandler^.setActor(actorID_t.ACTOR_4, TRUE);
+
+// wait until the gripper has moved away
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT) = FALSE THEN
+	RETURN;
+END_IF
+
+// run initialsie code if it is the first time it is ran
+IF THIS^.RotateTable_firstRun = TRUE THEN
+	THIS^.RotateTable_firstRun := FALSE;
+	THIS^.RotateTable_initialState := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED);
+	RotateTable_waitOnRechingPos.IN := FALSE; // make shure this is false when starting
+END_IF
+
+
+IF RotateTable_waitOnRechingPos.IN = FALSE THEN
+	// rotate motor
+	InputOutput.TurnTableMotorTurn := TRUE;
+END_IF
+
+
+IF THIS^.RotateTable_initialState = TRUE THEN
+	IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED) = TRUE THEN 
+		RETURN; // return if the SENSOR_B13_TURNTABLE_POS_REACHED isn't false and was truie when the state started
+	ELSE 
+		RotateTable_initialState := FALSE; // job of initialstate achived (set to false to stop further involvment)
+	END_IF 
+END_IF
 
 // check for position of motor
 IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED) = TRUE THEN
+	RotateTable_waitOnRechingPos.IN := TRUE;
+	InputOutput.TurnTableMotorTurn := FALSE; 
+	IF RotateTable_waitOnRechingPos.Q = FALSE THEN
+		RETURN; // return if time hasn't passed
+	END_IF
+
 	// position reached (check if a part is at position)
 	IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B12_PART_TURNTABLE_PRESENT) = TRUE THEN
 		InputOutput.TurnTableMotorTurn := FALSE;
-		//this^.stateMachineState := mainStateMachineStatus_t.GRIPPER_DOWN; // move on to next step
+		THIS^.RotateTable_firstRun := TRUE;
+		RotateTable_waitOnRechingPos.IN := FALSE;
+		RotateTable_waitOnRechingPos();
+		THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_DOWN; // move on to next step
+	ELSE 
+		
+		// reset function and move on to the next position
+		RotateTable_waitOnRechingPos.IN := FALSE;
+		RotateTable_waitOnRechingPos();
+		THIS^.RotateTable_firstRun := TRUE;
 	END_IF
-END_IF
-
-]]></ST>
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="startStateMachine" Id="{f5dba8c6-86d2-43f3-8c64-6af067308cd4}">
@@ -239,10 +431,11 @@ END_IF
 
 CASE THIS^.stateMachineState OF
 	mainStateMachineStatus_t.IDLE: 
-		IF startSceduled = TRUE THEN // start state machine
-			startSceduled := FALSE;
+		IF THIS^.startSceduled = TRUE THEN // start state machine
+			THIS^.startSceduled := FALSE;
 			stateMachineState := mainStateMachineStatus_t.ROTATE_TABLE; 
 		END_IF
+		THIS^.startSceduled := FALSE;
 		
 	mainStateMachineStatus_t.CONVAYORBELT_START: 
 		THIS^.conveyorbeltStart();
@@ -275,6 +468,7 @@ CASE THIS^.stateMachineState OF
 		THIS^.GripperUpLeft();
 	
 	mainStateMachineStatus_t.ROTATE_TABLE: 
+		THIS^.startSceduled := FALSE; // HACK: don't know why in idle the state doesn't get reset, and I don't care, this thing works :)
 		THIS^.RotateTable();
 	
 	mainStateMachineStatus_t.Y10_BACK: 
