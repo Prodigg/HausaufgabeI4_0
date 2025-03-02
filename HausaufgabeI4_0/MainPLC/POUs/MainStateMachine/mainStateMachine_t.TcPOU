@@ -572,6 +572,7 @@ IF Y10Back_waitUntilNextStep.IN = TRUE AND Y10Back_waitUntilNextStep.Q = TRUE TH
 END_IF
 
 Y10Back_waitUntilNextStep.IN := TRUE;
+Y10Back_waitUntilNextStep();
 
 IF B8 = FALSE AND B5 = FALSE AND B6 = TRUE THEN
 	THIS^.stateMachineState := mainStateMachineStatus_t.Y2_OUT; // move on to next step
