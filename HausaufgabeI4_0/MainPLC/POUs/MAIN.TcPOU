@@ -48,10 +48,13 @@ IF (InputOutput.StartButton OR HMIInterface.HMIStartMachine) AND NOT (systemStat
 	
 END_IF
 	
-IF (NOT InputOutput.StopButton or HMIInterface.HMIStopMachine) AND NOT (systemStatus = systemStatus_t.ERROR) THEN
+IF (NOT InputOutput.StopButton OR HMIInterface.HMIStopMachine) THEN
+	mainStateMachine.stopStateMachine(); 
+	systemStatus := systemStatus_t.STOPPING; 
+END_IF
+
+IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachineON() = FALSE THEN
 	systemStatus := systemStatus_t.STOPPED; 
-	mainStateMachine.reset(); {warning: 'for test puroses only'}
-	
 END_IF
 
 // push error test
@@ -92,7 +95,10 @@ CASE systemStatus OF
 		
 	systemStatus_t.ERROR:
 		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.ERROR);
-		
+	
+	systemStatus_t.STOPPING:
+		signalStatusLamp.setStatus(status:=SignalStatusLampStatus_t.STOPPING);
+	
 END_CASE
 
 signalStatusLamp.update();

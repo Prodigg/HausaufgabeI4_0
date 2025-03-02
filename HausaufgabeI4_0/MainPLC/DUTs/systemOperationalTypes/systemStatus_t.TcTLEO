@@ -9,7 +9,8 @@ TYPE systemStatus_t :
 	STOPPED := 0,
 	STARTING := 1,
 	RUNNING := 2,
-	ERROR := 3
+	ERROR := 3,
+	STOPPING := 4
 );
 END_TYPE
 ]]></Declaration>
@@ -35,6 +36,11 @@ END_TYPE
             <o>
               <v n="TextID">"ERROR"</v>
               <v n="TextDefault">"3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"STOPPING"</v>
+              <v n="TextDefault">"4"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

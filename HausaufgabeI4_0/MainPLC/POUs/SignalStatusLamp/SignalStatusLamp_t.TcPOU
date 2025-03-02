@@ -79,6 +79,11 @@ CASE _status OF
  		_signalLampYellow.setStatus(active := FALSE);
 		_signalLampRed.setStatus(active := FALSE);
 	
+	SignalStatusLampStatus_t.STOPPING:
+		_signalLampGreen.setStatus(active := TRUE, blinking := TRUE, timeOnMS := 200, timeOffMS := 200);
+ 		_signalLampYellow.setStatus(active := FALSE);
+		_signalLampRed.setStatus(active := FALSE);
+	
 ELSE
 	// TODO: add exeption for this case (it's impossible)
 	_signalLampGreen.setStatus(active := FALSE);

@@ -182,7 +182,7 @@ CASE actorID OF
 	actorID_t.ACTOR_3:
 		setActorBit(_FestoPneumaticOutBytes[0], 6, value);
 		
-	actorID_t.ACTOR_4:
+	actorID_t.ACTOR_GRIPPER_RIGHT_LEFT:
 		setActorBit(_FestoPneumaticOutBytes[1], 0, value);	
 		
 	actorID_t.ACTOR_GRIPPER_OPEN_CLOSE:
@@ -191,13 +191,13 @@ CASE actorID OF
 	actorID_t.ACTOR_GRIPPER_UP_DOWN:
 		setActorBit(_FestoPneumaticOutBytes[1], 4, value);
 		
-	actorID_t.ACTOR_7:
+	actorID_t.ACTOR_Y1_OUT:
 		setActorBit(_FestoPneumaticOutBytes[1], 6, value);
 		
-	actorID_t.ACTOR_8:
+	actorID_t.ACTOR_Y2_OUT:
 		setActorBit(_FestoPneumaticOutBytes[2], 0, value);
 		
-	actorID_t.ACTOR_9:
+	actorID_t.ACTOR_Y3_OUT:
 		setActorBit(_FestoPneumaticOutBytes[2], 2, value);
 	
 END_CASE

@@ -45,9 +45,23 @@ VAR
 
 	GripperDownLeft_waitUntilNextStep : TON;	
 	
+	
 	(* GripperOpen variables *)
 
 	GripperOpen_waitUntilNextStep : TON;
+	
+	(* GripperUpLeft variables *)
+
+	GripperUpLeft_waitUntilNextStep : TON;
+	
+	(* Y10Out variables *)
+
+	Y10Out_waitUntilNextStep : TON;
+	
+	
+	(* Y10Back variables *)
+
+	Y10Back_waitUntilNextStep : TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -60,7 +74,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y2_OUT, false);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y3_OUT, false);
+InputOutput.ConvaorbeltMotorRun := FALSE;
+
+THIS^.stateMachineState := mainStateMachineStatus_t.IDLE; // move on to next step]]></ST>
       </Implementation>
     </Method>
     <Method Name="conveyorbeltStart" Id="{dcc844ae-1f3c-48ab-b197-53a56ec7c7a9}" FolderPath="states\">
@@ -69,7 +87,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[InputOutput.ConvaorbeltMotorRun := TRUE;
+
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B7_ENTRANCE_CONVAYORBELT) = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.Y10_BACK; // move on to next step
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="getIsStateMachineON" Id="{868a684b-d905-4c22-91f8-86c67a1e8e96}">
@@ -134,7 +156,7 @@ END_VAR
 	GripperDown_waitUntilNextStep();
 END_IF
 
-THIS^.IOExpantionHandler^.setActor(actorID_t.ACTOR_4, FALSE);
+THIS^.IOExpantionHandler^.setActor(actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, FALSE);
 
 IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT) = FALSE THEN
 	// wait (gripper is not on the right)
@@ -197,7 +219,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[
-IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_4, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, true);
 
 IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT) = TRUE THEN
 	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_DOWN_LEFT; // move on to next step
@@ -274,7 +296,29 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[GripperUpLeft_waitUntilNextStep.PT := T#500MS;
+
+IF GripperUpLeft_waitUntilNextStep.IN = TRUE AND GripperUpLeft_waitUntilNextStep.Q = TRUE THEN
+	GripperUpLeft_waitUntilNextStep.IN := FALSE;
+	GripperUpLeft_waitUntilNextStep();
+END_IF
+
+
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
+
+GripperUpLeft_waitUntilNextStep.IN := TRUE;
+GripperUpLeft_waitUntilNextStep();	
+
+IF GripperUpLeft_waitUntilNextStep.Q = TRUE THEN
+	GripperUpLeft_waitUntilNextStep.IN := FALSE;
+	GripperUpLeft_waitUntilNextStep();	
+
+	IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B7_ENTRANCE_CONVAYORBELT) = TRUE THEN
+		THIS^.stateMachineState := mainStateMachineStatus_t.CONVAYORBELT_START; // move on to next step
+	ELSE 
+		THIS^.stateMachineState := mainStateMachineStatus_t.Y10_OUT; // move on to next step
+	END_IF;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="pause" Id="{14c976e5-e4f6-45e4-8ef4-74d75fad6f1d}">
@@ -308,8 +352,13 @@ stateMachineState := mainStateMachineStatus_t.IDLE;
 
 InputOutput.TurnTableMotorTurn := FALSE;
 IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
-IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_4, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, TRUE);
 IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y1_OUT, FALSE);
+InputOutput.ConvaorbeltMotorRun := false;
+
+
+THIS^.isStateMachineOn := false;
 
 reset := false;
 RETURN;]]></ST>
@@ -328,7 +377,7 @@ RotateTable_waitOnRechingPos.PT := T#500MS;
 RotateTable_waitOnRechingPos();
 
 // move the gripper away, because he is too low (the sensor for detecting workpices will detect the gripper :( )
-IOExpantionHandler^.setActor(actorID_t.ACTOR_4, TRUE);
+IOExpantionHandler^.setActor(actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, TRUE);
 
 // wait until the gripper has moved away
 IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT) = FALSE THEN
@@ -378,6 +427,8 @@ IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTAB
 		RotateTable_waitOnRechingPos.IN := FALSE;
 		RotateTable_waitOnRechingPos();
 		THIS^.RotateTable_firstRun := TRUE;
+		InputOutput.TurnTableMotorTurn := FALSE;
+		THIS^.stateMachineState := mainStateMachineStatus_t.IDLE; // move on to next step
 	END_IF
 END_IF]]></ST>
       </Implementation>
@@ -412,6 +463,7 @@ END_VAR
 END_IF
 
 stopSceduled := TRUE;
+stopStateMachine := TRUE;
 return;]]></ST>
       </Implementation>
     </Method>
@@ -433,9 +485,19 @@ CASE THIS^.stateMachineState OF
 	mainStateMachineStatus_t.IDLE: 
 		IF THIS^.startSceduled = TRUE THEN // start state machine
 			THIS^.startSceduled := FALSE;
+			THIS^.isStateMachineOn := TRUE;
 			stateMachineState := mainStateMachineStatus_t.ROTATE_TABLE; 
 		END_IF
 		THIS^.startSceduled := FALSE;
+		
+		IF THIS^.stopSceduled = TRUE THEN
+			THIS^.stopSceduled := FALSE;
+			THIS^.isStateMachineOn := FALSE;
+		END_IF
+		
+		IF THIS^.isStateMachineOn = TRUE THEN
+			stateMachineState := mainStateMachineStatus_t.ROTATE_TABLE; 
+		END_IF
 		
 	mainStateMachineStatus_t.CONVAYORBELT_START: 
 		THIS^.conveyorbeltStart();
@@ -490,9 +552,42 @@ END_CASE]]></ST>
       <Declaration><![CDATA[METHOD Y10Back : BOOL
 VAR_INPUT
 END_VAR
-]]></Declaration>
+VAR
+	B8 : BOOL := FALSE;
+	B5 : BOOL := FALSE;
+	B6 : bool := false;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y1_OUT, FALSE);
+
+B8 := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B8_CONVAYORBELT_METTAL_PRESENT);
+B5 := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B5_STORAGE_ENTRANCE);
+B6 := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B6_PART_SENSOR_METTAL_PRESENT);
+
+Y10Back_waitUntilNextStep.PT := T#10S;
+
+IF Y10Back_waitUntilNextStep.IN = TRUE AND Y10Back_waitUntilNextStep.Q = TRUE THEN
+	Y10Back_waitUntilNextStep.IN := FALSE;
+	Y10Back_waitUntilNextStep();
+END_IF
+
+Y10Back_waitUntilNextStep.IN := TRUE;
+
+IF B8 = FALSE AND B5 = FALSE AND B6 = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.Y2_OUT; // move on to next step
+	Y10Back_waitUntilNextStep.IN := FALSE;
+	Y10Back_waitUntilNextStep();
+	
+ELSIF B8 = TRUE AND B5 = FALSE and B6 = true THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.Y3_OUT; // move on to next step
+	Y10Back_waitUntilNextStep.IN := FALSE;
+	Y10Back_waitUntilNextStep();
+	
+ELSIF Y10Back_waitUntilNextStep.Q = TRUE AND B5 = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.CONVEYORBELT_STOP; // move on to next step
+	Y10Back_waitUntilNextStep.IN := FALSE;
+	Y10Back_waitUntilNextStep();
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Y10Out" Id="{21c9c945-0e23-4a25-b9ae-e11f21b9b1d2}" FolderPath="states\">
@@ -501,7 +596,25 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[Y10Out_waitUntilNextStep.PT := T#100MS;
+
+IF Y10Out_waitUntilNextStep.IN = TRUE AND Y10Out_waitUntilNextStep.Q = TRUE THEN
+	Y10Out_waitUntilNextStep.IN := FALSE;
+	Y10Out_waitUntilNextStep();
+END_IF
+
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y1_OUT, TRUE);
+
+Y10Out_waitUntilNextStep.IN := TRUE;
+Y10Out_waitUntilNextStep();
+
+IF Y10Out_waitUntilNextStep.Q = TRUE THEN
+	Y10Out_waitUntilNextStep.IN := FALSE;
+	Y10Out_waitUntilNextStep();
+	
+	THIS^.stateMachineState := mainStateMachineStatus_t.CONVAYORBELT_START; // move on to next step
+END_IF
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="Y2Out" Id="{8979c68d-14fc-4763-bd99-d3f8db413660}" FolderPath="states\">
@@ -510,7 +623,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y2_OUT, TRUE);
+
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B5_STORAGE_ENTRANCE) = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.CONVEYORBELT_STOP; // move on to next step
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="Y3Out" Id="{7a0c2250-9d22-483e-bfbb-688081aa42ea}" FolderPath="states\">
@@ -519,7 +636,11 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y3_OUT, TRUE);
+
+IF IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B5_STORAGE_ENTRANCE) = TRUE THEN
+	THIS^.stateMachineState := mainStateMachineStatus_t.CONVEYORBELT_STOP; // move on to next step
+END_IF]]></ST>
       </Implementation>
     </Method>
   </POU>
