@@ -74,7 +74,13 @@
     <Compile Include="POUs\ARUIHandler\ARUIHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\ErrorSystem\ErrorTest.TcPOU">
+    <Compile Include="POUs\ErrorSystem\ErrorManager.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\formatPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\SendErrorMessage.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\HMIHandler\HMIHandler_t.TcPOU">
@@ -108,11 +114,11 @@
     <Folder Include="POUs\ARCommunication\Helper" />
     <Folder Include="POUs\ARCommunication\MQTT" />
     <Folder Include="POUs\ARCommunication\Websocket" />
+    <Folder Include="POUs\ErrorSystem" />
     <Folder Include="POUs\IOExpantionHandler" />
     <Folder Include="POUs\MainStateMachine" />
     <Folder Include="POUs\ARUIHandler" />
     <Folder Include="POUs\HMIHandler" />
-    <Folder Include="POUs\ErrorSystem" />
     <Folder Include="POUs\SignalStatusLamp" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

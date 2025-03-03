@@ -25,6 +25,8 @@ VAR
 	_IOExpantionIn_0 AT %I* : UINT; // this input does only have two active bits (bit 0 and bit 1)
 	
 	_IOExpantionInBytes : ARRAY [0..0] OF POINTER TO UINT := [ADR(_IOExpantionIn_0)];
+	
+	_ErrorMessage : FB_TcMessage;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -40,10 +42,18 @@ VAR_INPUT
 	byteVal : BYTE;
 	offset : UINT;
 END_VAR
-]]></Declaration>
+
+VAR
+	_tmpStr: STRING;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF offset > 7 THEN 
-	convertByteBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
+	convertByteBit := FALSE; 
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.invalidAccsessOfBitInByte, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.Send(0);
 	RETURN;
 END_IF
 
@@ -60,12 +70,20 @@ VAR_INPUT
 	sensorBit : UINT;  // bit from the sensor
 	sensorLocation : IOExpantionLocation_t; // location of the sensor
 END_VAR
-]]></Declaration>
+
+VAR
+	_tmpStr: STRING;
+END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[CASE sensorLocation OF
 	IOExpantionLocation_t.ROOT:
 		IF sensorByte > 0 THEN
-			extractSensorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of byte (out of range)" '}
+			extractSensorBit := FALSE; 
+			_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.invalidAccsessOfByte, 0 );
+			_ErrorMessage.ipArguments.AddString(__POUNAME());
+			_tmpStr := formatPosition(__POSITION());
+			_ErrorMessage.ipArguments.AddString(_tmpStr);
+			_ErrorMessage.Send(0);
 			RETURN;
 		END_IF
 
@@ -90,7 +108,12 @@ END_VAR
 		
 	IOExpantionLocation_t.EXPANTION:
 		IF sensorByte > 1 THEN 
-			extractSensorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of byte (out of range)" '}
+			extractSensorBit := FALSE; 
+			_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.invalidAccsessOfByte, 0 );
+			_ErrorMessage.ipArguments.AddString(__POUNAME());
+			_tmpStr := formatPosition(__POSITION());
+			_ErrorMessage.ipArguments.AddString(_tmpStr);
+			_ErrorMessage.Send(0);
 			RETURN;
 		END_IF
 	
@@ -107,9 +130,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[{info 'TODO: rename all sensors and test if the imput works'}
-	
-CASE sensorID OF
+        <ST><![CDATA[CASE sensorID OF
 	sensorID_t.SENSOR_B8_CONVAYORBELT_METTAL_PRESENT:
 		getSensorStatus := extractSensorBit(sensorLocation := IOExpantionLocation_t.EXPANTION, sensorByte := 0, sensorBit := 0); 
 	sensorID_t.SENSOR_B5_STORAGE_ENTRANCE:
@@ -213,11 +234,17 @@ VAR_INPUT
 END_VAR
 VAR
 	tmpByte : BYTE; 
+	_tmpStr: STRING;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[
 IF offset > 7 THEN 
-	setActorBit := FALSE; {info 'TODO: integrate in error handeling syastem (sevarity: critical error) "invalid accsess of bit in byte (out of range)" '}
+	setActorBit := FALSE; 
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.invalidAccsessOfByte, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.Send(0);
 	RETURN;
 END_IF
 

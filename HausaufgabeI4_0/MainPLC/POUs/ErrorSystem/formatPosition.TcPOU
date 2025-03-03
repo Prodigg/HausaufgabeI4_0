@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="formatPosition" Id="{1075b43e-ff6a-411c-9cb0-072427781207}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION formatPosition : STRING
+VAR_INPUT
+	line : STRING; 
+END_VAR
+VAR
+	_line : STRING;
+	lineNumber : STRING;
+	delimitorIndex : INT := 0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// remove stuf indfront and in the back
+_line := line;
+
+_line := delete(_line, 6, 1);
+_line := delete(_line, 7, len(_line)-6);
+
+// extract line number
+delimitorIndex := find(_line, ',');
+lineNumber := left(_line, delimitorIndex - 1);
+_line := delete(_line, delimitorIndex + 8, 1);
+
+// formate string
+formatPosition := CONCAT(lineNumber, concat(':', _line));
+RETURN;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

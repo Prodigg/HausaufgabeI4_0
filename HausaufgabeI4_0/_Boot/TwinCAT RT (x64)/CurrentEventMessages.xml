@@ -4,6 +4,7 @@
 		<Text TxtId="Data Storage upload completed and new data object available, port X{0}">
 			<Text LcId="1031">Data Storage Upload abgeschlossen und neues Datenobjekt vorhanden, Port X{0}</Text>
 		</Text>
+		<Text TxtId="Emergency Stop Pressed"/>
 		<Text TxtId="IMPACT67 Pro EC DIO8 IOL8"/>
 		<Text TxtId="Incoming diagnosis: Backup inconsistency – Data Storage unspecific error, port X{0}">
 			<Text LcId="1031">Kommende Diagnose: Backup Inkonsistenz – Unspezifischer Data Storage Fehler, Port X{0}</Text>
@@ -249,10 +250,10 @@
 			<Text LcId="1031">Kommende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Info"/>
-		<Text TxtId="NewEventClass_DisplayText"/>
 		<Text TxtId="No malfunction, port X{0}">
 			<Text LcId="1031">Keine Fehlfunktionen, Port X{0}</Text>
 		</Text>
+		<Text TxtId="Operational Errors"/>
 		<Text TxtId="Outgoing diagnosis: Backup inconsistency – Data Storage unspecific error, port X{0}">
 			<Text LcId="1031">Gehende Diagnose: Backup Inkonsistenz – Unspezifischer Data Storage Fehler, Port X{0}</Text>
 		</Text>
@@ -490,10 +491,12 @@
 		<Text TxtId="Outgoing diagnosis: Wrong serial number, port X{0}">
 			<Text LcId="1031">Gehende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
+		<Text TxtId="Programming Errors"/>
 		<Text TxtId="See manual of plugged IO-Link Device or IO-Link Specification.">
 			<Text LcId="1031">Siehe Anleitung des gesteckten IO-Link Gerätes oder IO-Link Spezifikation</Text>
 		</Text>
-		<Text TxtId="TestEvent"/>
+		<Text TxtId="{0}:{1}: invalid accsess of bit in byte (out of range)"/>
+		<Text TxtId="{0}:{1}: invalid accsess of byte (out of range)"/>
 	</Translations>
 	<Source>
 		<GUID>{28111931-004F-0000-68D5-000001000000}</GUID>
@@ -1168,11 +1171,23 @@
 		</Property>
 	</Source>
 	<Source>
-		<GUID>{3F4C961F-49AB-459A-9710-D1BAC492040C}</GUID>
-		<Name>NewEventClass_DisplayText</Name>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
 		<Event>
 			<Id>1</Id>
-			<Message>TestEvent</Message>
+			<Message>Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}</GUID>
+		<Name>Programming Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>{0}:{1}: invalid accsess of byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message>{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
 		</Event>
 	</Source>
 </TcEventSources>

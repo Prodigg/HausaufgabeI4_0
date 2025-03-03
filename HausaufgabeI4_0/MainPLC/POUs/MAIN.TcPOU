@@ -16,9 +16,8 @@ ARUIHandler : ARUIHandler_t;
 
 HMIHandler : HMIHandler_t;
 
-// alarm test
-
-EventTest : ErrorTest;
+_ErrorMessage : FB_TcMessage;
+_tmpStr : STRING := '';
 
 
 //murr test
@@ -58,8 +57,12 @@ IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachine
 END_IF
 
 // push error test
-IF NOT InputOutput.EmStop AND systemStatus <> systemStatus_t.ERROR THEN
-	EventTest();
+IF NOT InputOutput.EmStop AND systemStatus <> systemStatus_t.ERROR THEN 
+ 			_ErrorMessage.CreateEx(TC_EVENTS.OperationalErrors.EmStopPressed, 0 ); {info 'TODO: make this a alarm and not a message'}
+			_ErrorMessage.ipArguments.AddString(__POUNAME());
+			_tmpStr := formatPosition(__POSITION());
+			_ErrorMessage.ipArguments.AddString(_tmpStr);
+			_ErrorMessage.Send(0);
 END_IF
 
 

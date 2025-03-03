@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="SendErrorMessage" Id="{350d1a04-5c84-4457-af14-48add8ed2a1f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION SendErrorMessage : BOOL
+VAR_INPUT
+	message : REFERENCE TO FB_TcMessage;
+	position : STRING;
+	POUNAME : STRING;
+END_VAR
+VAR
+	_tmpStr : STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[message.ipArguments.AddString(__POUNAME());
+_tmpStr := formatPosition(__POSITION());
+message.ipArguments.AddString(_tmpStr);
+message.Send(0);
+
+SendErrorMessage := TRUE;
+RETURN;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
