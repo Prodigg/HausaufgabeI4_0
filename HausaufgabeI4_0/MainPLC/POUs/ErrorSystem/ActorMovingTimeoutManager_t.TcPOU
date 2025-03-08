@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ActorMovingTimeoutManager_t" Id="{fff9c1b2-51b3-4eec-8c38-6a9acb04029a}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ActorMovingTimeoutManager_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_actorMovingTimeoutArray : ARRAY [0..99] OF  ActorMovingTimeoutEx_t;
+	_maxActorMovingTimeoutIndex : UINT := 99;
+	_currentActorMovingTimeoutIndex : UINT := 0;
+	_ErrorMessage : FB_TcMessage;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="clear" Id="{cecb2be1-a49c-4614-921e-7d6cddc5c2d3}">
+      <Declaration><![CDATA[// clears and destroyes all AcrtorMovingTimeouts
+METHOD clear : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_currentActorMovingTimeoutIndex := 0;
+
+clear := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="confirmAll" Id="{bea66ee6-fb8d-459e-94ff-d78f6959e9f8}">
+      <Declaration><![CDATA[// confirm all ActorMovingTimeouts
+METHOD confirmAll : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// confirm all alarms
+FOR i := 0 TO _currentActorMovingTimeoutIndex DO
+	_actorMovingTimeoutArray[i].ActorMovingTimeout.confirm();
+END_FOR
+
+confirmAll := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="register" Id="{64105265-799a-4bd6-924d-73adbbb8cc17}">
+      <Declaration><![CDATA[// register a ActorMovingTimeout
+METHOD register : BOOL
+VAR_INPUT
+	stEventEntity : TcEventEntry;
+	timerTime : TIME; // sets the timer for the timeout
+	conformation : BOOL := TRUE; 
+	sensor1 : POINTER TO BOOL;
+	sensor2 : POINTER TO BOOL := NULL;
+	sensor3 : POINTER TO BOOL := NULL;
+END_VAR
+
+VAR
+	_tmpStr: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _currentActorMovingTimeoutIndex + 1 > _maxActorMovingTimeoutIndex THEN
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ExceedingAllowedAmountOfActorMovingTimeoutTimeouts, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.ipArguments.AddUInt(_maxActorMovingTimeoutIndex);
+	_ErrorMessage.Send(0);
+	
+	register := FALSE;
+	RETURN;
+END_IF
+
+IF sensor1 = NULL THEN
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ActorMovingTimeoutNoValidSensorGiven, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.Send(0);
+	
+	register := FALSE;
+	RETURN;
+END_IF
+
+_currentActorMovingTimeoutIndex := _currentActorMovingTimeoutIndex + 1; // increase it by one
+
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].ActorMovingTimeout.register(stEventEntity, timerTime, conformation);
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr1 := sensor1;
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr2 := sensor2;
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr3 := sensor3;
+
+register := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resetAll" Id="{92a23032-4379-464b-8387-9afaa9d76b53}">
+      <Declaration><![CDATA[// reset all ActorMovingTimeoutos
+METHOD resetAll : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// confirm all alarms
+FOR i := 0 TO _currentActorMovingTimeoutIndex DO
+	_actorMovingTimeoutArray[i].ActorMovingTimeout.reset();
+END_FOR
+
+resetAll := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{2dfe6d55-94e1-4ae2-968b-3be731b86c29}">
+      <Declaration><![CDATA[// update all ActorMovingTimeout, call this every cycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+	_sensor : bool := false;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _actorMovingTimeoutArray[i].sensorPtr1 = NULL THEN
+	update := false;
+	RETURN;
+END_IF
+
+FOR i := 0 TO _currentActorMovingTimeoutIndex DO
+	_sensor := _actorMovingTimeoutArray[i].sensorPtr1^;
+	IF _actorMovingTimeoutArray[i].sensorPtr2 <> NULL THEN
+		_sensor := _sensor OR _actorMovingTimeoutArray[1].sensorPtr2^;
+	END_IF
+	IF _actorMovingTimeoutArray[i].sensorPtr3 <> NULL THEN
+		_sensor := _sensor OR _actorMovingTimeoutArray[1].sensorPtr3^;
+	END_IF
+	_actorMovingTimeoutArray[i].ActorMovingTimeout.update(_sensor);
+END_FOR
+
+update := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

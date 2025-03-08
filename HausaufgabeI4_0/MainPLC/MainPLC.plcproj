@@ -21,6 +21,9 @@
     <Compile Include="DUTs\ARDeviceAPI\keyValuePair_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ErrorSystem\ActorMovingTimeoutEx_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\IOExpantionHandler\actorID_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -46,6 +49,9 @@
     <Compile Include="GVLs\InputOutput.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="Klassendiagramm.TcCD">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
@@ -74,7 +80,13 @@
     <Compile Include="POUs\ARUIHandler\ARUIHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\ErrorSystem\ErrorManager.TcPOU">
+    <Compile Include="POUs\ErrorSystem\ActorMovingTimeout_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\ActorMovingTimeoutManager_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\ErrorManager_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ErrorSystem\formatPosition.TcPOU">
@@ -107,6 +119,7 @@
     <Folder Include="DUTs\IOExpantionHandler" />
     <Folder Include="DUTs\ARDeviceAPI" />
     <Folder Include="DUTs\MainStateMachine" />
+    <Folder Include="DUTs\ErrorSystem" />
     <Folder Include="DUTs\systemOperationalTypes" />
     <Folder Include="DUTs\SignalStatusLampTypes" />
     <Folder Include="GVLs" />

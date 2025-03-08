@@ -495,6 +495,8 @@
 		<Text TxtId="See manual of plugged IO-Link Device or IO-Link Specification.">
 			<Text LcId="1031">Siehe Anleitung des gesteckten IO-Link Gerätes oder IO-Link Spezifikation</Text>
 		</Text>
+		<Text TxtId="{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)"/>
+		<Text TxtId="{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})"/>
 		<Text TxtId="{0}:{1}: invalid accsess of bit in byte (out of range)"/>
 		<Text TxtId="{0}:{1}: invalid accsess of byte (out of range)"/>
 	</Translations>
@@ -1171,15 +1173,7 @@
 		</Property>
 	</Source>
 	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}</GUID>
+		<GUID>{29F9E186-55B3-4045-B3B7-ECAE08D047ED}</GUID>
 		<Name>Programming Errors</Name>
 		<Event>
 			<Id>1</Id>
@@ -1188,6 +1182,22 @@
 		<Event>
 			<Id>2</Id>
 			<Message>{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message>{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message>{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 </TcEventSources>

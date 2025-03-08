@@ -29,7 +29,7 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}" PersistentType="true">ProgrammingErrors</Name>
+			<Name GUID="{29F9E186-55B3-4045-B3B7-ECAE08D047ED}" PersistentType="true">ProgrammingErrors</Name>
 			<DisplayName TxtId=""><![CDATA[Programming Errors]]></DisplayName>
 			<EventId>
 				<Name Id="1">invalidAccsessOfByte</Name>
@@ -41,6 +41,16 @@
 				<DisplayName TxtId=""><![CDATA[{0}:{1}: invalid accsess of bit in byte (out of range)]]></DisplayName>
 				<Severity>Critical</Severity>
 			</EventId>
+			<EventId>
+				<Name Id="3">ExceedingAllowedAmountOfActorMovingTimeoutTimeouts</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ActorMovingTimeoutNoValidSensorGiven</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
 			<Hides>
 				<Hide GUID="{91D85C01-B794-4A9A-936D-9AD8E778E2DC}"/>
 				<Hide GUID="{9245E595-13A8-47A5-BF94-C16453A1EFAA}"/>
@@ -51,6 +61,8 @@
 				<Hide GUID="{BA09207D-8800-4694-8E6C-A05FE8525932}"/>
 				<Hide GUID="{A43D3695-A16E-4CBB-8939-BE448156FB67}"/>
 				<Hide GUID="{6928A92C-9A0C-4FD7-AB6A-C1FE486505F0}"/>
+				<Hide GUID="{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}"/>
+				<Hide GUID="{FE7A66E3-3EAA-4BB5-8490-6E3FD22832CB}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
@@ -68,10 +80,7 @@
 		<System>
 			<Licenses>
 				<Target>
-					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
-					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
-					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
-					<ManualSelect>{5002C16A-02B3-4A8C-8C5C-A65EDD0AE398}</ManualSelect>
+					<ManualSelect>{B27B051A-CA6A-42EA-833E-82CC92903D83}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -82,7 +91,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{EC414EBC-9FB7-E7DA-ABF5-B6ABE96A5BB6}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{2690A83C-38BB-E1C0-65DB-E8405B67B6FC}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -98,6 +107,22 @@
 						<Var>
 							<Name>MAIN.signalStatusLamp._signalLampRed._SignalStatusLamp</Name>
 							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_0</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_1</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_2</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_3</Name>
+							<Type>BYTE</Type>
 						</Var>
 						<Var>
 							<Name>InputOutput.TurnTableMotorTurn</Name>
@@ -124,42 +149,9 @@
 							<Name>InputOutput.OnOffStatusLamp</Name>
 							<Type>BOOL</Type>
 						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_0</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_1</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_2</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_3</Name>
-							<Type>BYTE</Type>
-						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
-						<Var>
-							<Name>InputOutput.StartButton</Name>
-							<Comment><![CDATA[ inputs]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.StopButton</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.EmStop</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.ResetButton</Name>
-							<Type>BOOL</Type>
-						</Var>
 						<Var>
 							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_0</Name>
 							<Comment><![CDATA[ in byte 0]]></Comment>
@@ -184,6 +176,23 @@
 							<Name>MAIN.IOExpantionHandler._IOExpantionIn_0</Name>
 							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
 							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.StartButton</Name>
+							<Comment><![CDATA[ inputs]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.StopButton</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.EmStop</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.ResetButton</Name>
+							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2025-01-18T16:01:09">

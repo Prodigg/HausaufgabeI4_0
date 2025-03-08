@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ActorMovingTimeoutEx_t" Id="{c902e429-3e3d-4ba9-b54c-43f429a088b6}">
+    <Declaration><![CDATA[// tis is a class that is used by the ActorMovingTimeoutManager
+TYPE ActorMovingTimeoutEx_t :
+STRUCT
+	ActorMovingTimeout : ActorMovingTimeout_t;
+	sensorPtr1 : POINTER TO BOOL := NULL;
+	sensorPtr2 : POINTER TO BOOL := NULL;
+	sensorPtr3 : POINTER TO BOOL := NULL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

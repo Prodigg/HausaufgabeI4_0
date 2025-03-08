@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ActorMovingTimeout_t" Id="{f3f41f7b-8e73-4739-bc75-658a23f6a753}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ActorMovingTimeout_t  
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_alarm : FB_TcAlarm; 	// the alarm object
+	_init : BOOL := FALSE;  // if true the object is initialised
+	_timer : TON; 			// counts the time
+	_sensor : BOOL; 		// if true reset timer
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="confirm" Id="{7074bfe5-b899-469f-bbf3-e3147b59627b}">
+      <Declaration><![CDATA[// confirm the alarm
+METHOD confirm : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _init = FALSE THEN
+	confirm := FALSE; 
+	RETURN;
+END_IF
+
+_alarm.Confirm();
+
+confirm := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="isAlarmRaised" Id="{9a2b46c8-5918-4beb-bab5-0fcdb4329d16}">
+      <Declaration><![CDATA[// returns true if the alarm is raised
+METHOD isAlarmRaised : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _init = FALSE THEN
+	isAlarmRaised := FALSE;
+	return;
+END_IF
+
+isAlarmRaised := _alarm.bRaised;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="register" Id="{d8f783b0-24d7-4051-b052-66edd70897cb}">
+      <Declaration><![CDATA[// registers a error state or reregister an existing error state
+METHOD register : bool
+VAR_INPUT
+	stEventEntity : TcEventEntry;
+	timerTime : TIME; // sets the timer for the timeout
+	conformation : BOOL := TRUE; 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_alarm.CreateEx(stEventEntity, conformation);
+_timer.PT := timerTime;
+_init := TRUE;
+RETURN;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="reset" Id="{1ad239a2-4e66-4c00-8dad-45c8d1b4fdb7}">
+      <Declaration><![CDATA[// resets the alarm. Only use this as a last resort.
+METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _init = FALSE THEN
+	reset := FALSE;
+	RETURN;
+END_IF
+
+_alarm.Confirm();
+_alarm.Clear(TRUE);
+
+_timer.IN := FALSE;
+_timer(); 
+
+reset := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{3366293f-fa44-4d2c-9b3d-cd3a48dd9804}">
+      <Declaration><![CDATA[// call this function every cycle. 
+METHOD update : bool
+VAR_INPUT
+	sensor : bool; // if true the sensor is active and the watchdog resets, if it isn't set, the time starts.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _init = FALSE THEN
+	update := FALSE; 
+	RETURN;
+END_IF
+
+
+
+IF sensor = FALSE THEN
+	_timer := TRUE;
+ELSE 
+	_timer := FALSE;
+END_IF
+
+_timer();
+
+IF _timer.Q THEN
+	// timeout detected
+	_alarm.Raise(); 
+END_IF
+
+IF _alarm.bRaised THEN
+	_alarm.Clear();
+END_IF
+
+update := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

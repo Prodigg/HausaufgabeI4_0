@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<TcEventSources Version="2">
+	<Source>
+		<GUID>{29F9E186-55B3-4045-B3B7-ECAE08D047ED}</GUID>
+		<Name LcId="1033">Programming Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">{0}:{1}: invalid accsess of byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message LcId="1033">{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message LcId="1033">{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message LcId="1033">{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name LcId="1033">Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+</TcEventSources>
