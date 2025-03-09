@@ -31,7 +31,8 @@ TYPE sensorID_t :
 	EXPANTION_SENSOR_B2_Y2_UP,
 	
 	SENSOR_PNEUMATIC_PRESHURE_OK,
-	SENSOR_B13_TURNTABLE_POS_REACHED
+	SENSOR_B13_TURNTABLE_POS_REACHED,
+	SENSOR_NO_SENSOR
 );
 END_TYPE
 ]]></Declaration>
@@ -126,6 +127,11 @@ END_TYPE
             </o>
             <o>
               <v n="TextID">"SENSOR_B13_TURNTABLE_POS_REACHED"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"SENSOR_NO_SENSOR"</v>
               <v n="TextDefault">""</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>

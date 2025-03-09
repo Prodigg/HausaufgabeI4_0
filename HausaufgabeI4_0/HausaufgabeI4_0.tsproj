@@ -65,6 +65,55 @@
 				<Hide GUID="{FE7A66E3-3EAA-4BB5-8490-6E3FD22832CB}"/>
 			</Hides>
 		</DataType>
+		<DataType>
+			<Name GUID="{FC0314E9-7823-4B2F-9D1F-596800A75961}" PersistentType="true">ProgrammingErrors</Name>
+			<DisplayName TxtId=""><![CDATA[Programming Errors]]></DisplayName>
+			<EventId>
+				<Name Id="1">invalidAccsessOfByte</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: invalid accsess of byte (out of range)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">invalidAccsessOfBitInByte</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: invalid accsess of bit in byte (out of range)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">ExceedingAllowedAmountOfActorMovingTimeoutTimeouts</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ActorMovingTimeoutNoValidSensorGiven</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">testError</Name>
+				<DisplayName TxtId=""><![CDATA[This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">NoValidPointerToIOExpantionHandler</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{91D85C01-B794-4A9A-936D-9AD8E778E2DC}"/>
+				<Hide GUID="{9245E595-13A8-47A5-BF94-C16453A1EFAA}"/>
+				<Hide GUID="{3F4C961F-49AB-459A-9710-D1BAC492040C}"/>
+				<Hide GUID="{7462A4FE-F981-4F30-B69A-E4D333E3DD5A}"/>
+				<Hide GUID="{6A6D0CB3-F6CE-4DBF-8633-B0676C999882}"/>
+				<Hide GUID="{69299FB6-29F7-4329-B417-3BE996745562}"/>
+				<Hide GUID="{BA09207D-8800-4694-8E6C-A05FE8525932}"/>
+				<Hide GUID="{A43D3695-A16E-4CBB-8939-BE448156FB67}"/>
+				<Hide GUID="{6928A92C-9A0C-4FD7-AB6A-C1FE486505F0}"/>
+				<Hide GUID="{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}"/>
+				<Hide GUID="{FE7A66E3-3EAA-4BB5-8490-6E3FD22832CB}"/>
+				<Hide GUID="{29F9E186-55B3-4045-B3B7-ECAE08D047ED}"/>
+				<Hide GUID="{00B45F6F-B8A4-4EAE-BFE4-1D5390AC484E}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<ImageDatas>
 		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ff808080808080808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
@@ -81,6 +130,8 @@
 			<Licenses>
 				<Target>
 					<ManualSelect>{B27B051A-CA6A-42EA-833E-82CC92903D83}</ManualSelect>
+					<ManualSelect>{648F394E-7DD1-499C-8112-7C38E161A94C}</ManualSelect>
+					<ManualSelect>{5002C16A-02B3-4A8C-8C5C-A65EDD0AE398}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -91,7 +142,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{93C99025-5857-D565-5FD9-BB8232BACB6A}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{68D856E3-A07B-393C-8998-2F6BBDEC0CAC}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

@@ -8,10 +8,62 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	_actorMovingTimeoutManager : ActorMovingTimeoutManager_t;
+	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="FB_Init" Id="{46c4b88e-ccab-4868-89c7-a634247b2345}">
+      <Declaration><![CDATA[//FB_Init ist immer implizit verfügbar und wird primär für die Initialisierung verwendet.
+//Der Rückgabewert wird nicht ausgewertet. Für gezielte Einflussnahme können Sie
+//die Methoden explizit deklarieren und darin mit dem Standard-Initialisierungscode 
+//zusätzlichen Code bereitstellen. Sie können den Rückgabewert auswerten.
+METHOD FB_Init: BOOL
+VAR_INPUT    
+bInitRetains: BOOL; // TRUE: Die Retain-Variablen werden initialisiert (Reset warm / Reset kalt)    
+bInCopyCode: BOOL;  // TRUE: Die Instanz wird danach in den Kopiercode kopiert (Online-Change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// register all errors
+
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.ProgrammingErrors.testError, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, sensorID2 := sensorID_t.SENSOR_B16_GRIPPER_LEFT);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="reset" Id="{cbb3611f-047d-4b5e-8440-7113467dc56c}">
+      <Declaration><![CDATA[// resets all errors 
+METHOD reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_actorMovingTimeoutManager.resetAll();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setIOExpantionHandler" Id="{7f37fa64-74a8-4cd9-ab1a-fc95bb889207}">
+      <Declaration><![CDATA[METHOD setIOExpantionHandler : BOOL
+VAR_INPUT
+	IOExpantionHandlerPtr : POINTER TO IOExpantionHandler_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
+_actorMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{c40b9498-33aa-41a4-a1e0-fda8c5913e46}">
+      <Declaration><![CDATA[// call this method every sycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _IOExpantionHandler <> NULL THEN
+	_actorMovingTimeoutManager.update();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>

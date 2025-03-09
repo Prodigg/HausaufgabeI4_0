@@ -8,6 +8,9 @@ STRUCT
 	sensorPtr1 : POINTER TO BOOL := NULL;
 	sensorPtr2 : POINTER TO BOOL := NULL;
 	sensorPtr3 : POINTER TO BOOL := NULL;
+	sensorID1 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorID2 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorID3 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

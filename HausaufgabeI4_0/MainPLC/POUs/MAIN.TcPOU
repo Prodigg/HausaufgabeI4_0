@@ -16,6 +16,8 @@ ARUIHandler : ARUIHandler_t;
 
 HMIHandler : HMIHandler_t;
 
+ErrorManager : ErrorManager_t;
+
 _ErrorMessage : FB_TcMessage;
 _tmpStr : STRING := '';
 
@@ -112,6 +114,9 @@ ARUIHandler.update();
 mainStateMachine.update();
 
 HMIHandler.update();
+
+ErrorManager.setIOExpantionHandler(ADR(IOExpantionHandler));
+ErrorManager.update();
 
 // murr test
 ReadDiag(

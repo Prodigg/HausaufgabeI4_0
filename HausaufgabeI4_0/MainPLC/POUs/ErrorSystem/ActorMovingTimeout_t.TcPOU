@@ -79,7 +79,7 @@ END_VAR
 END_IF
 
 _alarm.Confirm();
-_alarm.Clear(TRUE);
+_alarm.Clear(bResetConfirmation := TRUE);
 
 _timer.IN := FALSE;
 _timer(); 
@@ -104,19 +104,19 @@ END_IF
 
 
 IF sensor = FALSE THEN
-	_timer := TRUE;
+	_timer.IN := TRUE;
 ELSE 
-	_timer := FALSE;
+	_timer.IN := FALSE;
 END_IF
 
 _timer();
 
-IF _timer.Q THEN
+IF _timer.Q AND _alarm.bRaised = FALSE THEN
 	// timeout detected
 	_alarm.Raise(); 
 END_IF
 
-IF _alarm.bRaised THEN
+IF _alarm.bRaised AND sensor THEN
 	_alarm.Clear();
 END_IF
 

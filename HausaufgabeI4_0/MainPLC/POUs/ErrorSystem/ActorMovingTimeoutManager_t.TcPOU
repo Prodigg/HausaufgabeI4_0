@@ -12,6 +12,9 @@ VAR
 	_maxActorMovingTimeoutIndex : UINT := 99;
 	_currentActorMovingTimeoutIndex : UINT := 0;
 	_ErrorMessage : FB_TcMessage;
+	_IOExpantionHandler : POINTER TO IOExpantionHandler_t := NULL;
+	
+	_IOExpantionHandlerNotValidErrorSent : BOOL := FALSE;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -59,9 +62,12 @@ VAR_INPUT
 	stEventEntity : TcEventEntry;
 	timerTime : TIME; // sets the timer for the timeout
 	conformation : BOOL := TRUE; 
-	sensor1 : POINTER TO BOOL;
+	sensor1 : POINTER TO BOOL := NULL;
 	sensor2 : POINTER TO BOOL := NULL;
 	sensor3 : POINTER TO BOOL := NULL;
+	sensorID1 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorID2 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorID3 : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
 END_VAR
 
 VAR
@@ -80,7 +86,7 @@ END_VAR]]></Declaration>
 	RETURN;
 END_IF
 
-IF sensor1 = NULL THEN
+IF sensor1 = NULL AND sensor2 = NULL AND sensor3 = NULL AND sensorID1 = sensorID_t.SENSOR_NO_SENSOR AND sensorID2 = sensorID_t.SENSOR_NO_SENSOR AND sensorID3 = sensorID_t.SENSOR_NO_SENSOR THEN
 	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ActorMovingTimeoutNoValidSensorGiven, 0 );
 	_ErrorMessage.ipArguments.AddString(__POUNAME());
 	_tmpStr := formatPosition(__POSITION());
@@ -97,6 +103,9 @@ _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].ActorMovingTimeout.reg
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr1 := sensor1;
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr2 := sensor2;
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr3 := sensor3;
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorID1 := sensorID1;
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorID2 := sensorID2;
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorID3 := sensorID3;
 
 register := TRUE;
 RETURN;]]></ST>
@@ -121,6 +130,75 @@ resetAll := TRUE;
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="resolveSensors" Id="{3b9655b5-52be-42fe-a8aa-bd87eff799ab}">
+      <Declaration><![CDATA[// resolvs the status of the sensors
+METHOD PRIVATE resolveSensors : BOOL
+VAR_INPUT
+	ActorMovingTimeoutEx : ActorMovingTimeoutEx_t;
+END_VAR
+
+VAR
+	_tmpStr: STRING;
+	_sensor: BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _IOExpantionHandler = NULL AND _IOExpantionHandlerNotValidErrorSent = FALSE THEN
+	_IOExpantionHandlerNotValidErrorSent := TRUE;
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.NoValidPointerToIOExpantionHandler, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.ipArguments.AddUInt(_maxActorMovingTimeoutIndex);
+	_ErrorMessage.Send(0);
+END_IF
+
+IF ActorMovingTimeoutEx.sensorPtr1 <> NULL THEN
+	_sensor := _sensor OR ActorMovingTimeoutEx.sensorPtr1^;
+END_IF
+
+IF ActorMovingTimeoutEx.sensorPtr2 <> NULL THEN
+	_sensor := _sensor OR ActorMovingTimeoutEx.sensorPtr2^;
+END_IF
+
+IF ActorMovingTimeoutEx.sensorPtr3 <> NULL THEN
+	_sensor := _sensor OR ActorMovingTimeoutEx.sensorPtr3^;
+END_IF 
+
+// no IOExpantionHandler
+IF _IOExpantionHandler = NULL THEN 
+	resolveSensors := _sensor;
+	RETURN;
+END_IF
+
+IF ActorMovingTimeoutEx.sensorID1 <> sensorID_t.SENSOR_NO_SENSOR THEN
+	_sensor := _sensor OR _IOExpantionHandler^.getSensorStatus(ActorMovingTimeoutEx.sensorID1);
+END_IF
+
+IF ActorMovingTimeoutEx.sensorID2 <> sensorID_t.SENSOR_NO_SENSOR THEN
+	_sensor := _sensor OR _IOExpantionHandler^.getSensorStatus(ActorMovingTimeoutEx.sensorID2);
+END_IF
+
+IF ActorMovingTimeoutEx.sensorID3 <> sensorID_t.SENSOR_NO_SENSOR THEN
+	_sensor := _sensor OR _IOExpantionHandler^.getSensorStatus(ActorMovingTimeoutEx.sensorID3);
+END_IF
+
+resolveSensors := _sensor;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setIOExpantionHandler" Id="{0f094238-3156-46b6-bf88-bbae44f2aede}">
+      <Declaration><![CDATA[// sets the IOExpantionHandler refferance
+METHOD setIOExpantionHandler : BOOL
+VAR_INPUT
+	IOExpantionHandlerPtr : POINTER TO IOExpantionHandler_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
+setIOExpantionHandler := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="update" Id="{2dfe6d55-94e1-4ae2-968b-3be731b86c29}">
       <Declaration><![CDATA[// update all ActorMovingTimeout, call this every cycle
 METHOD update : BOOL
@@ -132,20 +210,8 @@ VAR
 	_sensor : bool := false;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _actorMovingTimeoutArray[i].sensorPtr1 = NULL THEN
-	update := false;
-	RETURN;
-END_IF
-
-FOR i := 0 TO _currentActorMovingTimeoutIndex DO
-	_sensor := _actorMovingTimeoutArray[i].sensorPtr1^;
-	IF _actorMovingTimeoutArray[i].sensorPtr2 <> NULL THEN
-		_sensor := _sensor OR _actorMovingTimeoutArray[1].sensorPtr2^;
-	END_IF
-	IF _actorMovingTimeoutArray[i].sensorPtr3 <> NULL THEN
-		_sensor := _sensor OR _actorMovingTimeoutArray[1].sensorPtr3^;
-	END_IF
-	_actorMovingTimeoutArray[i].ActorMovingTimeout.update(_sensor);
+        <ST><![CDATA[FOR i := 0 TO _currentActorMovingTimeoutIndex DO
+	_actorMovingTimeoutArray[i].ActorMovingTimeout.update(resolveSensors(_actorMovingTimeoutArray[i]));
 END_FOR
 
 update := TRUE;
