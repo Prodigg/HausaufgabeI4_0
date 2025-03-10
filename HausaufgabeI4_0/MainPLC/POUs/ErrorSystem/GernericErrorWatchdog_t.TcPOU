@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="ActorMovingTimeout_t" Id="{f3f41f7b-8e73-4739-bc75-658a23f6a753}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ActorMovingTimeout_t  
+  <POU Name="GernericErrorWatchdog_t" Id="{f3f41f7b-8e73-4739-bc75-658a23f6a753}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK GernericErrorWatchdog_t  
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -11,6 +11,12 @@ VAR
 	_init : BOOL := FALSE;  // if true the object is initialised
 	_timer : TON; 			// counts the time
 	_sensor : BOOL; 		// if true reset timer
+	_isAlarmDisplayed : BOOL := FALSE; // if true, the alarm wasn't deleted from the event logger 
+	_isAlarmClearedLast : BOOL := FALSE; // true when the alarm has been cleard last
+	
+	_eventLogger : FB_TcEventLogger;
+	_eventLoggerSettings : FB_TcClearLoggedEventsSettings;
+	_eventLoggerFilter : FB_TcEventFilter;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -111,13 +117,25 @@ END_IF
 
 _timer();
 
+// clear alarm from log
+IF (_alarm.bActive = FALSE AND _isAlarmDisplayed) OR _isAlarmClearedLast THEN
+	_isAlarmDisplayed := FALSE;
+	_isAlarmClearedLast := FALSE;
+	_eventLoggerFilter.EventClass.EqualTo(value := _alarm.EventClass);
+	_eventLoggerSettings.AddFilter(_eventLoggerFilter);
+	_eventLogger.ClearLoggedEvents(_eventLoggerSettings);
+	_eventLogger.ClearLoggedEvents(_eventLoggerSettings);
+END_IF
+
 IF _timer.Q AND _alarm.bRaised = FALSE THEN
 	// timeout detected
 	_alarm.Raise(); 
+	_isAlarmDisplayed := TRUE; 
 END_IF
 
 IF _alarm.bRaised AND sensor THEN
 	_alarm.Clear();
+	_isAlarmClearedLast := NOT _alarm.bActive;
 END_IF
 
 update := TRUE;

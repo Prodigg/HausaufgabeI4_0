@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <TcEventSources Version="2">
 	<Translations>
+		<Text TxtId="A watchdog has been triggered. The Linear Drive took too long to move."/>
+		<Text TxtId="A watchdog has been triggered. The rotary table took too long to move."/>
+		<Text TxtId="A watchdog has been triggered. Y2 took too long to move."/>
+		<Text TxtId="A watchdog has been triggered. Y3 took too long to move."/>
 		<Text TxtId="Data Storage upload completed and new data object available, port X{0}">
 			<Text LcId="1031">Data Storage Upload abgeschlossen und neues Datenobjekt vorhanden, Port X{0}</Text>
 		</Text>
@@ -250,6 +254,7 @@
 			<Text LcId="1031">Kommende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Info"/>
+		<Text TxtId="Linear drive Movement has Timedout"/>
 		<Text TxtId="No malfunction, port X{0}">
 			<Text LcId="1031">Keine Fehlfunktionen, Port X{0}</Text>
 		</Text>
@@ -492,10 +497,13 @@
 			<Text LcId="1031">Gehende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Programming Errors"/>
+		<Text TxtId="Rotary Table Movement has Timedout"/>
 		<Text TxtId="See manual of plugged IO-Link Device or IO-Link Specification.">
 			<Text LcId="1031">Siehe Anleitung des gesteckten IO-Link Gerätes oder IO-Link Spezifikation</Text>
 		</Text>
 		<Text TxtId="This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}"/>
+		<Text TxtId="Y2 Movement has Timedout"/>
+		<Text TxtId="Y3 Movement has Timedout"/>
 		<Text TxtId="{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)"/>
 		<Text TxtId="{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})"/>
 		<Text TxtId="{0}:{1}: invalid accsess of bit in byte (out of range)"/>
@@ -1173,6 +1181,58 @@
 			<Name>DisplayTxtId</Name>
 			<Value>true</Value>
 		</Property>
+	</Source>
+	<Source>
+		<GUID>{BBF00337-59D7-4B57-9194-F3C4702AD580}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Linear drive Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>A watchdog has been triggered. The Linear Drive took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>A watchdog has been triggered. The Linear Drive took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message>Rotary Table Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>A watchdog has been triggered. The rotary table took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>A watchdog has been triggered. The rotary table took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message>Y2 Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>A watchdog has been triggered. Y2 took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>A watchdog has been triggered. Y2 took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message>Y3 Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>A watchdog has been triggered. Y3 took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>A watchdog has been triggered. Y3 took too long to move.</Text>
+			</Detail>
+		</Event>
 	</Source>
 	<Source>
 		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>

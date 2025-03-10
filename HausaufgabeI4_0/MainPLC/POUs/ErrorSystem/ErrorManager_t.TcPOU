@@ -27,8 +27,10 @@ bInCopyCode: BOOL;  // TRUE: Die Instanz wird danach in den Kopiercode kopiert (
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// register all errors
-
-_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.ProgrammingErrors.testError, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, sensorID2 := sensorID_t.SENSOR_B16_GRIPPER_LEFT);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveMoveTimedout, timerTime := T#10S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, sensorID2 := sensorID_t.SENSOR_B16_GRIPPER_LEFT);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.RotaryTableMoveTimeout, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, sensorID2 := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP);
 ]]></ST>
       </Implementation>
     </Method>

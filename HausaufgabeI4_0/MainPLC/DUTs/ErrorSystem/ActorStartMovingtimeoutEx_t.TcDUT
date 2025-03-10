@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ActorStartMovingtimeoutEx_t" Id="{1014532c-e603-403a-958a-a4d249cd9ef6}">
+    <Declaration><![CDATA[TYPE ActorStartMovingtimeoutEx_t :
+STRUCT
+END_STRUCT
+	ActorStartMovingTimeout : GernericErrorWatchdog_t;
+	expectedActorValue : BOOL;
+	sensorPtr : POINTER TO BOOL := NULL;
+	actorPtr : POINTER TO BOOL := NULL;
+	sensorID : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	actorID : actorID_t := actorID_t.ACTOR_NO_ACTOR;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

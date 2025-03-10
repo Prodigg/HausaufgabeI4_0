@@ -4,7 +4,7 @@
     <Declaration><![CDATA[// tis is a class that is used by the ActorMovingTimeoutManager
 TYPE ActorMovingTimeoutEx_t :
 STRUCT
-	ActorMovingTimeout : ActorMovingTimeout_t;
+	ActorMovingTimeout : GernericErrorWatchdog_t;
 	sensorPtr1 : POINTER TO BOOL := NULL;
 	sensorPtr2 : POINTER TO BOOL := NULL;
 	sensorPtr3 : POINTER TO BOOL := NULL;

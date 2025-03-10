@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ActorStartMovingTimeoutManager_t" Id="{8fe3e1f8-f036-4bef-9a76-45416c29d8d2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ActorStartMovingTimeoutManager_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_actorMovingTimeoutArray : ARRAY [0..99] OF  ActorMovingTimeoutEx_t;
+	_maxActorMovingTimeoutIndex : UINT := 99;
+	_currentActorMovingTimeoutIndex : UINT := 0;
+	_ErrorMessage : FB_TcMessage;
+	_IOExpantionHandler : POINTER TO IOExpantionHandler_t := NULL;
+	
+	_IOExpantionHandlerNotValidErrorSent : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -24,6 +24,9 @@
     <Compile Include="DUTs\ErrorSystem\ActorMovingTimeoutEx_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ErrorSystem\ActorStartMovingtimeoutEx_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\IOExpantionHandler\actorID_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -80,7 +83,10 @@
     <Compile Include="POUs\ARUIHandler\ARUIHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\ErrorSystem\ActorMovingTimeout_t.TcPOU">
+    <Compile Include="POUs\ErrorSystem\ActorStartMovingTimeoutManager_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\GernericErrorWatchdog_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ErrorSystem\ActorMovingTimeoutManager_t.TcPOU">
