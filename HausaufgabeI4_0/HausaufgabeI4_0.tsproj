@@ -115,7 +115,7 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{BBF00337-59D7-4B57-9194-F3C4702AD580}" PersistentType="true">OperationalErrors2</Name>
+			<Name GUID="{B0E2DFD4-BC14-4D52-BC6C-8949D002FEC2}" PersistentType="true">OperationalErrors2</Name>
 			<DisplayName TxtId=""><![CDATA[Operational Errors]]></DisplayName>
 			<EventId>
 				<Name Id="1">LinearDriveMoveTimedout</Name>
@@ -145,10 +145,56 @@
 				<Severity>Error</Severity>
 				<Comment TxtId=""><![CDATA[A watchdog has been triggered. Y3 took too long to move.]]></Comment>
 			</EventId>
+			<EventId>
+				<Name Id="5">LinearDriveStartMoveLeftTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Linear Drive Start Movement Timeout (Left)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B16).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B16).]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="6">LinearDriveStartMoveRightTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Linear Drive Start Movement Timeout (Right)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B17).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B17).]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="7">Y2StartMoveDownTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Y2 Start Movement Timeout (Down)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="8">Y2StartMoveUpTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Y2 Start Movement Timeout (Up)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="9">Y3StartMoveDownTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Y3 Start Movement Timeout (Down)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="10">Y3StartMoveUpTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[Y3 Start Movement Timeout (Up)]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).]]></Comment>
+			</EventId>
 			<Hides>
 				<Hide GUID="{A945600B-4FD8-4C11-AFF2-FFEBAF2E92C4}"/>
 				<Hide GUID="{B88301C7-B80C-43BE-B16B-4D65C74235D4}"/>
 				<Hide GUID="{322EE82C-F1B2-4437-81A2-3D1ADA17E34A}"/>
+				<Hide GUID="{BBF00337-59D7-4B57-9194-F3C4702AD580}"/>
+				<Hide GUID="{EB13E6E4-0C26-4737-A159-2E1EA7312B8D}"/>
+				<Hide GUID="{8B369402-093E-4567-80AA-F6819003FD0F}"/>
+				<Hide GUID="{494D24A9-EA48-4EC1-A4FB-BB39B70FAA4C}"/>
 			</Hides>
 		</DataType>
 	</DataTypes>
@@ -179,7 +225,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{149AD42E-D1B3-5302-7335-6823EADCFB6B}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{40A5FE6E-BE7D-B069-7C19-9352D314C17B}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -1325,6 +1371,8 @@ Bit1: Value smaller than Limit2]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500840000403}" Id="#x02030020"/>
 		<OwnerA Name="TIPC^MainPLC^MainPLC Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL2869)">
 				<Link VarA="PlcTask Outputs^InputOutput.ConvaorbeltMotorReverse" VarB="DOS Outputs Channel 7^Output"/>

@@ -11,6 +11,7 @@ VAR
 	_actorMovingTimeoutManager : ActorMovingTimeoutManager_t;
 	_actorStartMovingTimeoutManager : ActorStartMovingTimeoutManager_t;
 	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -34,7 +35,13 @@ _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors
 _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP);
 
 
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.ProgrammingErrors.testError, timerTime := T#10s, conformation := true, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := true);]]></ST>
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := TRUE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := TRUE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B3_Y3_DOWN, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B4_Y3_UP, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := TRUE);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="reset" Id="{cbb3611f-047d-4b5e-8440-7113467dc56c}">
@@ -72,7 +79,9 @@ END_VAR
         <ST><![CDATA[IF _IOExpantionHandler <> NULL THEN
 	_actorMovingTimeoutManager.update();
 	_actorStartMovingTimeoutManager.update();
-END_IF]]></ST>
+END_IF
+
+]]></ST>
       </Implementation>
     </Method>
   </POU>

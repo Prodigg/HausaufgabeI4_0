@@ -48,7 +48,7 @@ FOR i := 0 TO _currentActorStartMovingTimeoutIndex DO
 END_FOR
 
 confirmAll := TRUE;
-RETURN]]></ST>
+RETURN;]]></ST>
       </Implementation>
     </Method>
     <Method Name="register" Id="{ea0256d7-1d28-4598-9ee3-42cf846101e0}">
@@ -68,7 +68,7 @@ VAR
 	_tmpStr: STRING;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _currentActorStartMovingTimeoutIndex + 1 > _currentActorStartMovingTimeoutIndex THEN
+        <ST><![CDATA[IF _currentActorStartMovingTimeoutIndex + 1 > _maxActorStartMovingTimeoutIndex THEN
 	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ExceedingAllowedAmountOfActorMovingTimeoutTimeouts, 0 );
 	_ErrorMessage.ipArguments.AddString(__POUNAME());
 	_tmpStr := formatPosition(__POSITION());
@@ -120,7 +120,7 @@ FOR i := 0 TO _currentActorStartMovingTimeoutIndex DO
 END_FOR
 
 resetAll := TRUE;
-RETURN]]></ST>
+RETURN;]]></ST>
       </Implementation>
     </Method>
     <Method Name="resolveWatchdogInput" Id="{366350e9-f7d3-40bb-9a40-264e10d64164}">
@@ -171,7 +171,8 @@ IF ActorStartMovingTimeoutEx.expectedActorValue <> _actorVal THEN
 	RETURN;
 END_IF
 
-]]></ST>
+resolveWatchdogInput := TRUE; 
+RETURN; ]]></ST>
       </Implementation>
     </Method>
     <Method Name="setIOExpantionHandler" Id="{4b80066e-5425-44b8-8adc-e37731639c77}">
