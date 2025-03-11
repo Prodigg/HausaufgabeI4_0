@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="IOExpantionMessage_t" Id="{66fa93d8-0733-47de-88e3-df9986d138db}">
+    <Declaration><![CDATA[TYPE IOExpantionMessage_t :
+STRUCT
+	{warning 'define variables'}
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

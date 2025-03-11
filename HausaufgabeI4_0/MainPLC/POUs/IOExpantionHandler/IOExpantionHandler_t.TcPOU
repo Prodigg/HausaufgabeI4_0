@@ -27,6 +27,12 @@ VAR
 	_IOExpantionInBytes : ARRAY [0..0] OF POINTER TO UINT := [ADR(_IOExpantionIn_0)];
 	
 	_ErrorMessage : FB_TcMessage;
+	
+	//------------------------------------
+	
+	_lastMessageRead : UINT := 0; // last message retrived by this^.getNewMessage();
+	_newestMessageInBuffer : UINT := 0; // newest message in ring buffer (actual newest message)
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -35,7 +41,18 @@ END_VAR
 ]]></ST>
     </Implementation>
     <Folder Name="Actors" Id="{331d78da-e993-4575-858d-04a25f792716}" />
+    <Folder Name="Communication" Id="{38781554-1101-4517-b007-0e83b447f3ff}" />
     <Folder Name="Sensors" Id="{d947e11d-c087-42e2-8931-1b1a26035641}" />
+    <Method Name="comUpdate" Id="{9809009e-414c-4d4e-b8b8-ed429013ec99}" FolderPath="Communication\">
+      <Declaration><![CDATA[// communication Update, call this every cycle
+METHOD comUpdate : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}" FolderPath="Sensors\">
       <Declaration><![CDATA[METHOD PRIVATE convertByteBit : BOOL
 VAR_INPUT
@@ -165,6 +182,15 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="getNewMessage" Id="{d7abb139-7bb5-4da9-b0e6-2d6868e4a4fa}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD getNewMessage : IOExpantionMessage_t
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}" FolderPath="Sensors\">
       <Declaration><![CDATA[METHOD getSensorStatus : BOOL
 VAR_INPUT
@@ -220,6 +246,25 @@ END_VAR
 END_CASE
 
 RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasNewMessage" Id="{0e39c41f-9f50-419f-92e5-9b2d5514dff3}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD hasNewMessage : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="parseMessage" Id="{38bd2459-2d24-4ca2-a0b6-79a23be6d022}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD PRIVATE parseMessage : IOExpantionMessage_t
+VAR_INPUT
+	BuffDiagMess : ARRAY[0..236] OF BYTE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="setActor" Id="{ee0a521a-6c67-4dc3-88dd-d9da5401c02a}" FolderPath="Actors\">
