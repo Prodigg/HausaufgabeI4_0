@@ -9,6 +9,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	_actorMovingTimeoutManager : ActorMovingTimeoutManager_t;
+	_actorStartMovingTimeoutManager : ActorStartMovingTimeoutManager_t;
 	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 END_VAR
 ]]></Declaration>
@@ -31,7 +32,9 @@ _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors
 _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.RotaryTableMoveTimeout, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED);
 _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, sensorID2 := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP);
 _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP);
-]]></ST>
+
+
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.ProgrammingErrors.testError, timerTime := T#10s, conformation := true, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := true);]]></ST>
       </Implementation>
     </Method>
     <Method Name="reset" Id="{cbb3611f-047d-4b5e-8440-7113467dc56c}">
@@ -52,7 +55,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
-_actorMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);]]></ST>
+_actorMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
+_actorStartMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
+
+setIOExpantionHandler := TRUE;
+return;]]></ST>
       </Implementation>
     </Method>
     <Method Name="update" Id="{c40b9498-33aa-41a4-a1e0-fda8c5913e46}">
@@ -64,6 +71,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[IF _IOExpantionHandler <> NULL THEN
 	_actorMovingTimeoutManager.update();
+	_actorStartMovingTimeoutManager.update();
 END_IF]]></ST>
       </Implementation>
     </Method>
