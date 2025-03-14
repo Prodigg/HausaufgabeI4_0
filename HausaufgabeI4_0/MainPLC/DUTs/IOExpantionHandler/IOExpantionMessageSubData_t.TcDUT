@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="IOExpantionMessageSubData_t" Id="{0b4f4dfd-4df0-4db2-80cf-d6545774dc3c}">
+    <Declaration><![CDATA[TYPE IOExpantionMessageSubData_t :
+STRUCT
+	callbackVariable : POINTER TO BOOL := NULL;
+	messageDescription : IOExpantionMessageDescriptor_t;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

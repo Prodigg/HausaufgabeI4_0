@@ -32,7 +32,13 @@ VAR
 	
 	_lastMessageRead : UINT := 0; // last message retrived by this^.getNewMessage();
 	_newestMessageInBuffer : UINT := 0; // newest message in ring buffer (actual newest message)
+	_currentMessageRead : BYTE := 16#00; // current message being read
 	
+	_subscriberArray : ARRAY[0..99] OF IOExpantionMessageSubData_t;
+	
+	_readDiag : FB_EcCoESdoRead;
+	
+	_returnDiagBuffer : ARRAY[0..236] OF BYTE;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -41,16 +47,67 @@ END_VAR
 ]]></ST>
     </Implementation>
     <Folder Name="Actors" Id="{331d78da-e993-4575-858d-04a25f792716}" />
-    <Folder Name="Communication" Id="{38781554-1101-4517-b007-0e83b447f3ff}" />
+    <Folder Name="Communication" Id="{38781554-1101-4517-b007-0e83b447f3ff}">
+      <Folder Name="CommunicationAPI" Id="{5d50d83b-6562-4106-b93c-1e39eae1b63a}" />
+    </Folder>
     <Folder Name="Sensors" Id="{d947e11d-c087-42e2-8931-1b1a26035641}" />
+    <Method Name="callCallback" Id="{13302913-24d0-46c0-8c77-01cad1537519}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD PRIVATE callCallback : BOOL
+VAR_INPUT
+	messageDescription : IOExpantionMessageDescriptor_t;
+END_VAR
+VAR
+	i : UINt := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// search for callback to call
+
+FOR i := 0 TO TO_UINT(SIZEOF(_subscriberArray) / SIZEOF(IOExpantionMessageSubData_t)) DO
+	IF _subscriberArray[i].messageDescription = messageDescription THEN
+		_subscriberArray[i].callbackVariable^ := TRUE;
+	END_IF
+END_FOR
+
+callCallback := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="comUpdate" Id="{9809009e-414c-4d4e-b8b8-ed429013ec99}" FolderPath="Communication\">
       <Declaration><![CDATA[// communication Update, call this every cycle
 METHOD comUpdate : BOOL
 VAR_INPUT
 END_VAR
-]]></Declaration>
+VAR 
+	getNewestMessageIndexBusy : BOOL := FALSE;
+	NewestMessageAvalableTmpOut : BYTE := 16#00;
+	
+	getMessageBusy : BOOL := FALSE;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// check if a new message is avalable
+IF _newestMessageInBuffer = _lastMessageRead THEN
+	NewestMessageAvalableTmpOut := getNewestMessageIndex(busy => getNewestMessageIndexBusy);
+	IF getNewestMessageIndexBusy THEN
+	RETURN;
+	ELSE 
+	_newestMessageInBuffer := NewestMessageAvalableTmpOut;
+	RETURN;
+	END_IF
+END_IF
+
+// read messages 
+getMessage(returnBuffer := ADR(_returnDiagBuffer), index := _currentMessageRead, busy => getMessageBusy);
+
+IF getMessageBusy = FALSE THEN
+	_currentMessageRead := getNextMessageIndex(_currentMessageRead);
+	
+	IF _currentMessageRead = _newestMessageInBuffer + 1 THEN
+		_lastMessageRead := _newestMessageInBuffer;
+	END_IF
+	
+	callCallback(genMessageDescription(ADR(_returnDiagBuffer)));
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}" FolderPath="Sensors\">
@@ -140,6 +197,16 @@ END_CASE
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="genMessageDescription" Id="{f9e3f21e-0cb1-4f67-b4b3-cab6399e6b44}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD genMessageDescription : IOExpantionMessageDescriptor_t;
+VAR_INPUT
+	_data : POINTER TO ARRAY[0..236] OF BYTE; 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[{warning 'implement genMessageDescription'}]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="getActor" Id="{999a75fa-1afb-44bc-b8d5-041e1e5d61ee}" FolderPath="Actors\">
       <Declaration><![CDATA[METHOD getActor : BOOL
 VAR_INPUT
@@ -182,13 +249,121 @@ END_CASE
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="getNewMessage" Id="{d7abb139-7bb5-4da9-b0e6-2d6868e4a4fa}" FolderPath="Communication\">
-      <Declaration><![CDATA[METHOD getNewMessage : IOExpantionMessage_t
+    <Method Name="getMessage" Id="{e354e0ff-27cb-4c0f-87c4-ea76bf824ee7}" FolderPath="Communication\CommunicationAPI\">
+      <Declaration><![CDATA[METHOD PRIVATE getMessage : BOOL
 VAR_INPUT
+	returnBuffer : POINTER TO ARRAY[0..236] OF BYTE;
+	index : BYTE;
+END_VAR
+VAR_OUTPUT
+	readLength : UDINT;
+	busy : BOOL;
+END_VAR
+VAR 
+	calculatedIndex : BYTE := 0;
+	
+END_VAR 
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[calculatedIndex := index + 6; // 6 is offset
+_readDiag(
+	sNetId:= '5.85.199.196.4.1', 
+	nSlaveAddr:=1001 , 
+	nSubIndex:= calculatedIndex, 
+	nIndex:= 16#10F3, 
+	pDstBuf:= returnBuffer, 
+	cbBufLen:= 237, 
+	bExecute:=TRUE , 
+	tTimeout:= T#5S, 
+	bBusy=> busy, 
+	bError=> , 
+	nErrId=> , 
+	cbRead=>ReadLength);
+	
+IF busy = FALSE THEN
+	// to cycle object
+	_readDiag(
+		sNetId:= '5.85.199.196.4.1', 
+		nSlaveAddr:=1001 , 
+		nSubIndex:= calculatedIndex, 
+		nIndex:= 16#10F3, 
+		pDstBuf:= returnBuffer, 
+		cbBufLen:= 237, 
+		bExecute:=FALSE , 
+		tTimeout:= T#5S, 
+		bBusy=> , 
+		bError=> , 
+		nErrId=> , 
+		cbRead=>ReadLength);
+END_IF
+	
+	getMessage := TRUE;
+	RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getNewestMessageIndex" Id="{fe6de5f1-f701-4952-bed1-93bc1395412d}" FolderPath="Communication\CommunicationAPI\">
+      <Declaration><![CDATA[METHOD PRIVATE getNewestMessageIndex : BYTE
+VAR_INPUT
+END_VAR
+VAR_OUTPUT 
+	busy : BOOL := FALSE;
+	ReadLength : UDINT := 0;
+END_VAR
+VAR 
+	_destBuff : byte := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_readDiag(
+	sNetId:= '5.85.199.196.4.1', 
+	nSlaveAddr:=1001 , 
+	nSubIndex:= 2, 
+	nIndex:= 16#10F3, 
+	pDstBuf:= ADR(_destBuff), 
+	cbBufLen:= 237, 
+	bExecute:=TRUE , 
+	tTimeout:= T#5S, 
+	bBusy=> busy, 
+	bError=> , 
+	nErrId=> , 
+	cbRead=>ReadLength);
+	
+	IF busy = FALSE THEN
+		getNewestMessageIndex := _destBuff;
+		// to cycle object
+		_readDiag(
+			sNetId:= '5.85.199.196.4.1', 
+			nSlaveAddr:=1001 , 
+			nSubIndex:= 2, 
+			nIndex:= 16#10F3, 
+			pDstBuf:= ADR(_destBuff), 
+			cbBufLen:= 237, 
+			bExecute:=FALSE , 
+			tTimeout:= T#5S, 
+			bBusy=> , 
+			bError=> , 
+			nErrId=> , 
+			cbRead=>ReadLength);
+	ELSE 
+		getNewestMessageIndex := 16#00;
+	END_IF
+	RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="getNextMessageIndex" Id="{0c220e0e-59cf-4703-b7b5-4d358c2c0076}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD PRIVATE getNextMessageIndex : BYTE;
+VAR_INPUT
+	currentIndex : BYTE;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[
+getNextMessageIndex := currentIndex + 1;
+
+IF getNextMessageIndex = 16#00 THEN
+	getNewestMessageIndex := 16#06;
+END_IF
+
+return;]]></ST>
       </Implementation>
     </Method>
     <Method Name="getSensorStatus" Id="{7b443d43-03f0-4b5f-92b8-6e4d10aad58a}" FolderPath="Sensors\">
@@ -248,23 +423,53 @@ END_CASE
 RETURN;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="hasNewMessage" Id="{0e39c41f-9f50-419f-92e5-9b2d5514dff3}" FolderPath="Communication\">
-      <Declaration><![CDATA[METHOD hasNewMessage : BOOL
+    <Method Name="isNewMessageAvalable" Id="{2d8daaac-2c77-494f-9b28-d3cbcd0244b3}" FolderPath="Communication\CommunicationAPI\">
+      <Declaration><![CDATA[METHOD PRIVATE isNewMessageAvalable : BOOL
 VAR_INPUT
+END_VAR
+VAR_OUTPUT 
+	busy : BOOL := FALSE;
+	ReadLength : UDINT := 0;
+END_VAR
+VAR 
+	_destBuff : BOOL := 0;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="parseMessage" Id="{38bd2459-2d24-4ca2-a0b6-79a23be6d022}" FolderPath="Communication\">
-      <Declaration><![CDATA[METHOD PRIVATE parseMessage : IOExpantionMessage_t
-VAR_INPUT
-	BuffDiagMess : ARRAY[0..236] OF BYTE;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[_readDiag(
+	sNetId:= '5.85.199.196.4.1', 
+	nSlaveAddr:=1001 , 
+	nSubIndex:= 16#04, 
+	nIndex:= 16#10F3, 
+	pDstBuf:= ADR(_destBuff), 
+	cbBufLen:= 237, 
+	bExecute:=TRUE , 
+	tTimeout:= T#5S, 
+	bBusy=> busy, 
+	bError=> , 
+	nErrId=> , 
+	cbRead=>ReadLength);
+	
+	IF busy = FALSE THEN
+		getNewestMessageIndex := _destBuff;
+		// to cycle object
+		_readDiag(
+			sNetId:= '5.85.199.196.4.1', 
+			nSlaveAddr:=1001 , 
+			nSubIndex:= 16#04, 
+			nIndex:= 16#10F3, 
+			pDstBuf:= ADR(_destBuff), 
+			cbBufLen:= 237, 
+			bExecute:=FALSE , 
+			tTimeout:= T#5S, 
+			bBusy=> busy, 
+			bError=> , 
+			nErrId=> , 
+			cbRead=>);
+	ELSE 
+		getNewestMessageIndex := FALSE;
+	END_IF
+	RETURN;]]></ST>
       </Implementation>
     </Method>
     <Method Name="setActor" Id="{ee0a521a-6c67-4dc3-88dd-d9da5401c02a}" FolderPath="Actors\">
@@ -338,6 +543,97 @@ END_IF
 tmpByte := (NOT SHL(1, offset)) AND byteVal^;
 
 byteVal^ := TO_BYTE(SHL(TO_INT(value), offset)) OR tmpByte;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="subscribe" Id="{93c4abdd-1781-40c0-8c48-321db8abd157}" FolderPath="Communication\">
+      <Declaration><![CDATA[// subsctibes to a Message
+METHOD subscribe : BOOL
+VAR_INPUT
+	callbackVariable : POINTER TO BOOL;
+	{warning 'add describe message'}
+END_VAR
+VAR 
+	i : UINT := 0;
+	spaceFound : BOOL := FALSE;
+	_tmpStr: STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF callbackVariable = NULL THEN
+	subscribe := FALSE;	
+	RETURN; // nothing to call back to
+END_IF
+
+// search for avalable spot in list, may be expencive (worst case O(n))
+FOR i := 0 TO 99 DO
+	IF _subscriberArray[i].callbackVariable = NULL THEN
+		spaceFound := TRUE;
+		EXIT;
+	END_IF
+END_FOR
+
+IF spaceFound = FALSE THEN
+	subscribe := FALSE;
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.subscriberArrayFull, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.ipArguments.AddUInt(SIZEOF(_subscriberArray) / SIZEOF(IOExpantionMessageSubData_t));
+	_ErrorMessage.Send(0);
+	RETURN;
+END_IF
+
+
+// insert value
+_subscriberArray[i].callbackVariable := callbackVariable;
+{warining 'add message identifyers'}
+
+subscribe := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="unsubscribe" Id="{98c8be6b-4fb4-4acc-905f-d72573ccf7bc}" FolderPath="Communication\">
+      <Declaration><![CDATA[// unsubscribe from a message
+METHOD unsubscribe : BOOL
+VAR_INPUT
+	callbackVariable : POINTER TO BOOL;
+END_VAR
+VAR 
+	spaceFound : BOOL := FALSE;
+	i : UINT := 0;
+	_tmpStr : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF callbackVariable = NULL THEN
+	unsubscribe := FALSE;	
+	RETURN; // nothing to call back to
+END_IF
+
+// search for avalable spot in list, may be expencive (worst case O(n))
+FOR i := 0 TO 99 DO
+	IF _subscriberArray[i].callbackVariable = callbackVariable THEN
+		spaceFound := TRUE;
+		EXIT;
+	END_IF
+END_FOR
+
+IF spaceFound = FALSE THEN
+	unsubscribe := FALSE;
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.subscriberArrayFull, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.ipArguments.AddUInt(SIZEOF(_subscriberArray) / SIZEOF(IOExpantionMessageSubData_t));
+	_ErrorMessage.Send(0);
+	RETURN;
+END_IF
+
+
+// reset pointer 
+_subscriberArray[i].callbackVariable := NULL;
+
+unsubscribe := TRUE;
+RETURN;
+]]></ST>
       </Implementation>
     </Method>
   </POU>

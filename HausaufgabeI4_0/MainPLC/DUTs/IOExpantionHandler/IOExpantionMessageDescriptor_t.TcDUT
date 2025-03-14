@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="IOExpantionMessageDescriptor_t" Id="{9a22fb25-05a6-4488-9fe2-4ee8941afd3f}">
+    <Declaration><![CDATA[TYPE IOExpantionMessageDescriptor_t :
+STRUCT
+	{warning 'add Message identification'}
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
