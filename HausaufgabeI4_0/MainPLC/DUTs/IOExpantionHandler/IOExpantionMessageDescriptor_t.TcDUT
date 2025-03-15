@@ -3,7 +3,8 @@
   <DUT Name="IOExpantionMessageDescriptor_t" Id="{9a22fb25-05a6-4488-9fe2-4ee8941afd3f}">
     <Declaration><![CDATA[TYPE IOExpantionMessageDescriptor_t :
 STRUCT
-	{warning 'add Message identification'}
+	diagCode : ARRAY [0..3] OF BYTE;
+	textID : ARRAY [0..1] OF BYTE;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -1196,6 +1196,14 @@
 		</Property>
 	</Source>
 	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
 		<GUID>{A5ED0604-717C-4394-A168-9C5F17813F7E}</GUID>
 		<Name>Programming Errors</Name>
 		<Event>
@@ -1225,14 +1233,6 @@
 		<Event>
 			<Id>7</Id>
 			<Message>{0}:{1}: subscriber array full (max: {2})</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 	<Source>

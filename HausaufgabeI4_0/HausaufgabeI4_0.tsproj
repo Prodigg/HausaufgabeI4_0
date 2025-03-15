@@ -231,16 +231,11 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{EF1A32A7-5542-7B1D-AAAA-2A347E07CF5C}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{288B90F5-E1A1-8EB2-41B9-848FC41C7897}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
 						<Name>PlcTask Outputs</Name>
-						<Var>
-							<Name>InputOutput.TurnTableMotorTurn</Name>
-							<Comment><![CDATA[ outputs]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
 						<Var>
 							<Name>MAIN.signalStatusLamp._signalLampGreen._SignalStatusLamp</Name>
 							<Type>BOOL</Type>
@@ -254,20 +249,9 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_0</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_1</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_2</Name>
-							<Type>BYTE</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_3</Name>
-							<Type>BYTE</Type>
+							<Name>InputOutput.TurnTableMotorTurn</Name>
+							<Comment><![CDATA[ outputs]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>InputOutput.TurnTableMotorReverse</Name>
@@ -289,9 +273,42 @@
 							<Name>InputOutput.OnOffStatusLamp</Name>
 							<Type>BOOL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_0</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_1</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_2</Name>
+							<Type>BYTE</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.IOExpantionHandler._FestoPneumaticOutByte_3</Name>
+							<Type>BYTE</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>InputOutput.StartButton</Name>
+							<Comment><![CDATA[ inputs]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.StopButton</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.EmStop</Name>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>InputOutput.ResetButton</Name>
+							<Type>BOOL</Type>
+						</Var>
 						<Var>
 							<Name>MAIN.IOExpantionHandler._IOExpantionExpantionInByte_0</Name>
 							<Comment><![CDATA[ in byte 0]]></Comment>
@@ -316,23 +333,6 @@
 							<Name>MAIN.IOExpantionHandler._IOExpantionIn_0</Name>
 							<Comment><![CDATA[ this input does only have two active bits (bit 0 and bit 1)]]></Comment>
 							<Type>UINT</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.StartButton</Name>
-							<Comment><![CDATA[ inputs]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.StopButton</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.EmStop</Name>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>InputOutput.ResetButton</Name>
-							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<UnrestoredVarLinks ImportTime="2025-01-18T16:01:09">

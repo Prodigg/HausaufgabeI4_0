@@ -21,6 +21,13 @@ ErrorManager : ErrorManager_t;
 _ErrorMessage : FB_TcMessage;
 _tmpStr : STRING := '';
 
+//test
+firstRun : BOOL := FALSE;
+run : bool := false;
+callback : BOOL := FALSE;
+
+diagCode : ARRAY[0..3] OF BYTE := [16#03, 16#E0, 16#08, 16#00];
+textID : ARRAY[0..1] OF BYTE := [16#00, 16#38];
 
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
@@ -118,8 +125,20 @@ HMIHandler.update();
 ErrorManager.setIOExpantionHandler(ADR(IOExpantionHandler));
 ErrorManager.update();
 
+// test
+{warning 'remove test'}
+
+IF firstRun = FALSE AND run THEN
+	firstRun := TRUE;
+	IOExpantionHandler.subscribe(callbackVariable := ADR(callback), diagCode := diagCode, textID := textID);
+END_IF
+
+IF run THEN
+	IOExpantionHandler.comUpdate();
+END_IF
+
 // murr test
-ReadDiag(
+(*ReadDiag(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
 	nSubIndex:= 9, 
@@ -132,7 +151,7 @@ ReadDiag(
 	bError=> , 
 	nErrId=> , 
 	cbRead=>ReadLength);
-]]></ST>
+*)]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

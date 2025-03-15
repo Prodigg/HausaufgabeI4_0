@@ -64,7 +64,7 @@ END_VAR]]></Declaration>
 // search for callback to call
 
 FOR i := 0 TO TO_UINT(SIZEOF(_subscriberArray) / SIZEOF(IOExpantionMessageSubData_t)) DO
-	IF _subscriberArray[i].messageDescription = messageDescription THEN
+	IF isMesDesEqual(_subscriberArray[i].messageDescription, messageDescription) THEN
 		_subscriberArray[i].callbackVariable^ := TRUE;
 	END_IF
 END_FOR
@@ -198,13 +198,18 @@ RETURN;]]></ST>
       </Implementation>
     </Method>
     <Method Name="genMessageDescription" Id="{f9e3f21e-0cb1-4f67-b4b3-cab6399e6b44}" FolderPath="Communication\">
-      <Declaration><![CDATA[METHOD genMessageDescription : IOExpantionMessageDescriptor_t;
+      <Declaration><![CDATA[METHOD PRIVATE genMessageDescription : IOExpantionMessageDescriptor_t;
 VAR_INPUT
 	_data : POINTER TO ARRAY[0..236] OF BYTE; 
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[{warning 'implement genMessageDescription'}]]></ST>
+        <ST><![CDATA[// extract diagCode
+memcpy(destAddr := ADR(genMessageDescription.diagCode), srcAddr := _data, n := SIZEOF(genMessageDescription.diagCode));
+
+// extract textID
+MEMCPY(destAddr := ADR(genMessageDescription.textID), srcAddr := ADR(_data^[6]), n := SIZEOF(genMessageDescription.textID));
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="getActor" Id="{999a75fa-1afb-44bc-b8d5-041e1e5d61ee}" FolderPath="Actors\">
@@ -328,6 +333,20 @@ END_VAR]]></Declaration>
 	cbRead=>ReadLength);
 	
 	IF busy = FALSE THEN
+		_readDiag(
+			sNetId:= '5.85.199.196.4.1', 
+			nSlaveAddr:=1001 , 
+			nSubIndex:= 2, 
+			nIndex:= 16#10F3, 
+			pDstBuf:= ADR(_destBuff), 
+			cbBufLen:= 237, 
+			bExecute:=TRUE , 
+			tTimeout:= T#5S, 
+			bBusy=> busy, 
+			bError=> , 
+			nErrId=> , 
+			cbRead=>ReadLength);
+		
 		getNewestMessageIndex := _destBuff;
 		// to cycle object
 		_readDiag(
@@ -336,7 +355,7 @@ END_VAR]]></Declaration>
 			nSubIndex:= 2, 
 			nIndex:= 16#10F3, 
 			pDstBuf:= ADR(_destBuff), 
-			cbBufLen:= 237, 
+			cbBufLen:= 1, 
 			bExecute:=FALSE , 
 			tTimeout:= T#5S, 
 			bBusy=> , 
@@ -360,7 +379,7 @@ END_VAR
 getNextMessageIndex := currentIndex + 1;
 
 IF getNextMessageIndex = 16#00 THEN
-	getNewestMessageIndex := 16#06;
+	getNextMessageIndex := TO_BYTE(16#06);
 END_IF
 
 return;]]></ST>
@@ -423,6 +442,27 @@ END_CASE
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="isMesDesEqual" Id="{3735bd1a-402f-4362-ab25-82c1d64725c9}" FolderPath="Communication\">
+      <Declaration><![CDATA[METHOD PRIVATE isMesDesEqual : BOOL
+VAR_INPUT
+	messageDescription1 : IOExpantionMessageDescriptor_t;
+	messageDescription2 : IOExpantionMessageDescriptor_t;
+END_VAR
+VAR
+	i : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO 3 DO
+	isMesDesEqual := isMesDesEqual OR messageDescription1.diagCode[i] = messageDescription2.diagCode[i];
+END_FOR
+
+FOR i := 0 TO 1 DO
+	isMesDesEqual := isMesDesEqual OR messageDescription1.textID[i] = messageDescription2.textID[i];
+END_FOR
+
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="isNewMessageAvalable" Id="{2d8daaac-2c77-494f-9b28-d3cbcd0244b3}" FolderPath="Communication\CommunicationAPI\">
       <Declaration><![CDATA[METHOD PRIVATE isNewMessageAvalable : BOOL
 VAR_INPUT
@@ -451,7 +491,7 @@ END_VAR
 	cbRead=>ReadLength);
 	
 	IF busy = FALSE THEN
-		getNewestMessageIndex := _destBuff;
+		isNewMessageAvalable := _destBuff;
 		// to cycle object
 		_readDiag(
 			sNetId:= '5.85.199.196.4.1', 
@@ -467,7 +507,7 @@ END_VAR
 			nErrId=> , 
 			cbRead=>);
 	ELSE 
-		getNewestMessageIndex := FALSE;
+		isNewMessageAvalable := FALSE;
 	END_IF
 	RETURN;]]></ST>
       </Implementation>
@@ -550,7 +590,8 @@ byteVal^ := TO_BYTE(SHL(TO_INT(value), offset)) OR tmpByte;]]></ST>
 METHOD subscribe : BOOL
 VAR_INPUT
 	callbackVariable : POINTER TO BOOL;
-	{warning 'add describe message'}
+	diagCode : ARRAY [0..3] OF BYTE;
+	textID : ARRAY [0..1] OF BYTE;
 END_VAR
 VAR 
 	i : UINT := 0;
@@ -585,7 +626,8 @@ END_IF
 
 // insert value
 _subscriberArray[i].callbackVariable := callbackVariable;
-{warining 'add message identifyers'}
+_subscriberArray[i].messageDescription.diagCode := diagCode;
+_subscriberArray[i].messageDescription.textID := textID;
 
 subscribe := TRUE;
 RETURN;]]></ST>
