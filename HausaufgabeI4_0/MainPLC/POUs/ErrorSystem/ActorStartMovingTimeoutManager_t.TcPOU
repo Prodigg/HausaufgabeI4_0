@@ -51,6 +51,22 @@ confirmAll := TRUE;
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="hasError" Id="{4f3c13eb-a781-42f3-b5ce-ee740caa237f}">
+      <Declaration><![CDATA[// if true an error has been trown
+METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO _currentActorStartMovingTimeoutIndex DO
+	hasError := hasError OR THIS^._actorStartMovingTimeoutArray[i].ActorStartMovingTimeout.isAlarmRaised();
+END_FOR
+
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="register" Id="{ea0256d7-1d28-4598-9ee3-42cf846101e0}">
       <Declaration><![CDATA[METHOD register : BOOL
 VAR_INPUT

@@ -12,6 +12,9 @@ VAR
 	_actorStartMovingTimeoutManager : ActorStartMovingTimeoutManager_t;
 	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 	
+	_trowErrors : BOOL := FALSE; // if true, errors are checked
+	_hasError : BOOL := FALSE; // if true, a error has been reported
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -44,6 +47,18 @@ _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalE
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="hasError" Id="{0f79f821-abb9-4a21-baa9-ae93f287de20}">
+      <Declaration><![CDATA[// if the function returns true, an error has been reported
+METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _hasError OR THIS^._actorMovingTimeoutManager.hasError();
+hasError := _hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
+return;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="reset" Id="{cbb3611f-047d-4b5e-8440-7113467dc56c}">
       <Declaration><![CDATA[// resets all errors 
 METHOD reset : BOOL
@@ -69,6 +84,30 @@ setIOExpantionHandler := TRUE;
 return;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="startErrors" Id="{0a02a265-77f8-43fe-b8ce-a08e96e2699c}">
+      <Declaration><![CDATA[METHOD startErrors : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._trowErrors := TRUE;
+
+startErrors := TRUE;
+RETURN; ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="stopErrors" Id="{b250820f-64a4-4552-90cc-078ef65f4dc6}">
+      <Declaration><![CDATA[METHOD stopErrors : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._trowErrors := False;
+
+stopErrors := TRUE;
+RETURN; ]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="update" Id="{c40b9498-33aa-41a4-a1e0-fda8c5913e46}">
       <Declaration><![CDATA[// call this method every sycle
 METHOD update : BOOL
@@ -76,12 +115,20 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _IOExpantionHandler <> NULL THEN
-	_actorMovingTimeoutManager.update();
-	_actorStartMovingTimeoutManager.update();
+        <ST><![CDATA[IF _trowErrors = FALSE THEN
+	update := TRUE;
+	RETURN;
 END_IF
 
-]]></ST>
+IF _IOExpantionHandler = NULL THEN
+	update := FALSE;
+	RETURN;
+END_IF
+
+_actorMovingTimeoutManager.update();
+_actorStartMovingTimeoutManager.update();
+update := TRUE;
+RETURN;]]></ST>
       </Implementation>
     </Method>
   </POU>

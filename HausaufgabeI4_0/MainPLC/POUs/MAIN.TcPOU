@@ -53,7 +53,7 @@ IF (InputOutput.StartButton OR HMIInterface.HMIStartMachine) AND NOT (systemStat
 	systemStatus := systemStatus_t.RUNNING; // TODO: Starting isn't implemented jet and also isn't really needed at the moment
 	//ARCommunication.sendNewMessage(ADR(testStr)); // test for websocet connection
 	mainStateMachine.startStateMachine(); // start state machine
-	
+	ErrorManager.startErrors();
 END_IF
 	
 IF (NOT InputOutput.StopButton OR HMIInterface.HMIStopMachine) THEN
@@ -65,8 +65,12 @@ IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachine
 	systemStatus := systemStatus_t.STOPPED; 
 END_IF
 
+IF systemStatus = systemStatus_t.STOPPED THEN
+	ErrorManager.stopErrors();
+END_IF
+
 // push error test
-IF NOT InputOutput.EmStop AND systemStatus <> systemStatus_t.ERROR THEN 
+IF ((NOT InputOutput.EmStop) OR ErrorManager.hasError()) AND systemStatus <> systemStatus_t.ERROR THEN 
  			_ErrorMessage.CreateEx(TC_EVENTS.OperationalErrors.EmStopPressed, 0 ); {info 'TODO: make this a alarm and not a message'}
 			_ErrorMessage.ipArguments.AddString(__POUNAME());
 			_tmpStr := formatPosition(__POSITION());
@@ -82,13 +86,13 @@ IF NOT InputOutput.EmStop THEN
 END_IF
 
 // reset errors 
-IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR THEN
+IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR AND (NOT ErrorManager.hasError()) THEN
 	systemStatus := systemStatus_t.STOPPED;
 	InputOutput.QuittierenLamp := FALSE;
 END_IF
 
 // set lamp of quittierung
-IF InputOutput.EmStop AND systemStatus = systemStatus_t.ERROR THEN 
+IF (InputOutput.EmStop OR ErrorManager.hasError()) AND systemStatus = systemStatus_t.ERROR THEN 
 	InputOutput.QuittierenLamp := TRUE;
 END_IF
 
