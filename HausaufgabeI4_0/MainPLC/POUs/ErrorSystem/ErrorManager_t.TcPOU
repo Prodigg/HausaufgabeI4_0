@@ -20,6 +20,19 @@ END_VAR
     <Implementation>
       <ST><![CDATA[]]></ST>
     </Implementation>
+    <Method Name="confirmAll" Id="{f623fcff-50c3-4dcb-9daa-c54c6e16f627}">
+      <Declaration><![CDATA[METHOD confirmAll : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_actorMovingTimeoutManager.confirmAll();
+_actorStartMovingTimeoutManager.confirmAll();
+
+confirmAll := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="FB_Init" Id="{46c4b88e-ccab-4868-89c7-a634247b2345}">
       <Declaration><![CDATA[//FB_Init ist immer implizit verfügbar und wird primär für die Initialisierung verwendet.
 //Der Rückgabewert wird nicht ausgewertet. Für gezielte Einflussnahme können Sie
@@ -32,18 +45,18 @@ bInCopyCode: BOOL;  // TRUE: Die Instanz wird danach in den Kopiercode kopiert (
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// register all errors
-_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveMoveTimedout, timerTime := T#10S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, sensorID2 := sensorID_t.SENSOR_B16_GRIPPER_LEFT);
-_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.RotaryTableMoveTimeout, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED);
-_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, sensorID2 := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP);
-_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveMoveTimedout, timerTime := T#10S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, sensorID2 := sensorID_t.SENSOR_B16_GRIPPER_LEFT, waitHWConformation := FALSE);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.RotaryTableMoveTimeout, timerTime := T#5S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED, waitHWConformation := FALSE);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, sensorID2 := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP, waitHWConformation := FALSE);
+_actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP, waitHWConformation := FALSE);
 
 
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := TRUE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := FALSE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := FALSE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := TRUE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B3_Y3_DOWN, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := FALSE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B4_Y3_UP, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := TRUE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := TRUE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := FALSE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := FALSE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := TRUE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B3_Y3_DOWN, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := FALSE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B4_Y3_UP, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := TRUE, waitHWConformation := FALSE);
 ]]></ST>
       </Implementation>
     </Method>
@@ -54,8 +67,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[hasError := _hasError OR THIS^._actorMovingTimeoutManager.hasError();
-hasError := _hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
+        <ST><![CDATA[hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
+hasError := hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
+_hasError := hasError;
 return;]]></ST>
       </Implementation>
     </Method>

@@ -78,6 +78,7 @@ VAR_INPUT
 	stEventEntity : TcEventEntry;
 	timerTime : TIME; // sets the timer for the timeout
 	conformation : BOOL := TRUE; 
+	waitHWConformation : bool := true;
 	sensor1 : POINTER TO BOOL := NULL;
 	sensor2 : POINTER TO BOOL := NULL;
 	sensor3 : POINTER TO BOOL := NULL;
@@ -115,7 +116,7 @@ END_IF
 
 _currentActorMovingTimeoutIndex := _currentActorMovingTimeoutIndex + 1; // increase it by one
 
-_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].ActorMovingTimeout.register(stEventEntity, timerTime, conformation);
+_actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].ActorMovingTimeout.register(stEventEntity, timerTime, conformation, waitHWConformation);
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr1 := sensor1;
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr2 := sensor2;
 _actorMovingTimeoutArray[_currentActorMovingTimeoutIndex].sensorPtr3 := sensor3;

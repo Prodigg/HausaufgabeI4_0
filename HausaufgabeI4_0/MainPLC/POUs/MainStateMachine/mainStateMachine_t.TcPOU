@@ -355,6 +355,8 @@ IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
 IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, TRUE);
 IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, FALSE);
 IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y1_OUT, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y3_OUT, FALSE);
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_Y2_OUT, FALSE);
 InputOutput.ConvaorbeltMotorRun := false;
 
 

@@ -17,7 +17,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[{warning 'TODO: test ActorStartMovingTimeoutManager'}]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="clear" Id="{402c3bc5-a43e-4113-a20c-ca80f35c210b}">
       <Declaration><![CDATA[// clears and destroyes all AcrtorStartMovingTimeouts
@@ -78,6 +78,7 @@ VAR_INPUT
 	actorPtr : POINTER TO BOOL := NULL;
 	sensorID : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
 	actorID : actorID_t := actorID_t.ACTOR_NO_ACTOR;
+	waitHWConformation : BOOL := TRUE;
 END_VAR
 
 VAR
@@ -109,7 +110,7 @@ END_IF
 
 _currentActorStartMovingTimeoutIndex := _currentActorStartMovingTimeoutIndex + 1; // increase it by one
 
-_actorStartMovingTimeoutArray[_currentActorStartMovingTimeoutIndex].ActorStartMovingTimeout.register(stEventEntity, timerTime, conformation);
+_actorStartMovingTimeoutArray[_currentActorStartMovingTimeoutIndex].ActorStartMovingTimeout.register(stEventEntity, timerTime, conformation, waitHWConformation);
 _actorStartMovingTimeoutArray[_currentActorStartMovingTimeoutIndex].actorID := actorID;
 _actorStartMovingTimeoutArray[_currentActorStartMovingTimeoutIndex].actorPtr := actorPtr;
 _actorStartMovingTimeoutArray[_currentActorStartMovingTimeoutIndex].expectedActorValue := expectedActorValue;

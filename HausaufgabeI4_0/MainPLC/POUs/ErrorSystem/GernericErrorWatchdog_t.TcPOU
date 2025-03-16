@@ -13,6 +13,7 @@ VAR
 	_sensor : BOOL; 		// if true reset timer
 	_isAlarmDisplayed : BOOL := FALSE; // if true, the alarm wasn't deleted from the event logger 
 	_isAlarmClearedLast : BOOL := FALSE; // true when the alarm has been cleard last
+	_waitHWConformation : BOOL := TRUE; // if true, the watchdogs wait for the correct value bevore clearing the error.
 	
 	_eventLogger : FB_TcEventLogger;
 	_eventLoggerSettings : FB_TcClearLoggedEventsSettings;
@@ -36,6 +37,10 @@ END_IF
 
 _alarm.Confirm();
 
+// restet timeout
+_timer.IN := FALSE;
+_timer();
+
 confirm := TRUE;]]></ST>
       </Implementation>
     </Method>
@@ -51,7 +56,7 @@ END_VAR
 	return;
 END_IF
 
-isAlarmRaised := _alarm.bRaised;
+isAlarmRaised := _alarm.bActive;
 RETURN;]]></ST>
       </Implementation>
     </Method>
@@ -62,12 +67,14 @@ VAR_INPUT
 	stEventEntity : TcEventEntry;
 	timerTime : TIME; // sets the timer for the timeout
 	conformation : BOOL := TRUE; 
+	waitHWConformation : bool := TRUE;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[_alarm.CreateEx(stEventEntity, conformation);
 _timer.PT := timerTime;
 _init := TRUE;
+_waitHWConformation := waitHWConformation; 
 RETURN;
 ]]></ST>
       </Implementation>
@@ -127,13 +134,13 @@ IF (_alarm.bActive = FALSE AND _isAlarmDisplayed) OR _isAlarmClearedLast THEN
 	_eventLogger.ClearLoggedEvents(_eventLoggerSettings);
 END_IF
 
-IF _timer.Q AND _alarm.bRaised = FALSE THEN
+IF _timer.Q AND _alarm.bActive = FALSE THEN
 	// timeout detected
 	_alarm.Raise(); 
 	_isAlarmDisplayed := TRUE; 
 END_IF
 
-IF _alarm.bRaised AND sensor THEN
+IF _alarm.bRaised AND (sensor OR _waitHWConformation = FALSE) THEN
 	_alarm.Clear();
 	_isAlarmClearedLast := NOT _alarm.bActive;
 END_IF

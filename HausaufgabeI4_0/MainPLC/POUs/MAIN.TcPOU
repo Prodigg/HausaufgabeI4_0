@@ -59,18 +59,15 @@ END_IF
 IF (NOT InputOutput.StopButton OR HMIInterface.HMIStopMachine) THEN
 	mainStateMachine.stopStateMachine(); 
 	systemStatus := systemStatus_t.STOPPING; 
+	ErrorManager.stopErrors();
 END_IF
 
 IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachineON() = FALSE THEN
 	systemStatus := systemStatus_t.STOPPED; 
 END_IF
 
-IF systemStatus = systemStatus_t.STOPPED THEN
-	ErrorManager.stopErrors();
-END_IF
-
 // push error test
-IF ((NOT InputOutput.EmStop) OR ErrorManager.hasError()) AND systemStatus <> systemStatus_t.ERROR THEN 
+IF (NOT InputOutput.EmStop) AND systemStatus <> systemStatus_t.ERROR THEN 
  			_ErrorMessage.CreateEx(TC_EVENTS.OperationalErrors.EmStopPressed, 0 ); {info 'TODO: make this a alarm and not a message'}
 			_ErrorMessage.ipArguments.AddString(__POUNAME());
 			_tmpStr := formatPosition(__POSITION());
@@ -79,15 +76,17 @@ IF ((NOT InputOutput.EmStop) OR ErrorManager.hasError()) AND systemStatus <> sys
 END_IF
 
 
-IF NOT InputOutput.EmStop THEN
+IF (NOT InputOutput.EmStop) OR ErrorManager.hasError() THEN
 	// overwrite systemstatus to force to error state
 	systemStatus := systemStatus_t.ERROR; 
 	mainStateMachine.reset(); // reset StateMachine
+	ErrorManager.stopErrors();
 END_IF
 
 // reset errors 
-IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR AND (NOT ErrorManager.hasError()) THEN
+IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR THEN
 	systemStatus := systemStatus_t.STOPPED;
+	ErrorManager.confirmAll();
 	InputOutput.QuittierenLamp := FALSE;
 END_IF
 
