@@ -52,12 +52,12 @@
     "value": "TcHmiEventLogger"
   },
   {
-    "logic": "OR"
+    "logic": "AND"
   },
   {
-    "path": "domain",
-    "comparator": "==",
-    "value": "TcHmiAlarm"
+    "path": "alarmState",
+    "comparator": "!=",
+    "value": 3
   }
 ]
 </script>

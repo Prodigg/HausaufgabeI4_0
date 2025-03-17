@@ -67,7 +67,7 @@ IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachine
 END_IF
 
 // push error test
-IF (NOT InputOutput.EmStop) AND systemStatus <> systemStatus_t.ERROR THEN 
+IF (NOT InputOutput.EmStop) AND systemStatus <> systemStatus_t.ERROR AND FALSE THEN 
  			_ErrorMessage.CreateEx(TC_EVENTS.OperationalErrors.EmStopPressed, 0 ); {info 'TODO: make this a alarm and not a message'}
 			_ErrorMessage.ipArguments.AddString(__POUNAME());
 			_tmpStr := formatPosition(__POSITION());
@@ -76,7 +76,7 @@ IF (NOT InputOutput.EmStop) AND systemStatus <> systemStatus_t.ERROR THEN
 END_IF
 
 
-IF (NOT InputOutput.EmStop) OR ErrorManager.hasError() THEN
+IF ErrorManager.hasError() THEN
 	// overwrite systemstatus to force to error state
 	systemStatus := systemStatus_t.ERROR; 
 	mainStateMachine.reset(); // reset StateMachine
@@ -91,7 +91,7 @@ IF InputOutput.ResetButton AND systemStatus = systemStatus_t.ERROR THEN
 END_IF
 
 // set lamp of quittierung
-IF (InputOutput.EmStop OR ErrorManager.hasError()) AND systemStatus = systemStatus_t.ERROR THEN 
+IF ErrorManager.hasError() AND systemStatus = systemStatus_t.ERROR THEN 
 	InputOutput.QuittierenLamp := TRUE;
 END_IF
 
@@ -130,6 +130,7 @@ ErrorManager.update();
 
 // test
 {warning 'remove test'}
+
 
 IF firstRun = FALSE AND run THEN
 	firstRun := TRUE;

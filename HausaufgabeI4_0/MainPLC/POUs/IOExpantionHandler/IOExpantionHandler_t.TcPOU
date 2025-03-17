@@ -221,34 +221,34 @@ END_VAR
       <Implementation>
         <ST><![CDATA[CASE actorID OF
 	actorID_t.ACTOR_0:
-		convertByteBit(_FestoPneumaticOutBytes[0]^, 0);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[0]^, 0);
 		
 	actorID_t.ACTOR_1:
-		convertByteBit(_FestoPneumaticOutBytes[0]^, 2);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[0]^, 2);
 		
 	actorID_t.ACTOR_2:
-		convertByteBit(_FestoPneumaticOutBytes[0]^, 4);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[0]^, 4);
 		
 	actorID_t.ACTOR_3:
-		convertByteBit(_FestoPneumaticOutBytes[0]^, 6);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[0]^, 6);
 		
 	actorID_t.ACTOR_GRIPPER_RIGHT_LEFT:
-		convertByteBit(_FestoPneumaticOutBytes[1]^, 0);	
+		getActor := convertByteBit(_FestoPneumaticOutBytes[1]^, 0);	
 		
 	actorID_t.ACTOR_GRIPPER_OPEN_CLOSE:
-		convertByteBit(_FestoPneumaticOutBytes[1]^, 2);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[1]^, 2);
 		
 	actorID_t.ACTOR_GRIPPER_UP_DOWN:
-		convertByteBit(_FestoPneumaticOutBytes[1]^, 4);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[1]^, 4);
 		
 	actorID_t.ACTOR_Y1_OUT:
-		convertByteBit(_FestoPneumaticOutBytes[1]^, 6);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[1]^, 6);
 		
 	actorID_t.ACTOR_Y2_OUT:
-		convertByteBit(_FestoPneumaticOutBytes[2]^, 0);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[2]^, 0);
 		
 	actorID_t.ACTOR_Y3_OUT:
-		convertByteBit(_FestoPneumaticOutBytes[2]^, 2);
+		getActor := convertByteBit(_FestoPneumaticOutBytes[2]^, 2);
 	
 END_CASE
 ]]></ST>

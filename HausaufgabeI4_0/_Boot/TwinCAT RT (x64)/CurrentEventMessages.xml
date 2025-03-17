@@ -263,6 +263,8 @@
 		<Text TxtId="Linear drive Movement has Timedout"/>
 		<Text TxtId="Linear Drive Start Movement Timeout (Left)"/>
 		<Text TxtId="Linear Drive Start Movement Timeout (Right)"/>
+		<Text TxtId="Low Pneumatic Pressure"/>
+		<Text TxtId="Low Pneumatic Pressure has been detected."/>
 		<Text TxtId="No malfunction, port X{0}">
 			<Text LcId="1031">Keine Fehlfunktionen, Port X{0}</Text>
 		</Text>
@@ -518,9 +520,11 @@
 		<Text TxtId="Y3 Start Movement Timeout (Up)"/>
 		<Text TxtId="{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)"/>
 		<Text TxtId="{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})"/>
+		<Text TxtId="{0}:{1}: Exceeding allowed amount of primitiveWatchdog timeouts ({2})"/>
 		<Text TxtId="{0}:{1}: invalid accsess of bit in byte (out of range)"/>
 		<Text TxtId="{0}:{1}: invalid accsess of byte (out of range)"/>
 		<Text TxtId="{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)"/>
+		<Text TxtId="{0}:{1}: Primitive Watchdog timeout no valid sensor given (will be ignored)"/>
 		<Text TxtId="{0}:{1}: subscriber array full (max: {2})"/>
 	</Translations>
 	<Source>
@@ -1196,47 +1200,7 @@
 		</Property>
 	</Source>
 	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{A5ED0604-717C-4394-A168-9C5F17813F7E}</GUID>
-		<Name>Programming Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>{0}:{1}: invalid accsess of byte (out of range)</Message>
-		</Event>
-		<Event>
-			<Id>2</Id>
-			<Message>{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
-		</Event>
-		<Event>
-			<Id>3</Id>
-			<Message>{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})</Message>
-		</Event>
-		<Event>
-			<Id>4</Id>
-			<Message>{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)</Message>
-		</Event>
-		<Event>
-			<Id>5</Id>
-			<Message>This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}</Message>
-		</Event>
-		<Event>
-			<Id>6</Id>
-			<Message>{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)</Message>
-		</Event>
-		<Event>
-			<Id>7</Id>
-			<Message>{0}:{1}: subscriber array full (max: {2})</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{B0E2DFD4-BC14-4D52-BC6C-8949D002FEC2}</GUID>
+		<GUID>{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}</GUID>
 		<Name>Operational Errors</Name>
 		<Event>
 			<Id>1</Id>
@@ -1357,6 +1321,66 @@
 				<Name>Comment</Name>
 				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).</Text>
 			</Detail>
+		</Event>
+		<Event>
+			<Id>11</Id>
+			<Message>Low Pneumatic Pressure</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Low Pneumatic Pressure has been detected.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Low Pneumatic Pressure has been detected.</Text>
+			</Detail>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{EBEC2182-2EAC-4C22-9DC7-F411F4C2BCD8}</GUID>
+		<Name>Programming Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>{0}:{1}: invalid accsess of byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message>{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message>{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message>{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)</Message>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message>This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}</Message>
+		</Event>
+		<Event>
+			<Id>6</Id>
+			<Message>{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)</Message>
+		</Event>
+		<Event>
+			<Id>7</Id>
+			<Message>{0}:{1}: subscriber array full (max: {2})</Message>
+		</Event>
+		<Event>
+			<Id>8</Id>
+			<Message>{0}:{1}: Exceeding allowed amount of primitiveWatchdog timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>9</Id>
+			<Message>{0}:{1}: Primitive Watchdog timeout no valid sensor given (will be ignored)</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 </TcEventSources>

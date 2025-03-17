@@ -131,7 +131,7 @@ VAR
 	i : UINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// confirm all alarms
+        <ST><![CDATA[// reset all alarms
 FOR i := 0 TO _currentActorStartMovingTimeoutIndex DO
 	_actorStartMovingTimeoutArray[i].ActorStartMovingTimeout.reset();
 END_FOR

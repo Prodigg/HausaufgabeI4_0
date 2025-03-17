@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="PrimitiveWatchdogEx_t" Id="{90dea029-f337-48e3-ae09-3d74d59a2388}">
+    <Declaration><![CDATA[TYPE PrimitiveWatchdogEx_t :
+STRUCT
+	primitiveWatchdog : GernericErrorWatchdog_t;
+	invert : BOOL := FALSE; // if true, inverts the watchdog feeding signal
+	sensorID : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorPtr : POINTER TO BOOL := NULL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

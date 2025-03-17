@@ -10,6 +10,7 @@ END_VAR
 VAR
 	_actorMovingTimeoutManager : ActorMovingTimeoutManager_t;
 	_actorStartMovingTimeoutManager : ActorStartMovingTimeoutManager_t;
+	_primitiveWatchdogManager : PrimitiveWatchdogManager_t;
 	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 	
 	_trowErrors : BOOL := FALSE; // if true, errors are checked
@@ -28,6 +29,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[_actorMovingTimeoutManager.confirmAll();
 _actorStartMovingTimeoutManager.confirmAll();
+_primitiveWatchdogManager.confirmAll();
 
 confirmAll := TRUE;
 return;]]></ST>
@@ -51,12 +53,15 @@ _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors
 _actorMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, timerTime := T#2S, conformation := TRUE, sensorID1 := sensorID_t.SENSOR_B3_Y3_DOWN, sensorID2 := sensorID_t.SENSOR_B4_Y3_UP, waitHWConformation := FALSE);
 
 
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := TRUE, waitHWConformation := FALSE);
-_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := FALSE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, timerTime := T#5S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := TRUE, waitHWConformation := FALSE);
+_actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, timerTime := T#5S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT, actorID := actorID_t.ACTOR_GRIPPER_RIGHT_LEFT, expectedActorValue := FALSE, waitHWConformation := FALSE);
 _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B1_Y2_DOWN, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := FALSE, waitHWConformation := FALSE);
 _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.EXPANTION_SENSOR_B2_Y2_UP, actorID := actorID_t.ACTOR_Y2_OUT, expectedActorValue := TRUE, waitHWConformation := FALSE);
 _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveDownTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B3_Y3_DOWN, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := FALSE, waitHWConformation := FALSE);
 _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveUpTimeout, timerTime := T#1S, conformation := TRUE, sensorID := sensorID_t.SENSOR_B4_Y3_UP, actorID := actorID_t.ACTOR_Y3_OUT, expectedActorValue := TRUE, waitHWConformation := FALSE);
+
+_primitiveWatchdogManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LowPneumaticPressure, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_PNEUMATIC_PRESHURE_OK, waitHWConformation := FALSE);
+_primitiveWatchdogManager.register(stEventEntity := TC_EVENTS.OperationalErrors.EmStopPressed, timerTime := T#100MS, conformation := TRUE, sensorPtr := ADR(InputOutput.EmStop), waitHWConformation := FALSE);
 ]]></ST>
       </Implementation>
     </Method>
@@ -69,6 +74,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
 hasError := hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
+hasError := hasError OR THIS^._primitiveWatchdogManager.hasError();
 _hasError := hasError;
 return;]]></ST>
       </Implementation>
@@ -80,7 +86,9 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_actorMovingTimeoutManager.resetAll();]]></ST>
+        <ST><![CDATA[_actorMovingTimeoutManager.resetAll();
+_actorStartMovingTimeoutManager.resetAll();
+_primitiveWatchdogManager.resetAll();]]></ST>
       </Implementation>
     </Method>
     <Method Name="setIOExpantionHandler" Id="{7f37fa64-74a8-4cd9-ab1a-fc95bb889207}">
@@ -93,6 +101,7 @@ END_VAR
         <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
 _actorMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
 _actorStartMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
+_primitiveWatchdogManager.setIOExpantionHandler(_IOExpantionHandler);
 
 setIOExpantionHandler := TRUE;
 return;]]></ST>
@@ -141,6 +150,7 @@ END_IF
 
 _actorMovingTimeoutManager.update();
 _actorStartMovingTimeoutManager.update();
+_primitiveWatchdogManager.update();
 update := TRUE;
 RETURN;]]></ST>
       </Implementation>

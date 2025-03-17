@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PrimitiveWatchdogManager_t" Id="{8c1c19b6-fd71-478b-b08e-cdb98a3e88b1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK PrimitiveWatchdogManager_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_primitiveWatchdogArray : ARRAY [0..99] OF  PrimitiveWatchdogEx_t;
+	_maxPrimitiveWatchdogIndex : UINT := 99;
+	_currentPrimitiveWatchdogIndex : UINT := 0;
+	_ErrorMessage : FB_TcMessage;
+	_IOExpantionHandler : POINTER TO IOExpantionHandler_t := NULL;
+	
+	_IOExpantionHandlerNotValidErrorSent : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="clear" Id="{2bcc6c7a-e532-462b-904e-997125b51f38}">
+      <Declaration><![CDATA[// clears and destroyes all PrimetiveWatchdogs
+METHOD clear : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_currentPrimitiveWatchdogIndex := 0;
+
+clear := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="confirmAll" Id="{8b6438bd-beef-4b76-b496-3b8157f7917f}">
+      <Declaration><![CDATA[// confirm all primitiveWatchdogs
+METHOD confirmAll : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// confirm all alarms
+FOR i := 0 TO _currentPrimitiveWatchdogIndex DO
+	_primitiveWatchdogArray[i].primitiveWatchdog.confirm();
+END_FOR
+
+confirmAll := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{8c6195b7-abde-484f-9c91-5fcf3ef03919}">
+      <Declaration><![CDATA[// if true an error has been trown
+METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO _currentPrimitiveWatchdogIndex DO
+	hasError := hasError OR THIS^._primitiveWatchdogArray[i].primitiveWatchdog.isAlarmRaised();
+END_FOR
+
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="register" Id="{7abba59b-5c4f-4292-bb4d-77fa7c3549a4}">
+      <Declaration><![CDATA[METHOD register : BOOL
+VAR_INPUT
+	stEventEntity : TcEventEntry;
+	timerTime : TIME; // sets the timer for the timeout
+	conformation : BOOL := TRUE;
+	invert : BOOL := FALSE; // if true, inverts the watchdog feeding signal
+	sensorID : sensorID_t := sensorID_t.SENSOR_NO_SENSOR;
+	sensorPtr : POINTER TO BOOL := NULL;
+	waitHWConformation : BOOL := TRUE;
+END_VAR
+VAR
+	_tmpStr : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _currentPrimitiveWatchdogIndex + 1 > _maxPrimitiveWatchdogIndex THEN
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ExceedingAllowedAmountOfPrimitiveWatchdogTimeouts, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.ipArguments.AddUInt(_maxPrimitiveWatchdogIndex);
+	_ErrorMessage.Send(0);
+	
+	register := FALSE;
+	RETURN;
+END_IF
+
+IF (NOT(sensorID = sensorID_t.SENSOR_NO_SENSOR XOR sensorPtr = NULL)) THEN
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.primitiveWatchdogNoValidSensorGiven, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr);
+	_ErrorMessage.Send(0);
+	
+	register := FALSE;
+	RETURN;
+END_IF
+
+_currentPrimitiveWatchdogIndex := _currentPrimitiveWatchdogIndex + 1; // increase it by one
+
+_primitiveWatchdogArray[_currentPrimitiveWatchdogIndex].primitiveWatchdog.register(stEventEntity, timerTime, conformation, waitHWConformation);
+
+_primitiveWatchdogArray[_currentPrimitiveWatchdogIndex].sensorID := sensorID;
+_primitiveWatchdogArray[_currentPrimitiveWatchdogIndex].sensorPtr := sensorPtr;
+_primitiveWatchdogArray[_currentPrimitiveWatchdogIndex].invert := invert;
+
+register := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resetAll" Id="{70fe726e-7156-47d6-8e9d-28f8450fdf92}">
+      <Declaration><![CDATA[// resets all primitiveTimeouts
+METHOD resetAll : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// reset all alarms
+FOR i := 0 TO _currentPrimitiveWatchdogIndex DO
+	_primitiveWatchdogArray[i].primitiveWatchdog.reset();
+END_FOR
+
+resetAll := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resolveWatchdogImput" Id="{299204e6-5599-43a0-bacb-3fee0a133ffc}">
+      <Declaration><![CDATA[METHOD PRIVATE resolveWatchdogImput : BOOL
+VAR_INPUT
+	PrimitiveWatchdogEx : PrimitiveWatchdogEx_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF PrimitiveWatchdogEx.sensorID <> sensorID_t.SENSOR_NO_SENSOR THEN
+	resolveWatchdogImput := _IOExpantionHandler^.getSensorStatus(PrimitiveWatchdogEx.sensorID);
+END_IF
+
+IF PrimitiveWatchdogEx.sensorPtr <> NULL THEN
+	resolveWatchdogImput := PrimitiveWatchdogEx.sensorPtr^;
+END_IF
+
+IF PrimitiveWatchdogEx.invert THEN
+	resolveWatchdogImput := NOT resolveWatchdogImput;
+END_IF
+
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setIOExpantionHandler" Id="{39246724-ebff-406a-a125-9d02176cb0b6}">
+      <Declaration><![CDATA[METHOD setIOExpantionHandler : BOOL
+VAR_INPUT
+	IOExpantionHandlerPtr: POINTER TO IOExpantionHandler_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
+setIOExpantionHandler := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{969d9a43-1124-4845-bf5d-1000c28b9a1f}">
+      <Declaration><![CDATA[METHOD update : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i: UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO _currentPrimitiveWatchdogIndex DO
+	_primitiveWatchdogArray[i].primitiveWatchdog.update(resolveWatchdogImput(_primitiveWatchdogArray[i]));
+END_FOR
+
+update := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
