@@ -39,6 +39,7 @@ VAR
 	_readDiag : FB_EcCoESdoRead;
 	
 	_returnDiagBuffer : ARRAY[0..236] OF BYTE;
+	_returnIndexBuff : ARRAY[0..39] OF BYTE;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -65,7 +66,9 @@ END_VAR]]></Declaration>
 
 FOR i := 0 TO TO_UINT(SIZEOF(_subscriberArray) / SIZEOF(IOExpantionMessageSubData_t)) DO
 	IF isMesDesEqual(_subscriberArray[i].messageDescription, messageDescription) THEN
-		_subscriberArray[i].callbackVariable^ := TRUE;
+		IF _subscriberArray[i].callbackVariable <> NULL THEN
+			_subscriberArray[i].callbackVariable^ := TRUE;
+		END_IF
 	END_IF
 END_FOR
 
@@ -315,47 +318,35 @@ VAR_OUTPUT
 	ReadLength : UDINT := 0;
 END_VAR
 VAR 
-	_destBuff : byte := 0;
+	_error : BOOL := FALSE;
+	_errorID : UDINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_readDiag(
+        <ST><![CDATA[_ReadDiag(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
 	nSubIndex:= 2, 
 	nIndex:= 16#10F3, 
-	pDstBuf:= ADR(_destBuff), 
-	cbBufLen:= 237, 
+	pDstBuf:= ADR(_returnIndexBuff), 
+	cbBufLen:= 40, 
 	bExecute:=TRUE , 
 	tTimeout:= T#5S, 
 	bBusy=> busy, 
-	bError=> , 
-	nErrId=> , 
+	bError=> _error, 
+	nErrId=> _errorID, 
 	cbRead=>ReadLength);
 	
 	IF busy = FALSE THEN
-		_readDiag(
-			sNetId:= '5.85.199.196.4.1', 
-			nSlaveAddr:=1001 , 
-			nSubIndex:= 2, 
-			nIndex:= 16#10F3, 
-			pDstBuf:= ADR(_destBuff), 
-			cbBufLen:= 237, 
-			bExecute:=TRUE , 
-			tTimeout:= T#5S, 
-			bBusy=> busy, 
-			bError=> , 
-			nErrId=> , 
-			cbRead=>ReadLength);
 		
-		getNewestMessageIndex := _destBuff;
+		getNewestMessageIndex := _returnIndexBuff[0];
 		// to cycle object
 		_readDiag(
 			sNetId:= '5.85.199.196.4.1', 
 			nSlaveAddr:=1001 , 
 			nSubIndex:= 2, 
 			nIndex:= 16#10F3, 
-			pDstBuf:= ADR(_destBuff), 
-			cbBufLen:= 1, 
+			pDstBuf:= ADR(_returnIndexBuff), 
+			cbBufLen:= 40, 
 			bExecute:=FALSE , 
 			tTimeout:= T#5S, 
 			bBusy=> , 
@@ -452,12 +443,13 @@ VAR
 	i : UINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[FOR i := 0 TO 3 DO
-	isMesDesEqual := isMesDesEqual OR messageDescription1.diagCode[i] = messageDescription2.diagCode[i];
+        <ST><![CDATA[isMesDesEqual := TRUE;
+FOR i := 0 TO 3 DO
+	isMesDesEqual := isMesDesEqual AND messageDescription1.diagCode[i] = messageDescription2.diagCode[i];
 END_FOR
 
 FOR i := 0 TO 1 DO
-	isMesDesEqual := isMesDesEqual OR messageDescription1.textID[i] = messageDescription2.textID[i];
+	isMesDesEqual := isMesDesEqual AND messageDescription1.textID[i] = messageDescription2.textID[i];
 END_FOR
 
 RETURN;]]></ST>

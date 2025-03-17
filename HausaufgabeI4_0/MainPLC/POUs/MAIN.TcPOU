@@ -32,7 +32,7 @@ textID : ARRAY[0..1] OF BYTE := [16#00, 16#38];
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
 	
-BuffDiagMess :Array[0..236] of byte;
+BuffDiagMess :Array[0..39] of byte;
 	xStart: BOOL;
 	ReadLength: UDINT;
 END_VAR
@@ -145,10 +145,10 @@ END_IF
 (*ReadDiag(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
-	nSubIndex:= 9, 
+	nSubIndex:= 2, 
 	nIndex:= 16#10F3, 
 	pDstBuf:= ADR(BuffDiagMess), 
-	cbBufLen:= 237, 
+	cbBufLen:= 40, 
 	bExecute:=xStart , 
 	tTimeout:= T#5S, 
 	bBusy=> , 
