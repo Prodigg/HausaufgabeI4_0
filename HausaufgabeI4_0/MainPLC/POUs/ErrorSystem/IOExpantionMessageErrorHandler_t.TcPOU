@@ -89,7 +89,7 @@ END_VAR
 _IOExpantionHandler^.subscribe(callbackVariable := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].errorMessageCallback), diagCode := diagCodeErrorMessage, textID := textIDErrorMessage);
 _IOExpantionHandler^.subscribe(callbackVariable := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].clearMessageCallback), diagCode := diagCodeClearMessage, textID := textIDClearMessage);
 
-_PrimitiveWatchdogManager.register(stEventEntity, timerTime, conformation, invert := FALSE, sensorPtr := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].isErrorActive), waitHWConformation := TRUE);
+_PrimitiveWatchdogManager.register(stEventEntity := stEventEntity, timerTime := timerTime, conformation := conformation, invert := true, sensorPtr := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].isErrorActive), waitHWConformation := TRUE);
 
 register := TRUE;
 return;]]></ST>

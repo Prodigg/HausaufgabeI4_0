@@ -36,7 +36,10 @@ VAR
 	
 	_subscriberArray : ARRAY[0..99] OF IOExpantionMessageSubData_t;
 	
-	_readDiag : FB_EcCoESdoRead;
+	_readDiagIndex : FB_EcCoESdoRead;
+	_readDiagMessage : FB_EcCoESdoRead;
+	
+	_readDiagMessageClock : pulseSignalGenerator_t;
 	
 	_returnDiagBuffer : ARRAY[0..236] OF BYTE;
 	_returnIndexBuff : ARRAY[0..39] OF BYTE;
@@ -100,9 +103,11 @@ IF _newestMessageInBuffer = _lastMessageRead THEN
 END_IF
 
 // read messages 
-getMessage(returnBuffer := ADR(_returnDiagBuffer), index := _currentMessageRead, busy => getMessageBusy);
+IF _readDiagMessageClock.signal THEN
+	getMessage(index := _currentMessageRead, busy => getMessageBusy);
+END_IF
 
-IF getMessageBusy = FALSE THEN
+IF getMessageBusy = FALSE AND _readDiagMessageClock.signal THEN
 	_currentMessageRead := getNextMessageIndex(_currentMessageRead);
 	
 	IF _currentMessageRead = _newestMessageInBuffer + 1 THEN
@@ -110,7 +115,9 @@ IF getMessageBusy = FALSE THEN
 	END_IF
 	
 	callCallback(genMessageDescription(ADR(_returnDiagBuffer)));
-END_IF]]></ST>
+END_IF
+
+_readDiagMessageClock.update();]]></ST>
       </Implementation>
     </Method>
     <Method Name="convertByteBit" Id="{c72d17b1-1c44-49e3-a151-07e0993e3ad1}" FolderPath="Sensors\">
@@ -200,6 +207,20 @@ END_CASE
 RETURN;]]></ST>
       </Implementation>
     </Method>
+    <Method Name="FB_Init" Id="{aec21175-083a-4765-bd49-891f0dda08d7}">
+      <Declaration><![CDATA[//FB_Init ist immer implizit verfügbar und wird primär für die Initialisierung verwendet.
+//Der Rückgabewert wird nicht ausgewertet. Für gezielte Einflussnahme können Sie
+//die Methoden explizit deklarieren und darin mit dem Standard-Initialisierungscode 
+//zusätzlichen Code bereitstellen. Sie können den Rückgabewert auswerten.
+METHOD FB_Init: BOOL
+VAR_INPUT    
+bInitRetains: BOOL; // TRUE: Die Retain-Variablen werden initialisiert (Reset warm / Reset kalt)    
+bInCopyCode: BOOL;  // TRUE: Die Instanz wird danach in den Kopiercode kopiert (Online-Change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_readDiagMessageClock.durrationBetweenSignals_ms := 50;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="genMessageDescription" Id="{f9e3f21e-0cb1-4f67-b4b3-cab6399e6b44}" FolderPath="Communication\">
       <Declaration><![CDATA[METHOD PRIVATE genMessageDescription : IOExpantionMessageDescriptor_t;
 VAR_INPUT
@@ -260,7 +281,6 @@ END_CASE
     <Method Name="getMessage" Id="{e354e0ff-27cb-4c0f-87c4-ea76bf824ee7}" FolderPath="Communication\CommunicationAPI\">
       <Declaration><![CDATA[METHOD PRIVATE getMessage : BOOL
 VAR_INPUT
-	returnBuffer : POINTER TO ARRAY[0..236] OF BYTE;
 	index : BYTE;
 END_VAR
 VAR_OUTPUT
@@ -269,33 +289,34 @@ VAR_OUTPUT
 END_VAR
 VAR 
 	calculatedIndex : BYTE := 0;
-	
+	_error : BOOL := FALSE;
+	_errorID : UDINT := 0;
 END_VAR 
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[calculatedIndex := index + 6; // 6 is offset
-_readDiag(
+_readDiagMessage(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
 	nSubIndex:= calculatedIndex, 
 	nIndex:= 16#10F3, 
-	pDstBuf:= returnBuffer, 
+	pDstBuf:= ADR(_returnDiagBuffer), 
 	cbBufLen:= 237, 
 	bExecute:=TRUE , 
 	tTimeout:= T#5S, 
 	bBusy=> busy, 
-	bError=> , 
-	nErrId=> , 
+	bError=> _error, 
+	nErrId=> _errorID, 
 	cbRead=>ReadLength);
 	
 IF busy = FALSE THEN
 	// to cycle object
-	_readDiag(
+	_readDiagMessage(
 		sNetId:= '5.85.199.196.4.1', 
 		nSlaveAddr:=1001 , 
 		nSubIndex:= calculatedIndex, 
 		nIndex:= 16#10F3, 
-		pDstBuf:= returnBuffer, 
+		pDstBuf:= ADR(_returnDiagBuffer), 
 		cbBufLen:= 237, 
 		bExecute:=FALSE , 
 		tTimeout:= T#5S, 
@@ -322,7 +343,7 @@ VAR
 	_errorID : UDINT := 0;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_ReadDiag(
+        <ST><![CDATA[_readDiagIndex(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
 	nSubIndex:= 2, 
@@ -340,7 +361,7 @@ END_VAR]]></Declaration>
 		
 		getNewestMessageIndex := _returnIndexBuff[0];
 		// to cycle object
-		_readDiag(
+		_readDiagIndex(
 			sNetId:= '5.85.199.196.4.1', 
 			nSlaveAddr:=1001 , 
 			nSubIndex:= 2, 
@@ -468,7 +489,7 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[_readDiag(
+        <ST><![CDATA[_readDiagMessage(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
 	nSubIndex:= 16#04, 
@@ -485,7 +506,7 @@ END_VAR
 	IF busy = FALSE THEN
 		isNewMessageAvalable := _destBuff;
 		// to cycle object
-		_readDiag(
+		_readDiagMessage(
 			sNetId:= '5.85.199.196.4.1', 
 			nSlaveAddr:=1001 , 
 			nSubIndex:= 16#04, 

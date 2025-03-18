@@ -1200,6 +1200,14 @@
 		</Property>
 	</Source>
 	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
 		<GUID>{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}</GUID>
 		<Name>Operational Errors</Name>
 		<Event>
@@ -1373,14 +1381,6 @@
 		<Event>
 			<Id>9</Id>
 			<Message>{0}:{1}: Primitive Watchdog timeout no valid sensor given (will be ignored)</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 </TcEventSources>

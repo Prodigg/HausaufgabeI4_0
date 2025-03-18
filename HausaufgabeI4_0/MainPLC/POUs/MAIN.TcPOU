@@ -27,7 +27,7 @@ run : bool := false;
 callback : BOOL := FALSE;
 
 diagCode : ARRAY[0..3] OF BYTE := [16#03, 16#E0, 16#08, 16#00];
-textID : ARRAY[0..1] OF BYTE := [16#00, 16#38];
+textID : ARRAY[0..1] OF BYTE := [16#38, 16#00];
 
 //murr test
 	ReadDiag: FB_EcCoESdoRead;
@@ -35,8 +35,7 @@ textID : ARRAY[0..1] OF BYTE := [16#00, 16#38];
 BuffDiagMess :Array[0..39] of byte;
 	xStart: BOOL;
 	ReadLength: UDINT;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 // always update mainStateMachine IOExpantionahndler refferance
@@ -134,12 +133,12 @@ ErrorManager.update();
 
 IF firstRun = FALSE AND run THEN
 	firstRun := TRUE;
+	
 	IOExpantionHandler.subscribe(callbackVariable := ADR(callback), diagCode := diagCode, textID := textID);
 END_IF
 
-IF run THEN
-	IOExpantionHandler.comUpdate();
-END_IF
+IOExpantionHandler.comUpdate();
+
 
 // murr test
 (*ReadDiag(

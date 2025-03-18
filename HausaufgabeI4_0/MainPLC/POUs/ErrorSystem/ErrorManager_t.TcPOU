@@ -16,6 +16,7 @@ VAR
 	
 	_trowErrors : BOOL := FALSE; // if true, errors are checked
 	_hasError : BOOL := FALSE; // if true, a error has been reported
+	_errorsInitialised : BOOL := FALSE; // if true, errors have been initialised
 	
 END_VAR
 ]]></Declaration>
@@ -46,6 +47,37 @@ METHOD FB_Init: BOOL
 VAR_INPUT    
 bInitRetains: BOOL; // TRUE: Die Retain-Variablen werden initialisiert (Reset warm / Reset kalt)    
 bInCopyCode: BOOL;  // TRUE: Die Instanz wird danach in den Kopiercode kopiert (Online-Change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{0f79f821-abb9-4a21-baa9-ae93f287de20}">
+      <Declaration><![CDATA[// if the function returns true, an error has been reported
+METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
+hasError := hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
+hasError := hasError OR THIS^._primitiveWatchdogManager.hasError();
+hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
+
+_hasError := hasError;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="initErrors" Id="{47c43490-683d-4666-936e-97faef23b8b8}">
+      <Declaration><![CDATA[METHOD PRIVATE initErrors : BOOL
+VAR_INPUT
+END_VAR
+VAR CONSTANT
+ 	diagCodeErrorTestMessage : ARRAY[0..3] OF BYTE := [16#03, 16#E0, 16#08, 16#00];
+	textIDErrorTestMessage : ARRAY[0..1] OF BYTE := [16#38, 16#00];
+	diagCodeClearTestMessage : ARRAY[0..3] OF BYTE := [16#03, 16#E0, 16#08, 16#00];
+	textIDClearTestMessage : ARRAY[0..1] OF BYTE := [16#38, 16#10];
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// register all errors
@@ -64,23 +96,9 @@ _actorStartMovingTimeoutManager.register(stEventEntity := TC_EVENTS.OperationalE
 
 _primitiveWatchdogManager.register(stEventEntity := TC_EVENTS.OperationalErrors2.LowPneumaticPressure, timerTime := T#10S, conformation := TRUE, sensorID := sensorID_t.SENSOR_PNEUMATIC_PRESHURE_OK, waitHWConformation := FALSE);
 _primitiveWatchdogManager.register(stEventEntity := TC_EVENTS.OperationalErrors.EmStopPressed, timerTime := T#100MS, conformation := TRUE, sensorPtr := ADR(InputOutput.EmStop), waitHWConformation := FALSE);
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="hasError" Id="{0f79f821-abb9-4a21-baa9-ae93f287de20}">
-      <Declaration><![CDATA[// if the function returns true, an error has been reported
-METHOD hasError : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
-hasError := hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
-hasError := hasError OR THIS^._primitiveWatchdogManager.hasError();
-hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
 
-_hasError := hasError;
-return;]]></ST>
+_IOExpantionMessageErrorHandler.register(stEventEntity := TC_EVENTS.ProgrammingErrors.testError, timerTime := T#10MS, conformation := TRUE, diagCodeErrorMessage := diagCodeErrorTestMessage, textIDErrorMessage := textIDErrorTestMessage, diagCodeClearMessage := diagCodeClearTestMessage, textIDClearMessage := textIDClearTestMessage);
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="reset" Id="{cbb3611f-047d-4b5e-8440-7113467dc56c}">
@@ -144,20 +162,27 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF _trowErrors = FALSE THEN
-	update := TRUE;
+        <ST><![CDATA[IF _IOExpantionHandler = NULL THEN
+	update := FALSE;
 	RETURN;
 END_IF
 
-IF _IOExpantionHandler = NULL THEN
-	update := FALSE;
+IF _errorsInitialised = FALSE THEN
+	initErrors();
+	_errorsInitialised := TRUE;
+END_IF
+
+// is not an actor error and can appear outside of opperations.
+_IOExpantionMessageErrorHandler.update();
+
+IF _trowErrors = FALSE THEN
+	update := TRUE;
 	RETURN;
 END_IF
 
 _actorMovingTimeoutManager.update();
 _actorStartMovingTimeoutManager.update();
 _primitiveWatchdogManager.update();
-_IOExpantionMessageErrorHandler.update();
 
 update := TRUE;
 RETURN;]]></ST>
