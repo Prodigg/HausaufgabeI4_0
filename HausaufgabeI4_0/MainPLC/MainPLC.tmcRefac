@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="7775bbd3-29b4-410c-9a8e-fede20a512db">RESOLVEWATCHDOGIMPUT</Type>
+      <From>resolveWatchdogImput</From>
+      <To>resolveWatchdogInput</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

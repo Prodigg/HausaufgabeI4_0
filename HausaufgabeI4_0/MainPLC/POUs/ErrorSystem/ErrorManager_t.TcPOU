@@ -11,6 +11,7 @@ VAR
 	_actorMovingTimeoutManager : ActorMovingTimeoutManager_t;
 	_actorStartMovingTimeoutManager : ActorStartMovingTimeoutManager_t;
 	_primitiveWatchdogManager : PrimitiveWatchdogManager_t;
+	_IOExpantionMessageErrorHandler : IOExpantionMessageErrorHandler_t;
 	_IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 	
 	_trowErrors : BOOL := FALSE; // if true, errors are checked
@@ -30,6 +31,7 @@ END_VAR
         <ST><![CDATA[_actorMovingTimeoutManager.confirmAll();
 _actorStartMovingTimeoutManager.confirmAll();
 _primitiveWatchdogManager.confirmAll();
+_IOExpantionMessageErrorHandler.confirmAll();
 
 confirmAll := TRUE;
 return;]]></ST>
@@ -75,6 +77,8 @@ END_VAR
         <ST><![CDATA[hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
 hasError := hasError OR THIS^._actorStartMovingTimeoutManager.hasError();
 hasError := hasError OR THIS^._primitiveWatchdogManager.hasError();
+hasError := hasError OR THIS^._actorMovingTimeoutManager.hasError();
+
 _hasError := hasError;
 return;]]></ST>
       </Implementation>
@@ -88,7 +92,8 @@ END_VAR
       <Implementation>
         <ST><![CDATA[_actorMovingTimeoutManager.resetAll();
 _actorStartMovingTimeoutManager.resetAll();
-_primitiveWatchdogManager.resetAll();]]></ST>
+_primitiveWatchdogManager.resetAll();
+_IOExpantionMessageErrorHandler.resetAll();]]></ST>
       </Implementation>
     </Method>
     <Method Name="setIOExpantionHandler" Id="{7f37fa64-74a8-4cd9-ab1a-fc95bb889207}">
@@ -102,6 +107,7 @@ END_VAR
 _actorMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
 _actorStartMovingTimeoutManager.setIOExpantionHandler(_IOExpantionHandler);
 _primitiveWatchdogManager.setIOExpantionHandler(_IOExpantionHandler);
+_IOExpantionMessageErrorHandler.setIOExpantionHandler(_IOExpantionHandler);
 
 setIOExpantionHandler := TRUE;
 return;]]></ST>
@@ -151,6 +157,8 @@ END_IF
 _actorMovingTimeoutManager.update();
 _actorStartMovingTimeoutManager.update();
 _primitiveWatchdogManager.update();
+_IOExpantionMessageErrorHandler.update();
+
 update := TRUE;
 RETURN;]]></ST>
       </Implementation>

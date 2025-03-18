@@ -27,6 +27,9 @@
     <Compile Include="DUTs\ErrorSystem\ActorStartMovingtimeoutEx_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ErrorSystem\IOExpantionMessageErrorEx_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ErrorSystem\PrimitiveWatchdogEx_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -105,6 +108,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ErrorSystem\formatPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ErrorSystem\IOExpantionMessageErrorHandler_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ErrorSystem\PrimitiveWatchdogManager_t.TcPOU">

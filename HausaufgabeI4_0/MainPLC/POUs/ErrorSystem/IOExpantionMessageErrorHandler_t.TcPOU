@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="IOExpantionMessageErrorHandler_t" Id="{4e2d0fc4-c716-44dd-9251-223f74bfff2d}" SpecialFunc="None">
+    <Declaration><![CDATA[// handles errors that can be attached from IOExpantionHandler
+FUNCTION_BLOCK IOExpantionMessageErrorHandler_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_IOExpantionMessageErrorArray : ARRAY [0..99] OF  IOExpantionMessageErrorEx_t;
+	_maxIOExpantionMessageErrorIndex : UINT := 99;
+	_currentIOExpantionMessageErrorIndex : UINT := 0;
+	_ErrorMessage : FB_TcMessage;
+	_IOExpantionHandler : POINTER TO IOExpantionHandler_t := NULL;
+	
+	_IOExpantionHandlerNotValidErrorSent : BOOL := FALSE;
+	
+	_PrimitiveWatchdogManager : PrimitiveWatchdogManager_t;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="clear" Id="{a58da5b6-7741-43a7-a6b7-cb8a8f6a5289}">
+      <Declaration><![CDATA[// clears and deletes all IOExpantionMessageErrors
+METHOD clear : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i : uint := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_PrimitiveWatchdogManager.clear();
+
+FOR i := 0 TO _currentIOExpantionMessageErrorIndex DO 
+	_IOExpantionHandler^.unsubscribe(ADR(_IOExpantionMessageErrorArray[i].clearMessageCallback));
+	_IOExpantionHandler^.unsubscribe(ADR(_IOExpantionMessageErrorArray[i].errorMessageCallback));
+END_FOR
+
+_currentIOExpantionMessageErrorIndex := 0;
+
+clear := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="confirmAll" Id="{3c4ee80b-f836-44a7-a539-5222e1354b75}">
+      <Declaration><![CDATA[// confirm all errors
+METHOD confirmAll : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[confirmAll := _PrimitiveWatchdogManager.confirmAll();
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="hasError" Id="{db302f05-22c4-43a4-8ca2-abd61729725d}">
+      <Declaration><![CDATA[// if true an error has been trown
+METHOD hasError : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hasError := _PrimitiveWatchdogManager.hasError();
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="register" Id="{61740307-8bb4-4683-8434-6535969b8bbd}">
+      <Declaration><![CDATA[// registers a new error
+METHOD register : BOOL
+VAR_INPUT
+	stEventEntity : TcEventEntry;
+	timerTime : TIME; // sets the timer for the timeout
+	conformation : BOOL := TRUE;
+	diagCodeErrorMessage : ARRAY[0..3] OF BYTE;
+	textIDErrorMessage : ARRAY [0..1] OF BYTE;
+	diagCodeClearMessage : ARRAY[0..3] OF BYTE;
+	textIDClearMessage : ARRAY [0..1] OF BYTE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_currentIOExpantionMessageErrorIndex := _currentIOExpantionMessageErrorIndex + 1; // increase it by one
+
+
+//_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex]
+_IOExpantionHandler^.subscribe(callbackVariable := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].errorMessageCallback), diagCode := diagCodeErrorMessage, textID := textIDErrorMessage);
+_IOExpantionHandler^.subscribe(callbackVariable := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].clearMessageCallback), diagCode := diagCodeClearMessage, textID := textIDClearMessage);
+
+_PrimitiveWatchdogManager.register(stEventEntity, timerTime, conformation, invert := FALSE, sensorPtr := ADR(_IOExpantionMessageErrorArray[_currentIOExpantionMessageErrorIndex].isErrorActive), waitHWConformation := TRUE);
+
+register := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resetAll" Id="{d1e85026-3fed-4514-bae8-99e1608b5126}">
+      <Declaration><![CDATA[METHOD resetAll : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[resetAll := _PrimitiveWatchdogManager.resetAll();
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="resolveWatchdogInput" Id="{7775bbd3-29b4-410c-9a8e-fede20a512db}">
+      <Declaration><![CDATA[// this method directly changes the IOExpantionMessageErrorEx_t
+METHOD PRIVATE resolveWatchdogInput : BOOL
+VAR_INPUT
+	IOExpantionMessageErrorEx : REFERENCE TO IOExpantionMessageErrorEx_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IOExpantionMessageErrorEx.isErrorActive := IOExpantionMessageErrorEx.isErrorActive OR IOExpantionMessageErrorEx.errorMessageCallback;
+IOExpantionMessageErrorEx.errorMessageCallback := FALSE;
+
+
+IOExpantionMessageErrorEx.isErrorActive := IOExpantionMessageErrorEx.isErrorActive AND (NOT IOExpantionMessageErrorEx.clearMessageCallback);
+IOExpantionMessageErrorEx.clearMessageCallback := FALSE;
+
+resolveWatchdogInput := IOExpantionMessageErrorEx.isErrorActive;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="setIOExpantionHandler" Id="{12ea1193-3513-46cd-9cbb-0d72d89067c3}">
+      <Declaration><![CDATA[METHOD setIOExpantionHandler : BOOL
+VAR_INPUT
+	IOExpantionHandlerPtr : POINTER TO IOExpantionHandler_t;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_IOExpantionHandler := IOExpantionHandlerPtr;
+_PrimitiveWatchdogManager.setIOExpantionHandler(_IOExpantionHandler);
+setIOExpantionHandler := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{7fba36c7-d86a-4b36-9dbd-1bb3f34ed54b}">
+      <Declaration><![CDATA[METHOD update : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[_PrimitiveWatchdogManager.update();
+
+FOR i := 0 TO _currentIOExpantionMessageErrorIndex DO
+	resolveWatchdogInput(_IOExpantionMessageErrorArray[i]);
+END_FOR
+
+update := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
