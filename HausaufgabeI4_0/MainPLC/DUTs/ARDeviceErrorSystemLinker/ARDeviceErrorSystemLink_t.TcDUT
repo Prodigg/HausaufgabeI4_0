@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ARDeviceErrorSystemLink_t" Id="{fed3eb96-8832-490e-a227-6b8a87c31057}">
+    <Declaration><![CDATA[TYPE ARDeviceErrorSystemLink_t :
+STRUCT
+	stEventEntity : TcEventEntry;
+	callBackPtr : POINTER to bool;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

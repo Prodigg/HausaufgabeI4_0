@@ -21,6 +21,9 @@
     <Compile Include="DUTs\ARDeviceAPI\keyValuePair_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ARDeviceErrorSystemLinker\ARDeviceErrorSystemLink_t.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ErrorSystem\ActorMovingTimeoutEx_t.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -72,6 +75,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ARCommunication\ARDeviceAPI_t.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\ARCommunication\ARDeviceErrorSystemLinker_t.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\ARCommunication\Helper\pulseSignalGenerator_t.TcPOU">
@@ -144,6 +150,7 @@
     <Folder Include="DUTs\ARDeviceAPI" />
     <Folder Include="DUTs\MainStateMachine" />
     <Folder Include="DUTs\ErrorSystem" />
+    <Folder Include="DUTs\ARDeviceErrorSystemLinker" />
     <Folder Include="DUTs\systemOperationalTypes" />
     <Folder Include="DUTs\SignalStatusLampTypes" />
     <Folder Include="GVLs" />

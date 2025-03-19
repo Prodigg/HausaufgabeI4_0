@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<TcEventSources Version="2">
+	<Source>
+		<GUID>{57F0C6EE-4CE4-49C6-83CC-2E294A931142}</GUID>
+		<Name LcId="1033">Programming Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">{0}:{1}: invalid accsess of byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message LcId="1033">{0}:{1}: invalid accsess of bit in byte (out of range)</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message LcId="1033">{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message LcId="1033">{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)</Message>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message LcId="1033">This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}</Message>
+		</Event>
+		<Event>
+			<Id>6</Id>
+			<Message LcId="1033">{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)</Message>
+		</Event>
+		<Event>
+			<Id>7</Id>
+			<Message LcId="1033">{0}:{1}: subscriber array full (max: {2})</Message>
+		</Event>
+		<Event>
+			<Id>8</Id>
+			<Message LcId="1033">{0}:{1}: Exceeding allowed amount of primitiveWatchdog timeouts ({2})</Message>
+		</Event>
+		<Event>
+			<Id>9</Id>
+			<Message LcId="1033">{0}:{1}: Primitive Watchdog timeout no valid sensor given (will be ignored)</Message>
+		</Event>
+		<Event>
+			<Id>10</Id>
+			<Message LcId="1033">{0}:{1}: Exceeding Allowed Amount Of Links ({2})</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name LcId="1033">Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
+		<GUID>{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}</GUID>
+		<Name LcId="1033">Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">Linear drive Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A watchdog has been triggered. The Linear Drive took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A watchdog has been triggered. The Linear Drive took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message LcId="1033">Rotary Table Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A watchdog has been triggered. The rotary table took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A watchdog has been triggered. The rotary table took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message LcId="1033">Y2 Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A watchdog has been triggered. Y2 took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A watchdog has been triggered. Y2 took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message LcId="1033">Y3 Movement has Timedout</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A watchdog has been triggered. Y3 took too long to move.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A watchdog has been triggered. Y3 took too long to move.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message LcId="1033">Linear Drive Start Movement Timeout (Left)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor (B16).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor (B16).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>6</Id>
+			<Message LcId="1033">Linear Drive Start Movement Timeout (Right)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor (B17).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor (B17).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>7</Id>
+			<Message LcId="1033">Y2 Start Movement Timeout (Down)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>8</Id>
+			<Message LcId="1033">Y2 Start Movement Timeout (Up)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>9</Id>
+			<Message LcId="1033">Y3 Start Movement Timeout (Down)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>10</Id>
+			<Message LcId="1033">Y3 Start Movement Timeout (Up)</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>11</Id>
+			<Message LcId="1033">Low Pneumatic Pressure</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text LcId="1033">Low Pneumatic Pressure has been detected.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text LcId="1033">Low Pneumatic Pressure has been detected.</Text>
+			</Detail>
+		</Event>
+	</Source>
+</TcEventSources>

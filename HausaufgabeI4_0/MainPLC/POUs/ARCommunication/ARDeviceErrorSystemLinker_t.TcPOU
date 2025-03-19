@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARDeviceErrorSystemLinker_t" Id="{0d7d8902-cd5a-433f-b478-38fe154291b4}" SpecialFunc="None">
+    <Declaration><![CDATA[// this class may be used to translate alarms from the EventLogger to a bool value and attach this to the ARDeviceAPI_t
+FUNCTION_BLOCK ARDeviceErrorSystemLinker_t
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	_EventLogger : FB_TcEventLogger;
+	_ErrorMessage : FB_TcMessage;
+	
+	_linksArray : ARRAY[0..99] OF ARDeviceErrorSystemLink_t;
+	_currentLinksArrayIndex : UINT := 0;
+	_maxLinksArrayIndex : UINT := 99;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="clear" Id="{1bb007e0-30ed-46cb-a1ef-7b1d550da09c}">
+      <Declaration><![CDATA[// clears all registered links
+METHOD clear : BOOL
+VAR_INPUT
+END_VAR
+VAR
+	i : UINT := 0;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 0 TO _maxLinksArrayIndex DO
+	_linksArray[i].callBackPtr := NULL;
+END_FOR
+
+_currentLinksArrayIndex := 0;
+clear := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="register" Id="{1656e3a5-a483-4850-b53a-b089e955e08b}">
+      <Declaration><![CDATA[// register a link
+METHOD register : BOOL
+VAR_INPUT
+	stEventEntity : TcEventEntry; 
+	callBackPtr : POINTER TO BOOL; // pointer to variable from ARDeviceAPI_t
+END_VAR
+
+VAR
+	_tmpStr : STRING;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF _currentLinksArrayIndex + 1 > _maxLinksArrayIndex THEN
+	_ErrorMessage.CreateEx(TC_EVENTS.ProgrammingErrors.ExceedingAllowedAmountOfLinks, 0 );
+	_ErrorMessage.ipArguments.AddString(__POUNAME());
+	_tmpStr := formatPosition(__POSITION());
+	_ErrorMessage.ipArguments.AddString(_tmpStr); 
+	_ErrorMessage.ipArguments.AddUInt(_maxLinksArrayIndex);
+	_ErrorMessage.Send(0);
+	
+	register := FALSE;
+	RETURN;
+END_IF
+
+_currentLinksArrayIndex := _currentLinksArrayIndex + 1;
+
+_linksArray[_currentLinksArrayIndex].callBackPtr := callBackPtr;
+_linksArray[_currentLinksArrayIndex].stEventEntity := stEventEntity;
+
+register := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="update" Id="{c0a7a67a-a152-443e-a299-713ed7c942e5}">
+      <Declaration><![CDATA[// call this every cycle
+METHOD update : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i : UINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[FOR i := 1 TO _maxLinksArrayIndex DO
+	IF _linksArray[i].callBackPtr <> NULL THEN
+		_linksArray[i].callBackPtr^ := _EventLogger.IsAlarmRaisedEx(_linksArray[i].stEventEntity);
+	END_IF
+END_FOR
+
+update := TRUE;
+return;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
