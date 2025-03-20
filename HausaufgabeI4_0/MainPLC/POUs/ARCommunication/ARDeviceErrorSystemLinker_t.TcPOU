@@ -78,11 +78,13 @@ END_VAR
 
 VAR
 	i : UINT;
+	_alarm : FB_TcAlarm;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO _maxLinksArrayIndex DO
 	IF _linksArray[i].callBackPtr <> NULL THEN
-		_linksArray[i].callBackPtr^ := _EventLogger.IsAlarmRaisedEx(_linksArray[i].stEventEntity);
+		_EventLogger.GetAlarmEx(stEventEntry := _linksArray[i].stEventEntity,fbAlarm := _alarm);
+		_linksArray[i].callBackPtr^ := _alarm.bActive;
 	END_IF
 END_FOR
 

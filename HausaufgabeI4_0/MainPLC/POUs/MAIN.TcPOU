@@ -18,6 +18,8 @@ HMIHandler : HMIHandler_t;
 
 ErrorManager : ErrorManager_t;
 
+ARDeviceErrorSystemLinker : ARDeviceErrorSystemLinker_t;
+
 _ErrorMessage : FB_TcMessage;
 _tmpStr : STRING := '';
 
@@ -37,7 +39,12 @@ BuffDiagMess :Array[0..39] of byte;
 	ReadLength: UDINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[IF firstRun = FALSE THEN
+	firstRun := TRUE;
+	ARDeviceErrorSystemLinkerInitialiser(ARDeviceErrorSystemLinker, ARDevice);
+END_IF
+
+
 // always update mainStateMachine IOExpantionahndler refferance
 mainStateMachine.IOExpantionHandler := ADR(IOExpantionHandler);
 
@@ -124,6 +131,8 @@ mainStateMachine.update();
 
 HMIHandler.update();
 
+ARDeviceErrorSystemLinker.update();
+
 ErrorManager.setIOExpantionHandler(ADR(IOExpantionHandler));
 ErrorManager.update();
 
@@ -131,13 +140,13 @@ ErrorManager.update();
 {warning 'remove test'}
 
 
-IF firstRun = FALSE AND run THEN
+(*IF firstRun = FALSE AND run THEN
 	firstRun := TRUE;
 	
 	IOExpantionHandler.subscribe(callbackVariable := ADR(callback), diagCode := diagCode, textID := textID);
 END_IF
 
-IOExpantionHandler.comUpdate();
+IOExpantionHandler.comUpdate();*)
 
 
 // murr test

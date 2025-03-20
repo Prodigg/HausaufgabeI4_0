@@ -1201,6 +1201,14 @@
 		</Property>
 	</Source>
 	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
 		<GUID>{57F0C6EE-4CE4-49C6-83CC-2E294A931142}</GUID>
 		<Name>Programming Errors</Name>
 		<Event>
@@ -1242,14 +1250,6 @@
 		<Event>
 			<Id>10</Id>
 			<Message>{0}:{1}: Exceeding Allowed Amount Of Links ({2})</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 	<Source>

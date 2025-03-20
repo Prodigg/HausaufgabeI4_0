@@ -107,7 +107,7 @@ IF _readDiagMessageClock.signal THEN
 	getMessage(index := _currentMessageRead, busy => getMessageBusy);
 END_IF
 
-IF getMessageBusy = FALSE AND _readDiagMessageClock.signal THEN
+IF getMessageBusy = FALSE THEN
 	_currentMessageRead := getNextMessageIndex(_currentMessageRead);
 	
 	IF _currentMessageRead = _newestMessageInBuffer + 1 THEN
@@ -291,10 +291,12 @@ VAR
 	calculatedIndex : BYTE := 0;
 	_error : BOOL := FALSE;
 	_errorID : UDINT := 0;
+	_busy : BOOL := FALSE;
 END_VAR 
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[calculatedIndex := index + 6; // 6 is offset
+busy := true;
 _readDiagMessage(
 	sNetId:= '5.85.199.196.4.1', 
 	nSlaveAddr:=1001 , 
@@ -304,12 +306,12 @@ _readDiagMessage(
 	cbBufLen:= 237, 
 	bExecute:=TRUE , 
 	tTimeout:= T#5S, 
-	bBusy=> busy, 
+	bBusy=> _busy, 
 	bError=> _error, 
 	nErrId=> _errorID, 
 	cbRead=>ReadLength);
 	
-IF busy = FALSE THEN
+IF _busy = FALSE AND _returnDiagBuffer[0] <> 16#00 THEN
 	// to cycle object
 	_readDiagMessage(
 		sNetId:= '5.85.199.196.4.1', 
@@ -324,6 +326,7 @@ IF busy = FALSE THEN
 		bError=> , 
 		nErrId=> , 
 		cbRead=>ReadLength);
+		busy := FALSE;
 END_IF
 	
 	getMessage := TRUE;

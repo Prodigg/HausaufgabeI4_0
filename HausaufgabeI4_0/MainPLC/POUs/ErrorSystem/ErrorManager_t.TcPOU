@@ -173,7 +173,8 @@ IF _errorsInitialised = FALSE THEN
 END_IF
 
 // is not an actor error and can appear outside of opperations.
-_IOExpantionMessageErrorHandler.update();
+//_IOExpantionMessageErrorHandler.update(); 
+{warning 'disabled IOExpantionMessageErrorHandler'}
 
 IF _trowErrors = FALSE THEN
 	update := TRUE;

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="ARDeviceErrorSystemLinkerInitialiser" Id="{97ff351c-f148-4d30-b602-4166b4f78fff}" SpecialFunc="None">
+    <Declaration><![CDATA[// links and initialises the ARDeviceErrorSystemLinker_t to the ARDeviceAPI_t. Call tis functon only at startup and once
+FUNCTION ARDeviceErrorSystemLinkerInitialiser : BOOL
+VAR_INPUT
+	ARDeviceSystemLinker : REFERENCE TO ARDeviceErrorSystemLinker_t;
+	ARDeviceAPI : Reference to ARDeviceAPI_t;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors.EmStopPressed, ADR(test.testBoolLinker));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LowPneumaticPressure, ADR(test.testBoolLinker2));
+ARDeviceErrorSystemLinkerInitialiser := true;
+RETURN;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -222,6 +222,79 @@
 				<Hide GUID="{B0E2DFD4-BC14-4D52-BC6C-8949D002FEC2}"/>
 			</Hides>
 		</DataType>
+		<DataType>
+			<Name GUID="{57F0C6EE-4CE4-49C6-83CC-2E294A931142}" PersistentType="true">ProgrammingErrors</Name>
+			<DisplayName TxtId=""><![CDATA[Programming Errors]]></DisplayName>
+			<EventId>
+				<Name Id="1">invalidAccsessOfByte</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: invalid accsess of byte (out of range)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">invalidAccsessOfBitInByte</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: invalid accsess of bit in byte (out of range)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">ExceedingAllowedAmountOfActorMovingTimeoutTimeouts</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ActorMovingTimeoutNoValidSensorGiven</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">testError</Name>
+				<DisplayName TxtId=""><![CDATA[This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">NoValidPointerToIOExpantionHandler</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Invalid Pointer to IOExpantionHandler (all expretions for IOExpantionHandler will be ignored)]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">subscriberArrayFull</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: subscriber array full (max: {2})]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">ExceedingAllowedAmountOfPrimitiveWatchdogTimeouts</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Exceeding allowed amount of primitiveWatchdog timeouts ({2})]]></DisplayName>
+				<Severity>Critical</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">primitiveWatchdogNoValidSensorGiven</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Primitive Watchdog timeout no valid sensor given (will be ignored)]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">ExceedingAllowedAmountOfLinks</Name>
+				<DisplayName TxtId=""><![CDATA[{0}:{1}: Exceeding Allowed Amount Of Links ({2})]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{91D85C01-B794-4A9A-936D-9AD8E778E2DC}"/>
+				<Hide GUID="{9245E595-13A8-47A5-BF94-C16453A1EFAA}"/>
+				<Hide GUID="{3F4C961F-49AB-459A-9710-D1BAC492040C}"/>
+				<Hide GUID="{7462A4FE-F981-4F30-B69A-E4D333E3DD5A}"/>
+				<Hide GUID="{6A6D0CB3-F6CE-4DBF-8633-B0676C999882}"/>
+				<Hide GUID="{69299FB6-29F7-4329-B417-3BE996745562}"/>
+				<Hide GUID="{BA09207D-8800-4694-8E6C-A05FE8525932}"/>
+				<Hide GUID="{A43D3695-A16E-4CBB-8939-BE448156FB67}"/>
+				<Hide GUID="{6928A92C-9A0C-4FD7-AB6A-C1FE486505F0}"/>
+				<Hide GUID="{9816CFAD-AC88-4314-A7F6-B3111B0AD3C9}"/>
+				<Hide GUID="{FE7A66E3-3EAA-4BB5-8490-6E3FD22832CB}"/>
+				<Hide GUID="{29F9E186-55B3-4045-B3B7-ECAE08D047ED}"/>
+				<Hide GUID="{00B45F6F-B8A4-4EAE-BFE4-1D5390AC484E}"/>
+				<Hide GUID="{FC0314E9-7823-4B2F-9D1F-596800A75961}"/>
+				<Hide GUID="{A5ED0604-717C-4394-A168-9C5F17813F7E}"/>
+				<Hide GUID="{EBEC2182-2EAC-4C22-9DC7-F411F4C2BCD8}"/>
+				<Hide GUID="{38553561-76BB-4EC0-870A-39B59F7A0C1E}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<ImageDatas>
 		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ff808080808080808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
@@ -250,7 +323,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{F18A78A5-E908-D00C-01D4-29BF5F0F1F72}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{662C5DC9-22AB-E86D-832B-C06D7657C0CD}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
