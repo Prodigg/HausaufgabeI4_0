@@ -133,11 +133,11 @@ END_IF
 GripperClose_waitUntilNextStep.IN := TRUE;
 GripperClose_waitUntilNextStep();
 
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, TRUE);
+
 IF GripperClose_waitUntilNextStep.Q = TRUE THEN
 	GripperClose_waitUntilNextStep.IN := FALSE;
 	GripperClose_waitUntilNextStep();
-	
-	IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_OPEN_CLOSE, TRUE);
 	
 	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_UP; // move on to next step
 END_IF
@@ -282,9 +282,9 @@ END_IF
 GripperUp_waitUntilNextStep.IN := TRUE;
 GripperUp_waitUntilNextStep();
 
+IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
 
 IF GripperUp_waitUntilNextStep.Q = TRUE THEN
-	IOExpantionHandler^.setActor(actorID := actorID_t.ACTOR_GRIPPER_UP_DOWN, FALSE);
 	THIS^.stateMachineState := mainStateMachineStatus_t.GRIPPER_LEFT; // move on to next step
 END_IF
 ]]></ST>

@@ -132,97 +132,6 @@
 			</Hides>
 		</DataType>
 		<DataType>
-			<Name GUID="{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}" PersistentType="true">OperationalErrors2</Name>
-			<DisplayName TxtId=""><![CDATA[Operational Errors]]></DisplayName>
-			<EventId>
-				<Name Id="1">LinearDriveMoveTimedout</Name>
-				<DisplayName TxtId=""><![CDATA[Linear drive Movement has Timedout]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A watchdog has been triggered. The Linear Drive took too long to move.]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A watchdog has been triggered. The Linear Drive took too long to move.]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="2">RotaryTableMoveTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Rotary Table Movement has Timedout]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A watchdog has been triggered. The rotary table took too long to move.]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A watchdog has been triggered. The rotary table took too long to move.]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="3">Y2moveTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y2 Movement has Timedout]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A watchdog has been triggered. Y2 took too long to move.]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A watchdog has been triggered. Y2 took too long to move.]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="4">Y3moveTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y3 Movement has Timedout]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A watchdog has been triggered. Y3 took too long to move.]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A watchdog has been triggered. Y3 took too long to move.]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="5">LinearDriveStartMoveLeftTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Linear Drive Start Movement Timeout (Left)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B16).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B16).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="6">LinearDriveStartMoveRightTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Linear Drive Start Movement Timeout (Right)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B17).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor (B17).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="7">Y2StartMoveDownTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y2 Start Movement Timeout (Down)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="8">Y2StartMoveUpTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y2 Start Movement Timeout (Up)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="9">Y3StartMoveDownTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y3 Start Movement Timeout (Down)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="10">Y3StartMoveUpTimeout</Name>
-				<DisplayName TxtId=""><![CDATA[Y3 Start Movement Timeout (Up)]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).]]></DescriptionText>
-				<Severity>Error</Severity>
-				<Comment TxtId=""><![CDATA[A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).]]></Comment>
-			</EventId>
-			<EventId>
-				<Name Id="11">LowPneumaticPressure</Name>
-				<DisplayName TxtId=""><![CDATA[Low Pneumatic Pressure]]></DisplayName>
-				<DescriptionText TxtId=""><![CDATA[Low Pneumatic Pressure has been detected.]]></DescriptionText>
-				<Severity>Critical</Severity>
-				<Comment TxtId=""><![CDATA[Low Pneumatic Pressure has been detected.]]></Comment>
-			</EventId>
-			<Hides>
-				<Hide GUID="{A945600B-4FD8-4C11-AFF2-FFEBAF2E92C4}"/>
-				<Hide GUID="{B88301C7-B80C-43BE-B16B-4D65C74235D4}"/>
-				<Hide GUID="{322EE82C-F1B2-4437-81A2-3D1ADA17E34A}"/>
-				<Hide GUID="{BBF00337-59D7-4B57-9194-F3C4702AD580}"/>
-				<Hide GUID="{EB13E6E4-0C26-4737-A159-2E1EA7312B8D}"/>
-				<Hide GUID="{8B369402-093E-4567-80AA-F6819003FD0F}"/>
-				<Hide GUID="{494D24A9-EA48-4EC1-A4FB-BB39B70FAA4C}"/>
-				<Hide GUID="{B0E2DFD4-BC14-4D52-BC6C-8949D002FEC2}"/>
-			</Hides>
-		</DataType>
-		<DataType>
 			<Name GUID="{57F0C6EE-4CE4-49C6-83CC-2E294A931142}" PersistentType="true">ProgrammingErrors</Name>
 			<DisplayName TxtId=""><![CDATA[Programming Errors]]></DisplayName>
 			<EventId>
@@ -295,6 +204,99 @@
 				<Hide GUID="{38553561-76BB-4EC0-870A-39B59F7A0C1E}"/>
 			</Hides>
 		</DataType>
+		<DataType>
+			<Name GUID="{8FE283B3-44ED-45E2-935B-F6444A61434F}" PersistentType="true">OperationalErrors2</Name>
+			<DisplayName TxtId=""><![CDATA[Operational Errors]]></DisplayName>
+			<EventId>
+				<Name Id="1">LinearDriveMoveTimedout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-LD-MOVE-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Linear Drive Movement Timeout | The pneumatic Linear Drive took too long to complete its movement. Check for air pressure issues, leaks, or mechanical resistance, and ensure the compressor and valves are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Linear Drive Movement Timeout | The pneumatic Linear Drive took too long to complete its movement. Check for air pressure issues, leaks, or mechanical resistance, and ensure the compressor and valves are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="2">RotaryTableMoveTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-RT-MOVE-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Rotary Table Movement Timeout | The Rotary Table took too long to complete its movement. Check for mechanical resistance, electrical issues, or misalignment. Ensure the motor and power supply are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Rotary Table Movement Timeout | The Rotary Table took too long to complete its movement. Check for mechanical resistance, electrical issues, or misalignment. Ensure the motor and power supply are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="3">Y2moveTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y2-MOVE-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Y2 Axis Movement Timeout | The Y2 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faulty components. Ensure the compressor and valves are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Y2 Axis Movement Timeout | The Y2 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faulty components. Ensure the compressor and valves are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="4">Y3moveTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y3-MOVE-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Y3 Axis Movement Timeout | The Y3 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faults in the pneumatic system. Ensure the compressor and valves are operating correctly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Y3 Axis Movement Timeout | The Y3 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faults in the pneumatic system. Ensure the compressor and valves are operating correctly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="5">LinearDriveStartMoveLeftTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-LD-START-LEFT-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Linear Drive Start Movement Timeout (Left) | The pneumatic Linear Drive failed to start moving to the right within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B16). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and the pneumatic drive are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Linear Drive Start Movement Timeout (Left) | The pneumatic Linear Drive failed to start moving to the right within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B16). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and the pneumatic drive are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="6">LinearDriveStartMoveRightTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-LD-START-RIGHT-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Linear Drive Start Movement Timeout (Right) | The pneumatic Linear Drive failed to start moving to the left within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B17). This could indicate a sensor calibration issue, air pressure problems, mechanical resistance, or obstructions. Ensure proper sensor calibration, verify air pressure, and check that the compressor, valves, and pneumatic system are functioning correctly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Linear Drive Start Movement Timeout (Right) | The pneumatic Linear Drive failed to start moving to the left within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B17). This could indicate a sensor calibration issue, air pressure problems, mechanical resistance, or obstructions. Ensure proper sensor calibration, verify air pressure, and check that the compressor, valves, and pneumatic system are functioning correctly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="7">Y2StartMoveDownTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y2-START-DOWN-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Y2 Axis Start Movement Timeout (Down) | The pneumatic Y2 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B1). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Y2 Axis Start Movement Timeout (Down) | The pneumatic Y2 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B1). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="8">Y2StartMoveUpTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y2-START-UP-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Y2 Axis Start Movement Timeout (Up) | The pneumatic Y2 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B2). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Y2 Axis Start Movement Timeout (Up) | The pneumatic Y2 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B2). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="9">Y3StartMoveDownTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y3-START-DOWN-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Y3 Axis Start Movement Timeout (Down) | The pneumatic Y3 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B3). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Y3 Axis Start Movement Timeout (Down) | The pneumatic Y3 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B3). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="10">Y3StartMoveUpTimeout</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-Y3-START-UP-408-TIMEOUT]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Pneumatic Y3 Axis Start Movement Timeout (Up) | The pneumatic Y3 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B4). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></DescriptionText>
+				<Severity>Error</Severity>
+				<Comment TxtId=""><![CDATA[Pneumatic Y3 Axis Start Movement Timeout (Up) | The pneumatic Y3 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B4). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.]]></Comment>
+			</EventId>
+			<EventId>
+				<Name Id="11">LowPneumaticPressure</Name>
+				<DisplayName TxtId=""><![CDATA[ERR-PNEU-LOW-PR-402]]></DisplayName>
+				<DescriptionText TxtId=""><![CDATA[Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set.]]></DescriptionText>
+				<Severity>Critical</Severity>
+				<Comment TxtId=""><![CDATA[Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set.]]></Comment>
+			</EventId>
+			<Hides>
+				<Hide GUID="{A945600B-4FD8-4C11-AFF2-FFEBAF2E92C4}"/>
+				<Hide GUID="{B88301C7-B80C-43BE-B16B-4D65C74235D4}"/>
+				<Hide GUID="{322EE82C-F1B2-4437-81A2-3D1ADA17E34A}"/>
+				<Hide GUID="{BBF00337-59D7-4B57-9194-F3C4702AD580}"/>
+				<Hide GUID="{EB13E6E4-0C26-4737-A159-2E1EA7312B8D}"/>
+				<Hide GUID="{8B369402-093E-4567-80AA-F6819003FD0F}"/>
+				<Hide GUID="{494D24A9-EA48-4EC1-A4FB-BB39B70FAA4C}"/>
+				<Hide GUID="{B0E2DFD4-BC14-4D52-BC6C-8949D002FEC2}"/>
+				<Hide GUID="{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}"/>
+				<Hide GUID="{25A260F5-9A52-410B-BE7F-D8A46423752F}"/>
+			</Hides>
+		</DataType>
 	</DataTypes>
 	<ImageDatas>
 		<ImageData Id="1000">424dd6020000000000003600000028000000100000000e0000000100180000000000a0020000c40e0000c40e00000000000000000000ff00ffff00ffff00ff808080808080808080808080808080808080808080808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c000ffffc0c0c000ffff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0ff0000c0c0c0ff0000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c00000ffc0c0c00000ff808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0000000c0c0c0000000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0008000c0c0c0008000808080ff00ffff00ffff00ffff00ffff00ffff00ffff00ffff00ff0000c00000c0ffffffc0c0c0c0c0c0c0c0c0c0c0c0808080ff00ffff00ffff00ffff00ffff00ff</ImageData>
@@ -323,7 +325,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{7FC7C46D-ADEE-4EE3-9B48-BC005083C2C6}" Name="MainPLC" PrjFilePath="MainPLC\MainPLC.plcproj" TmcFilePath="MainPLC\MainPLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{EC593216-B8C3-738B-CB73-2EECAE759A1F}" TmcPath="MainPLC\MainPLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{299F94B0-91A3-C112-805F-65144B8D6AEF}" TmcPath="MainPLC\MainPLC.tmc">
 					<Name>MainPLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">

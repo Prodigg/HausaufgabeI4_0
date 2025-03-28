@@ -12,7 +12,15 @@ VAR_INPUT
 	displayEMStop : BOOL := FALSE; // true when EM-Stopp (please relese) message is displayed on the controlpannel
 	displayQuittierung : BOOL := FALSE; // true when Please Press me (Quittierung) is displayed on the controlpannel
 	
-	
+	PneumaticOkB20_sensorStatus : BOOL := FALSE; 
+	PartTurntablePresentB12_sensorStatus : BOOL := FALSE;
+	LinearActuatorLeftB16_sensorStatus : BOOL := FALSE;
+	LinearActuatorRightB17_sensorStatus : BOOL := FALSE;
+	TurntablePositionReachedB13_sensorStatus : BOOL := FALSE;
+	StorageEntranceB5_sensorStatus : BOOL := FALSE;
+	ConveyorBeltMetalPresentB8_sensorStatus : BOOL := FALSE;
+	EntranceConveyorBeltB7_sensorStatus : BOOL := FALSE;
+	SensorPartMetalPresentB6_sensorStatus : BOOL := FALSE;
 	
 END_VAR
 VAR_OUTPUT
@@ -27,6 +35,16 @@ VAR
 
 	_displayEMStop : BOOL := FALSE; // true when EM-Stopp (please relese) message is displayed on the controlpannel
 	_displayQuittierung : BOOL := FALSE; // true when Please Press me (Quittierung) is displayed on the controlpannel
+
+	_PneumaticOkB20_sensorStatus : BOOL := FALSE; 
+	_PartTurntablePresentB12_sensorStatus : BOOL := FALSE;
+	_LinearActuatorLeftB16_sensorStatus : BOOL := FALSE;
+	_LinearActuatorRightB17_sensorStatus : BOOL := FALSE;
+	_TurntablePositionReachedB13_sensorStatus : BOOL := FALSE;
+	_StorageEntranceB5_sensorStatus : BOOL := FALSE;
+	_ConveyorBeltMetalPresentB8_sensorStatus : BOOL := FALSE;
+	_EntranceConveyorBeltB7_sensorStatus : BOOL := FALSE;
+	_SensorPartMetalPresentB6_sensorStatus : BOOL := FALSE;
 
 	_ARCommunication : ARCommunicationMQTT_t;
 	_WSRequestBiuilder : WSJSONStringBuilder_t;
@@ -165,6 +183,16 @@ detectNewState := detectNewState OR (_lmpError XOR lmpError);
 detectNewState := detectNewState OR (_displayEMStop XOR displayEMStop);
 detectNewState := detectNewState OR (_displayQuittierung XOR displayQuittierung);
 
+detectNewState := detectNewState OR (_PneumaticOkB20_sensorStatus XOR PneumaticOkB20_sensorStatus);
+detectNewState := detectNewState OR (_PartTurntablePresentB12_sensorStatus XOR PartTurntablePresentB12_sensorStatus);
+detectNewState := detectNewState OR (_LinearActuatorLeftB16_sensorStatus XOR LinearActuatorLeftB16_sensorStatus);
+detectNewState := detectNewState OR (_LinearActuatorRightB17_sensorStatus XOR LinearActuatorRightB17_sensorStatus);
+detectNewState := detectNewState OR (_TurntablePositionReachedB13_sensorStatus XOR TurntablePositionReachedB13_sensorStatus);
+detectNewState := detectNewState OR (_StorageEntranceB5_sensorStatus XOR StorageEntranceB5_sensorStatus);
+detectNewState := detectNewState OR (_ConveyorBeltMetalPresentB8_sensorStatus XOR ConveyorBeltMetalPresentB8_sensorStatus);
+detectNewState := detectNewState OR (_EntranceConveyorBeltB7_sensorStatus XOR EntranceConveyorBeltB7_sensorStatus);
+detectNewState := detectNewState OR (_SensorPartMetalPresentB6_sensorStatus XOR SensorPartMetalPresentB6_sensorStatus);
+
 return;]]></ST>
       </Implementation>
     </Method>
@@ -186,10 +214,32 @@ _WSRequestBiuilder.addAttributeBool('lmpError', lmpError);
 _WSRequestBiuilder.addAttributeBool('displayEMStop', displayEMStop);
 _WSRequestBiuilder.addAttributeBool('displayQuittierung', displayQuittierung);
 
+_WSRequestBiuilder.addAttributeBool('PneumaticOkB20_sensorStatus', PneumaticOkB20_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('PartTurntablePresentB12_sensorStatus', PartTurntablePresentB12_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('LinearActuatorLeftB16_sensorStatus', LinearActuatorLeftB16_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('LinearActuatorRightB17_sensorStatus', LinearActuatorRightB17_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('TurntablePositionReachedB13_sensorStatus', TurntablePositionReachedB13_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('StorageEntranceB5_sensorStatus', StorageEntranceB5_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('ConveyorBeltMetalPresentB8_sensorStatus', ConveyorBeltMetalPresentB8_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('EntranceConveyorBeltB7_sensorStatus', EntranceConveyorBeltB7_sensorStatus);
+_WSRequestBiuilder.addAttributeBool('SensorPartMetalPresentB6_sensorStatus', SensorPartMetalPresentB6_sensorStatus);
+
 // update states 
 _lmpRunning := lmpRunning;
 _lmpStopped := lmpStopped;
 _lmpError := lmpError;
+
+
+_PneumaticOkB20_sensorStatus := PneumaticOkB20_sensorStatus;
+_PartTurntablePresentB12_sensorStatus := PartTurntablePresentB12_sensorStatus;
+_LinearActuatorLeftB16_sensorStatus := LinearActuatorLeftB16_sensorStatus;
+_LinearActuatorRightB17_sensorStatus := LinearActuatorRightB17_sensorStatus;
+_TurntablePositionReachedB13_sensorStatus := TurntablePositionReachedB13_sensorStatus;
+_StorageEntranceB5_sensorStatus := StorageEntranceB5_sensorStatus;
+_ConveyorBeltMetalPresentB8_sensorStatus := ConveyorBeltMetalPresentB8_sensorStatus;
+_EntranceConveyorBeltB7_sensorStatus := EntranceConveyorBeltB7_sensorStatus;
+_SensorPartMetalPresentB6_sensorStatus := SensorPartMetalPresentB6_sensorStatus;
+
 
 _displayEMStop := displayEMStop;
 _displayQuittierung := displayQuittierung;

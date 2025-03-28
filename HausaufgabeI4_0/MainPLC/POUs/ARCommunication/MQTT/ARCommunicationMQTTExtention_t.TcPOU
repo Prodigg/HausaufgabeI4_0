@@ -22,7 +22,7 @@ END_VAR
       <ST><![CDATA[]]></ST>
     </Implementation>
     <Method Name="getPayload" Id="{9cef113e-ae9f-49da-99d6-fc09f56d6a95}">
-      <Declaration><![CDATA[METHOD getPayload : string(255)
+      <Declaration><![CDATA[METHOD getPayload : STRING(255)
 {attribute 'c++_compatible'}
 VAR_INPUT
 END_VAR

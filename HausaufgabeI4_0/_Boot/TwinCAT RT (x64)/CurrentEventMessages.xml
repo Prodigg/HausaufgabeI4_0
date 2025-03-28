@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
 <TcEventSources Version="2">
 	<Translations>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor (B16)."/>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor (B17)."/>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down)."/>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up)."/>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down)."/>
-		<Text TxtId="A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up)."/>
-		<Text TxtId="A watchdog has been triggered. The Linear Drive took too long to move."/>
-		<Text TxtId="A watchdog has been triggered. The rotary table took too long to move."/>
-		<Text TxtId="A watchdog has been triggered. Y2 took too long to move."/>
-		<Text TxtId="A watchdog has been triggered. Y3 took too long to move."/>
 		<Text TxtId="Data Storage upload completed and new data object available, port X{0}">
 			<Text LcId="1031">Data Storage Upload abgeschlossen und neues Datenobjekt vorhanden, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Emergency Stop Pressed"/>
+		<Text TxtId="ERR-LD-MOVE-408-TIMEOUT"/>
+		<Text TxtId="ERR-LD-START-LEFT-408-TIMEOUT"/>
+		<Text TxtId="ERR-LD-START-RIGHT-408-TIMEOUT"/>
+		<Text TxtId="ERR-PNEU-LOW-PR-402"/>
+		<Text TxtId="ERR-RT-MOVE-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y2-MOVE-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y2-START-DOWN-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y2-START-UP-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y3-MOVE-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y3-START-DOWN-408-TIMEOUT"/>
+		<Text TxtId="ERR-Y3-START-UP-408-TIMEOUT"/>
 		<Text TxtId="IMPACT67 Pro EC DIO8 IOL8"/>
 		<Text TxtId="Incoming diagnosis: Backup inconsistency – Data Storage unspecific error, port X{0}">
 			<Text LcId="1031">Kommende Diagnose: Backup Inkonsistenz – Unspezifischer Data Storage Fehler, Port X{0}</Text>
@@ -260,11 +261,8 @@
 			<Text LcId="1031">Kommende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
 		<Text TxtId="Info"/>
-		<Text TxtId="Linear drive Movement has Timedout"/>
-		<Text TxtId="Linear Drive Start Movement Timeout (Left)"/>
-		<Text TxtId="Linear Drive Start Movement Timeout (Right)"/>
-		<Text TxtId="Low Pneumatic Pressure"/>
-		<Text TxtId="Low Pneumatic Pressure has been detected."/>
+		<Text TxtId="Linear Drive Movement Timeout | The pneumatic Linear Drive took too long to complete its movement. Check for air pressure issues, leaks, or mechanical resistance, and ensure the compressor and valves are functioning properly."/>
+		<Text TxtId="Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set."/>
 		<Text TxtId="No malfunction, port X{0}">
 			<Text LcId="1031">Keine Fehlfunktionen, Port X{0}</Text>
 		</Text>
@@ -506,18 +504,20 @@
 		<Text TxtId="Outgoing diagnosis: Wrong serial number, port X{0}">
 			<Text LcId="1031">Gehende Diagnose: Falsche Seriennummer, Port X{0}</Text>
 		</Text>
+		<Text TxtId="Pneumatic Linear Drive Start Movement Timeout (Left) | The pneumatic Linear Drive failed to start moving to the right within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B16). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and the pneumatic drive are functioning properly."/>
+		<Text TxtId="Pneumatic Linear Drive Start Movement Timeout (Right) | The pneumatic Linear Drive failed to start moving to the left within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B17). This could indicate a sensor calibration issue, air pressure problems, mechanical resistance, or obstructions. Ensure proper sensor calibration, verify air pressure, and check that the compressor, valves, and pneumatic system are functioning correctly."/>
+		<Text TxtId="Pneumatic Y2 Axis Start Movement Timeout (Down) | The pneumatic Y2 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B1). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly."/>
+		<Text TxtId="Pneumatic Y2 Axis Start Movement Timeout (Up) | The pneumatic Y2 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B2). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly."/>
+		<Text TxtId="Pneumatic Y3 Axis Start Movement Timeout (Down) | The pneumatic Y3 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B3). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly."/>
+		<Text TxtId="Pneumatic Y3 Axis Start Movement Timeout (Up) | The pneumatic Y3 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B4). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly."/>
 		<Text TxtId="Programming Errors"/>
-		<Text TxtId="Rotary Table Movement has Timedout"/>
+		<Text TxtId="Rotary Table Movement Timeout | The Rotary Table took too long to complete its movement. Check for mechanical resistance, electrical issues, or misalignment. Ensure the motor and power supply are functioning properly."/>
 		<Text TxtId="See manual of plugged IO-Link Device or IO-Link Specification.">
 			<Text LcId="1031">Siehe Anleitung des gesteckten IO-Link Gerätes oder IO-Link Spezifikation</Text>
 		</Text>
 		<Text TxtId="This is a test Error, if this is displayed something is not finished. Params: {1}, {2}, {3}, {4}, {5}"/>
-		<Text TxtId="Y2 Movement has Timedout"/>
-		<Text TxtId="Y2 Start Movement Timeout (Down)"/>
-		<Text TxtId="Y2 Start Movement Timeout (Up)"/>
-		<Text TxtId="Y3 Movement has Timedout"/>
-		<Text TxtId="Y3 Start Movement Timeout (Down)"/>
-		<Text TxtId="Y3 Start Movement Timeout (Up)"/>
+		<Text TxtId="Y2 Axis Movement Timeout | The Y2 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faulty components. Ensure the compressor and valves are functioning properly."/>
+		<Text TxtId="Y3 Axis Movement Timeout | The Y3 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faults in the pneumatic system. Ensure the compressor and valves are operating correctly."/>
 		<Text TxtId="{0}:{1}: ActorMovingTimeout no valid sensor given (will be ignored)"/>
 		<Text TxtId="{0}:{1}: Exceeding allowed amount of ActorMovingTimeout timeouts ({2})"/>
 		<Text TxtId="{0}:{1}: Exceeding Allowed Amount Of Links ({2})"/>
@@ -1201,6 +1201,142 @@
 		</Property>
 	</Source>
 	<Source>
+		<GUID>{8FE283B3-44ED-45E2-935B-F6444A61434F}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>ERR-LD-MOVE-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Linear Drive Movement Timeout | The pneumatic Linear Drive took too long to complete its movement. Check for air pressure issues, leaks, or mechanical resistance, and ensure the compressor and valves are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Linear Drive Movement Timeout | The pneumatic Linear Drive took too long to complete its movement. Check for air pressure issues, leaks, or mechanical resistance, and ensure the compressor and valves are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message>ERR-RT-MOVE-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Rotary Table Movement Timeout | The Rotary Table took too long to complete its movement. Check for mechanical resistance, electrical issues, or misalignment. Ensure the motor and power supply are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Rotary Table Movement Timeout | The Rotary Table took too long to complete its movement. Check for mechanical resistance, electrical issues, or misalignment. Ensure the motor and power supply are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message>ERR-Y2-MOVE-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Y2 Axis Movement Timeout | The Y2 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faulty components. Ensure the compressor and valves are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Y2 Axis Movement Timeout | The Y2 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faulty components. Ensure the compressor and valves are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message>ERR-Y3-MOVE-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Y3 Axis Movement Timeout | The Y3 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faults in the pneumatic system. Ensure the compressor and valves are operating correctly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Y3 Axis Movement Timeout | The Y3 pneumatic cylinder took too long to complete its movement. Check for air pressure issues, leaks, mechanical resistance, or faults in the pneumatic system. Ensure the compressor and valves are operating correctly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message>ERR-LD-START-LEFT-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Linear Drive Start Movement Timeout (Left) | The pneumatic Linear Drive failed to start moving to the right within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B16). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and the pneumatic drive are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Linear Drive Start Movement Timeout (Left) | The pneumatic Linear Drive failed to start moving to the right within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B16). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and the pneumatic drive are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>6</Id>
+			<Message>ERR-LD-START-RIGHT-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Linear Drive Start Movement Timeout (Right) | The pneumatic Linear Drive failed to start moving to the left within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B17). This could indicate a sensor calibration issue, air pressure problems, mechanical resistance, or obstructions. Ensure proper sensor calibration, verify air pressure, and check that the compressor, valves, and pneumatic system are functioning correctly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Linear Drive Start Movement Timeout (Right) | The pneumatic Linear Drive failed to start moving to the left within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B17). This could indicate a sensor calibration issue, air pressure problems, mechanical resistance, or obstructions. Ensure proper sensor calibration, verify air pressure, and check that the compressor, valves, and pneumatic system are functioning correctly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>7</Id>
+			<Message>ERR-Y2-START-DOWN-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Y2 Axis Start Movement Timeout (Down) | The pneumatic Y2 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B1). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Y2 Axis Start Movement Timeout (Down) | The pneumatic Y2 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B1). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>8</Id>
+			<Message>ERR-Y2-START-UP-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Y2 Axis Start Movement Timeout (Up) | The pneumatic Y2 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B2). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Y2 Axis Start Movement Timeout (Up) | The pneumatic Y2 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B2). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>9</Id>
+			<Message>ERR-Y3-START-DOWN-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Y3 Axis Start Movement Timeout (Down) | The pneumatic Y3 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B3). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Y3 Axis Start Movement Timeout (Down) | The pneumatic Y3 axis failed to start moving up within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B3). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>10</Id>
+			<Message>ERR-Y3-START-UP-408-TIMEOUT</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Pneumatic Y3 Axis Start Movement Timeout (Up) | The pneumatic Y3 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B4). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Pneumatic Y3 Axis Start Movement Timeout (Up) | The pneumatic Y3 axis failed to start moving down within the expected time. A mismatch has been detected between the expected state of the sensor and its actual value (B4). This could indicate a sensor issue, air pressure problems, mechanical resistance, or obstructions in the system. Check the sensor calibration, verify air pressure levels, and ensure that the compressor, valves, and pneumatic components are functioning properly.</Text>
+			</Detail>
+		</Event>
+		<Event>
+			<Id>11</Id>
+			<Message>ERR-PNEU-LOW-PR-402</Message>
+			<Detail>
+				<Name>DescriptionText</Name>
+				<Text>Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set.</Text>
+			</Detail>
+			<Detail>
+				<Name>Comment</Name>
+				<Text>Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set.</Text>
+			</Detail>
+		</Event>
+	</Source>
+	<Source>
 		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
 		<Name>Operational Errors</Name>
 		<Event>
@@ -1250,142 +1386,6 @@
 		<Event>
 			<Id>10</Id>
 			<Message>{0}:{1}: Exceeding Allowed Amount Of Links ({2})</Message>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{F8846A8A-5DB4-4DD7-B9C4-3C6BA9666F01}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Linear drive Movement has Timedout</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A watchdog has been triggered. The Linear Drive took too long to move.</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A watchdog has been triggered. The Linear Drive took too long to move.</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>2</Id>
-			<Message>Rotary Table Movement has Timedout</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A watchdog has been triggered. The rotary table took too long to move.</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A watchdog has been triggered. The rotary table took too long to move.</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>3</Id>
-			<Message>Y2 Movement has Timedout</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A watchdog has been triggered. Y2 took too long to move.</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A watchdog has been triggered. Y2 took too long to move.</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>4</Id>
-			<Message>Y3 Movement has Timedout</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A watchdog has been triggered. Y3 took too long to move.</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A watchdog has been triggered. Y3 took too long to move.</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>5</Id>
-			<Message>Linear Drive Start Movement Timeout (Left)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor (B16).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor (B16).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>6</Id>
-			<Message>Linear Drive Start Movement Timeout (Right)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor (B17).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor (B17).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>7</Id>
-			<Message>Y2 Start Movement Timeout (Down)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B1 (sensor Down).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>8</Id>
-			<Message>Y2 Start Movement Timeout (Up)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B2 (sensor Up).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>9</Id>
-			<Message>Y3 Start Movement Timeout (Down)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B3 (sensor Down).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>10</Id>
-			<Message>Y3 Start Movement Timeout (Up)</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>A missmatch has been detected between expected state of sensor and actual value of sensor B4 (sensor Up).</Text>
-			</Detail>
-		</Event>
-		<Event>
-			<Id>11</Id>
-			<Message>Low Pneumatic Pressure</Message>
-			<Detail>
-				<Name>DescriptionText</Name>
-				<Text>Low Pneumatic Pressure has been detected.</Text>
-			</Detail>
-			<Detail>
-				<Name>Comment</Name>
-				<Text>Low Pneumatic Pressure has been detected.</Text>
-			</Detail>
 		</Event>
 	</Source>
 </TcEventSources>

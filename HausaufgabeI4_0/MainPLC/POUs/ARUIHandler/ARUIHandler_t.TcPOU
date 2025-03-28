@@ -6,6 +6,7 @@ FUNCTION_BLOCK ARUIHandler_t
 VAR_INPUT
 	ARDevice : POINTER TO ARDeviceAPI_t := NULL;	
 	systemStatus : POINTER TO systemStatus_t;
+	IOExpantionHandler : POINTER TO IOExpantionHandler_t;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -74,6 +75,24 @@ END_CASE
  ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="sensorValues" Id="{d28989d5-ce3b-4599-aaba-754e46662b1a}">
+      <Declaration><![CDATA[METHOD PRIVATE sensorValues : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.ARDevice^.PneumaticOkB20_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_PNEUMATIC_PRESHURE_OK);
+THIS^.ARDevice^.PartTurntablePresentB12_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B12_PART_TURNTABLE_PRESENT);
+THIS^.ARDevice^.LinearActuatorLeftB16_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B16_GRIPPER_LEFT);
+THIS^.ARDevice^.LinearActuatorRightB17_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B17_GRIPPER_RIGHT);
+THIS^.ARDevice^.TurntablePositionReachedB13_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B13_TURNTABLE_POS_REACHED);
+THIS^.ARDevice^.StorageEntranceB5_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B5_STORAGE_ENTRANCE);
+THIS^.ARDevice^.ConveyorBeltMetalPresentB8_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.SENSOR_B8_CONVAYORBELT_METTAL_PRESENT);
+THIS^.ARDevice^.EntranceConveyorBeltB7_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B7_ENTRANCE_CONVAYORBELT);
+THIS^.ARDevice^.SensorPartMetalPresentB6_sensorStatus := IOExpantionHandler^.getSensorStatus(sensorID := sensorID_t.EXPANTION_SENSOR_B6_PART_SENSOR_METTAL_PRESENT);
+]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="update" Id="{34e7badc-3f2c-43ff-8eb1-c1fa5dc964c2}">
       <Declaration><![CDATA[// update function, call this every cycle
 METHOD update : BOOL
@@ -88,6 +107,7 @@ END_IF
 
 THIS^.PLCStatusDisplay();
 THIS^.ControlpannelMessages();
+THIS^.sensorValues();
 
 update := TRUE;
 RETURN;]]></ST>

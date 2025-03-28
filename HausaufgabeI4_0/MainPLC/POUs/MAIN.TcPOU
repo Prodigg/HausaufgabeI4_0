@@ -50,6 +50,7 @@ mainStateMachine.IOExpantionHandler := ADR(IOExpantionHandler);
 
 ARUIHandler.ARDevice := ADR(ARDevice);
 ARUIHandler.systemStatus := ADR(systemStatus);
+ARUIHandler.IOExpantionHandler := ADR(IOExpantionHandler);
 
 
 HMIHandler.systemStatus := ADR(systemStatus);
