@@ -39,7 +39,7 @@ BuffDiagMess :Array[0..39] of byte;
 	ReadLength: UDINT;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF firstRun = FALSE THEN
+      <ST><![CDATA[IF firstRun = FALSE THEN 
 	firstRun := TRUE;
 	ARDeviceErrorSystemLinkerInitialiser(ARDeviceErrorSystemLinker, ARDevice);
 END_IF
@@ -66,11 +66,11 @@ END_IF
 IF (NOT InputOutput.StopButton OR HMIInterface.HMIStopMachine) THEN
 	mainStateMachine.stopStateMachine(); 
 	systemStatus := systemStatus_t.STOPPING; 
-	ErrorManager.stopErrors();
 END_IF
 
 IF systemStatus = systemStatus_t.STOPPING AND mainStateMachine.getIsStateMachineON() = FALSE THEN
 	systemStatus := systemStatus_t.STOPPED; 
+	ErrorManager.stopErrors();
 END_IF
 
 // push error test
