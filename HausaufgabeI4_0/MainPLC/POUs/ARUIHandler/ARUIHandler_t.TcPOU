@@ -41,6 +41,28 @@ END_IF
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="ErrorSystemValues" Id="{8f0153d6-0ae2-4437-b60e-f043df1ac4e0}">
+      <Declaration><![CDATA[METHOD PRIVATE ErrorSystemValues : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.ARDevice^.errorHide_ERR_PNEU_LOW_PR_402 := NOT ErrorSystemStatusVar.errorHide_ERR_PNEU_LOW_PR_402;
+THIS^.ARDevice^.errorHide_ERR_LD_START_LEFT_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_LD_START_LEFT_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_LD_START_RIGHT_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_LD_START_RIGHT_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_LD_MOVE_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_LD_MOVE_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_RT_MOVE_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_RT_MOVE_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y2_MOVE_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y2_MOVE_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y2_START_DOWN_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y2_START_DOWN_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y2_START_UP_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y2_START_UP_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y3_MOVE_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y3_MOVE_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y3_START_DOWN_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y3_START_DOWN_408_TIMEOUT;
+THIS^.ARDevice^.errorHide_ERR_Y3_START_UP_408_TIMEOUT := NOT ErrorSystemStatusVar.errorHide_ERR_Y3_START_UP_408_TIMEOUT;
+
+ErrorSystemValues := TRUE;
+RETURN;]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="PLCStatusDisplay" Id="{b669cae6-156f-42b2-b4fd-c127ed5ff3a2}">
       <Declaration><![CDATA[// displays in a status witch 
 METHOD PRIVATE PLCStatusDisplay : BOOL
@@ -108,6 +130,7 @@ END_IF
 THIS^.PLCStatusDisplay();
 THIS^.ControlpannelMessages();
 THIS^.sensorValues();
+THIS^.ErrorSystemValues();
 
 update := TRUE;
 RETURN;]]></ST>

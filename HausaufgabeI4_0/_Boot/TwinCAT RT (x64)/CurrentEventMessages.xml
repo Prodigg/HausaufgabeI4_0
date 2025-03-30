@@ -1201,6 +1201,14 @@
 		</Property>
 	</Source>
 	<Source>
+		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
+		<Name>Operational Errors</Name>
+		<Event>
+			<Id>1</Id>
+			<Message>Emergency Stop Pressed</Message>
+		</Event>
+	</Source>
+	<Source>
 		<GUID>{8FE283B3-44ED-45E2-935B-F6444A61434F}</GUID>
 		<Name>Operational Errors</Name>
 		<Event>
@@ -1334,14 +1342,6 @@
 				<Name>Comment</Name>
 				<Text>Low Pneumatic Pressure | The pneumatic system is operating below the required pressure. This could be due to a leak, insufficient air supply, malfunctioning compressor, or pressure regulator issues. Check for leaks, verify air supply and compressor operation, and ensure that pressure regulators are correctly set.</Text>
 			</Detail>
-		</Event>
-	</Source>
-	<Source>
-		<GUID>{400E7791-6D6B-4E57-ABBE-1716CC06A490}</GUID>
-		<Name>Operational Errors</Name>
-		<Event>
-			<Id>1</Id>
-			<Message>Emergency Stop Pressed</Message>
 		</Event>
 	</Source>
 	<Source>

@@ -53,7 +53,7 @@ END_VAR
     <Method Name="sendNewMessage" Id="{0dda6ec9-b484-4775-8868-895af550035a}">
       <Declaration><![CDATA[METHOD sendNewMessage : BOOL
 VAR_INPUT
-	str : STRING(1000); // (max str length 255)
+	str : STRING(2000); // (max str length 2000)
 END_VAR
 
 VAR

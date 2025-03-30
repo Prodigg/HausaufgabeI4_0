@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="ErrorSystemStatusVar" Id="{51c2d5f8-be76-4af0-8933-85976e5c7c33}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	errorHide_ERR_PNEU_LOW_PR_402 : BOOL := FALSE;
+	errorHide_ERR_LD_START_LEFT_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_LD_START_RIGHT_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_LD_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_RT_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_START_UP_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_START_UP_408_TIMEOUT : BOOL := FALSE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

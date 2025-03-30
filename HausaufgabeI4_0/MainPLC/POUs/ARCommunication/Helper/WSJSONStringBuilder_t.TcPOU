@@ -8,7 +8,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	_str : STRING(1000) := '';
+	_str : STRING(2000) := '';
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -39,13 +39,13 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[_keyValuePair := formateAttributeINT(key, value);
 
-IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 1000 THEN // length of existing string + new keyValuePar + '{' + '}'
+IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 2000 THEN // length of existing string + new keyValuePar + '{' + '}'
 	addAttributeINT := FALSE; 
 	RETURN;
 END_IF
 
 _tmpStr := concat(_keyValuePair, ',');
-concat2(ADR(_str), ADR(_tmpStr), ADR(_str), 1000); // apped key value pair to string with ',' at the end
+concat2(ADR(_str), ADR(_tmpStr), ADR(_str), 2000); // apped key value pair to string with ',' at the end
 //_str := concat(_str, concat(_keyValuePair, ',')); // apped key value pair to string with ',' at the end
 
 addAttributeINT := TRUE;
@@ -66,13 +66,13 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[_keyValuePair := formateAttribute(key, value);
 
-IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 1000 THEN // length of existing string + new keyValuePar + '{' + '}'
+IF  _keyValuePair = 'ERROR' OR len(_str) + len(_keyValuePair) + 2 > 2000 THEN // length of existing string + new keyValuePar + '{' + '}'
 	addAttributeString := FALSE; 
 	RETURN;
 END_IF
 
 _tmpStr := concat(_keyValuePair, ',');
-concat2(ADR(_str), ADR(_tmpStr), ADR(_str), 1000); // apped key value pair to string with ',' at the end
+concat2(ADR(_str), ADR(_tmpStr), ADR(_str), 2000); // apped key value pair to string with ',' at the end
 //_str := concat(_str, concat(_keyValuePair, ',')); 
 
 addAttributeString := TRUE;
@@ -90,7 +90,7 @@ VAR
 	_prefixStr : STRING(1) := '{';
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF len(_str) + 1 > 1000 OR _str = '' THEN // validate data
+        <ST><![CDATA[IF len(_str) + 1 > 2000 OR _str = '' THEN // validate data
 	build := 'ERROR';
 	RETURN;
 END_IF
@@ -98,14 +98,14 @@ END_IF
 //_lastCharOfStr := right(_str, 1);
 
 //IF _lastCharOfStr = ',' THEN // check if last character is a ','
-delete2(ADR(_str), ADR(_str), 1000, 1, len2(ADR(_str)));
+delete2(ADR(_str), ADR(_str), 2000, 1, len2(ADR(_str)));
 	//_str := delete(_str, 1, len(_str));
 //END_IF
 
 // wrap key value pair list
 
-CONCAT2(ADR(_prefixStr), ADR(_str), ADR(_str), 1000); 
-CONCAT2(ADR(_str), ADR(_appendStr), ADR(build), 1000); 
+CONCAT2(ADR(_prefixStr), ADR(_str), ADR(_str), 2000); 
+CONCAT2(ADR(_str), ADR(_appendStr), ADR(build), 2000); 
 //build := concat('{', concat(_str, '}'));
 RETURN;]]></ST>
       </Implementation>
@@ -131,7 +131,7 @@ VAR
 	_tmpStr : STRING(255) := '';
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF LEN(key) + len(value) + 5 > 1000  THEN // return error if string is too long
+        <ST><![CDATA[IF LEN(key) + len(value) + 5 > 2000  THEN // return error if string is too long
 	formateAttribute := 'ERROR';
 	RETURN;
 END_IF
@@ -155,7 +155,7 @@ VAR
 	_tmpStr: STRING(255);
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF LEN(key) + len(INT_TO_STRING(value)) + 3 > 1000  THEN // return error if string is too long
+        <ST><![CDATA[IF LEN(key) + len(INT_TO_STRING(value)) + 3 > 2000  THEN // return error if string is too long
 	formateAttributeINT := 'ERROR';
 	RETURN;
 END_IF

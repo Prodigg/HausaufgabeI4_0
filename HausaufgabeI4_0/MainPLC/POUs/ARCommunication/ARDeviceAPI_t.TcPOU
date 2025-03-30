@@ -22,6 +22,18 @@ VAR_INPUT
 	EntranceConveyorBeltB7_sensorStatus : BOOL := FALSE;
 	SensorPartMetalPresentB6_sensorStatus : BOOL := FALSE;
 	
+	errorHide_ERR_PNEU_LOW_PR_402 : BOOL := FALSE;
+	errorHide_ERR_LD_START_LEFT_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_LD_START_RIGHT_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_LD_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_RT_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y2_START_UP_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_MOVE_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	errorHide_ERR_Y3_START_UP_408_TIMEOUT : BOOL := FALSE;
+	
 END_VAR
 VAR_OUTPUT
 	// output variables from ARDevice	
@@ -45,6 +57,18 @@ VAR
 	_ConveyorBeltMetalPresentB8_sensorStatus : BOOL := FALSE;
 	_EntranceConveyorBeltB7_sensorStatus : BOOL := FALSE;
 	_SensorPartMetalPresentB6_sensorStatus : BOOL := FALSE;
+
+	_errorHide_ERR_PNEU_LOW_PR_402 : BOOL := FALSE;
+	_errorHide_ERR_LD_START_LEFT_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_LD_START_RIGHT_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_LD_MOVE_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_RT_MOVE_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y2_MOVE_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y2_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y2_START_UP_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y3_MOVE_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y3_START_DOWN_408_TIMEOUT : BOOL := FALSE;
+	_errorHide_ERR_Y3_START_UP_408_TIMEOUT : BOOL := FALSE;
 
 	_ARCommunication : ARCommunicationMQTT_t;
 	_WSRequestBiuilder : WSJSONStringBuilder_t;
@@ -193,6 +217,18 @@ detectNewState := detectNewState OR (_ConveyorBeltMetalPresentB8_sensorStatus XO
 detectNewState := detectNewState OR (_EntranceConveyorBeltB7_sensorStatus XOR EntranceConveyorBeltB7_sensorStatus);
 detectNewState := detectNewState OR (_SensorPartMetalPresentB6_sensorStatus XOR SensorPartMetalPresentB6_sensorStatus);
 
+detectNewState := detectNewState OR (_errorHide_ERR_PNEU_LOW_PR_402 XOR errorHide_ERR_PNEU_LOW_PR_402);
+detectNewState := detectNewState OR (_errorHide_ERR_LD_START_LEFT_408_TIMEOUT XOR errorHide_ERR_LD_START_LEFT_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_LD_START_RIGHT_408_TIMEOUT XOR errorHide_ERR_LD_START_RIGHT_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_LD_MOVE_408_TIMEOUT XOR errorHide_ERR_LD_MOVE_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_RT_MOVE_408_TIMEOUT XOR errorHide_ERR_RT_MOVE_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y2_MOVE_408_TIMEOUT XOR errorHide_ERR_Y2_MOVE_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y2_START_DOWN_408_TIMEOUT XOR errorHide_ERR_Y2_START_DOWN_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y2_START_UP_408_TIMEOUT XOR errorHide_ERR_Y2_START_UP_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y3_MOVE_408_TIMEOUT XOR errorHide_ERR_Y3_MOVE_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y3_START_DOWN_408_TIMEOUT XOR errorHide_ERR_Y3_START_DOWN_408_TIMEOUT);
+detectNewState := detectNewState OR (_errorHide_ERR_Y3_START_UP_408_TIMEOUT XOR errorHide_ERR_Y3_START_UP_408_TIMEOUT);
+
 return;]]></ST>
       </Implementation>
     </Method>
@@ -224,6 +260,19 @@ _WSRequestBiuilder.addAttributeBool('ConveyorBeltMetalPresentB8_sensorStatus', C
 _WSRequestBiuilder.addAttributeBool('EntranceConveyorBeltB7_sensorStatus', EntranceConveyorBeltB7_sensorStatus);
 _WSRequestBiuilder.addAttributeBool('SensorPartMetalPresentB6_sensorStatus', SensorPartMetalPresentB6_sensorStatus);
 
+_WSRequestBiuilder.addAttributeBool('ERR_PNEU_LOW_PR_402', errorHide_ERR_PNEU_LOW_PR_402);
+_WSRequestBiuilder.addAttributeBool('ERR_LD_START_LEFT_408_TIMEOUT', errorHide_ERR_LD_START_LEFT_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_LD_START_RIGHT_408_TIMEOUT', errorHide_ERR_LD_START_RIGHT_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_LD_MOVE_408_TIMEOUT', errorHide_ERR_LD_MOVE_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_RT_MOVE_408_TIMEOUT', errorHide_ERR_RT_MOVE_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y2_MOVE_408_TIMEOUT', errorHide_ERR_Y2_MOVE_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y2_START_DOWN_408_TIMEOUT', errorHide_ERR_Y2_START_DOWN_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y2_START_UP_408_TIMEOUT', errorHide_ERR_Y2_START_UP_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y3_MOVE_408_TIMEOUT', errorHide_ERR_Y3_MOVE_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y3_START_DOWN_408_TIMEOUT', errorHide_ERR_Y3_START_DOWN_408_TIMEOUT);
+_WSRequestBiuilder.addAttributeBool('ERR_Y3_START_UP_408_TIMEOUT', errorHide_ERR_Y3_START_UP_408_TIMEOUT);
+
+
 // update states 
 _lmpRunning := lmpRunning;
 _lmpStopped := lmpStopped;
@@ -239,6 +288,18 @@ _StorageEntranceB5_sensorStatus := StorageEntranceB5_sensorStatus;
 _ConveyorBeltMetalPresentB8_sensorStatus := ConveyorBeltMetalPresentB8_sensorStatus;
 _EntranceConveyorBeltB7_sensorStatus := EntranceConveyorBeltB7_sensorStatus;
 _SensorPartMetalPresentB6_sensorStatus := SensorPartMetalPresentB6_sensorStatus;
+
+_errorHide_ERR_PNEU_LOW_PR_402 := errorHide_ERR_PNEU_LOW_PR_402;
+_errorHide_ERR_LD_START_LEFT_408_TIMEOUT := errorHide_ERR_LD_START_LEFT_408_TIMEOUT;
+_errorHide_ERR_LD_START_RIGHT_408_TIMEOUT := errorHide_ERR_LD_START_RIGHT_408_TIMEOUT;
+_errorHide_ERR_LD_MOVE_408_TIMEOUT := errorHide_ERR_LD_MOVE_408_TIMEOUT;
+_errorHide_ERR_RT_MOVE_408_TIMEOUT := errorHide_ERR_RT_MOVE_408_TIMEOUT;
+_errorHide_ERR_Y2_MOVE_408_TIMEOUT := errorHide_ERR_Y2_MOVE_408_TIMEOUT;
+_errorHide_ERR_Y2_START_DOWN_408_TIMEOUT := errorHide_ERR_Y2_START_DOWN_408_TIMEOUT;
+_errorHide_ERR_Y2_START_UP_408_TIMEOUT := errorHide_ERR_Y2_START_UP_408_TIMEOUT;
+_errorHide_ERR_Y3_MOVE_408_TIMEOUT := errorHide_ERR_Y3_MOVE_408_TIMEOUT;
+_errorHide_ERR_Y3_START_DOWN_408_TIMEOUT := errorHide_ERR_Y3_START_DOWN_408_TIMEOUT;
+_errorHide_ERR_Y3_START_UP_408_TIMEOUT := errorHide_ERR_Y3_START_UP_408_TIMEOUT;
 
 
 _displayEMStop := displayEMStop;

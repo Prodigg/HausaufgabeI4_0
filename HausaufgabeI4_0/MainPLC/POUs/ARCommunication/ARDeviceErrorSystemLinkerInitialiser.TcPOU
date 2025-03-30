@@ -11,8 +11,19 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors.EmStopPressed, ADR(test.testBoolLinker));
-ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LowPneumaticPressure, ADR(test.testBoolLinker2));
+      <ST><![CDATA[
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LowPneumaticPressure, ADR(ErrorSystemStatusVar.errorHide_ERR_PNEU_LOW_PR_402));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveLeftTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_LD_START_LEFT_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveStartMoveRightTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_LD_START_RIGHT_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.LinearDriveMoveTimedout, ADR(ErrorSystemStatusVar.errorHide_ERR_LD_MOVE_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.RotaryTableMoveTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_RT_MOVE_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2moveTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y2_MOVE_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveDownTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y2_START_DOWN_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y2StartMoveUpTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y2_START_UP_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3moveTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y3_MOVE_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveDownTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y3_START_DOWN_408_TIMEOUT));
+ARDeviceSystemLinker.register(stEventEntity := TC_EVENTS.OperationalErrors2.Y3StartMoveUpTimeout, ADR(ErrorSystemStatusVar.errorHide_ERR_Y3_START_UP_408_TIMEOUT));
+
 ARDeviceErrorSystemLinkerInitialiser := true;
 RETURN;]]></ST>
     </Implementation>
