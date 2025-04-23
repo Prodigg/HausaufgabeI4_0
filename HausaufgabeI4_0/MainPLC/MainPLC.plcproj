@@ -76,7 +76,7 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="Klassendiagramm.TcCD">
+    <Compile Include="Klassendiagramm_1.TcCD">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
